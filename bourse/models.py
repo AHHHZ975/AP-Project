@@ -45,27 +45,27 @@ class assets(models.Model):
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
     balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    originalsumOfCurrentAssets = 0
-    originalsumOfNonCurrentAssets = 0
+    lastSumOfCurrentAssets = 0
+    lastSumOfNonCurrentAssets = 0
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
     def __init__(self, *args, **kwargs):
         super(assets, self).__init__(*args, **kwargs)
-        self.originalsumOfCurrentAssets = self.sumOfCurrentAssets
-        self.originalsumOfNonCurrentAssets = self.sumOfNonCurrentAssets
+        self.lastSumOfCurrentAssets = self.sumOfCurrentAssets
+        self.lastSumOfNonCurrentAssets = self.sumOfNonCurrentAssets
 
     def save(self, *args, **kwargs):
-        if self.sumOfCurrentAssets != self.originalsumOfCurrentAssets:
+        if self.sumOfCurrentAssets != self.lastSumOfCurrentAssets:
             if self.company.name == self.balanceSheet.company.name:
-                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfCurrentAssets - self.originalsumOfCurrentAssets)
-        if self.sumOfNonCurrentAssets != self.originalsumOfNonCurrentAssets:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfCurrentAssets - self.lastSumOfCurrentAssets)
+        if self.sumOfNonCurrentAssets != self.lastSumOfNonCurrentAssets:
             if self.company.name == self.balanceSheet.company.name:
-                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfNonCurrentAssets - self.originalsumOfNonCurrentAssets)
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfNonCurrentAssets - self.lastSumOfNonCurrentAssets)
         super(assets, self).save(*args, **kwargs)
-        self.originalsumOfCurrentAssets = self.sumOfCurrentAssets
-        self.originalsumOfNonCurrentAssets = self.sumOfNonCurrentAssets
+        self.lastSumOfCurrentAssets = self.sumOfCurrentAssets
+        self.lastlSumOfNonCurrentAssets = self.sumOfNonCurrentAssets
 
 class debtsAndAssetsOwner(models.Model):
     sumOfCurrentDebts = models.IntegerField()
@@ -74,27 +74,27 @@ class debtsAndAssetsOwner(models.Model):
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
     balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    originalSumOfCurrentDebts = 0
-    originalSumOfNonCurrentDebts = 0
+    lastSumOfCurrentDebts = 0
+    lastSumOfNonCurrentDebts = 0
 
     def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
     def __init__(self, *args, **kwargs):
         super(debtsAndAssetsOwner, self).__init__(*args, **kwargs)
-        self.originalSumOfCurrentDebts = self.sumOfCurrentDebts
-        self.originalSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
+        self.lastSumOfCurrentDebts = self.sumOfCurrentDebts
+        self.lastSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
 
     def save(self, *args, **kwargs):
-        if self.sumOfCurrentDebts != self.originalSumOfCurrentDebts:
+        if self.sumOfCurrentDebts != self.lastSumOfCurrentDebts:
             if self.company.name == self.balanceSheet.company.name:
-                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfCurrentDebts - self.originalSumOfCurrentDebts)
-        if self.sumOfNonCurrentDebts != self.originalSumOfNonCurrentDebts:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfCurrentDebts - self.lastSumOfCurrentDebts)
+        if self.sumOfNonCurrentDebts != self.lastSumOfNonCurrentDebts:
             if self.company.name == self.balanceSheet.company.name:
-                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfNonCurrentDebts - self.originalSumOfNonCurrentDebts)
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfNonCurrentDebts - self.lastSumOfNonCurrentDebts)
         super(debtsAndAssetsOwner, self).save(*args, **kwargs)
-        self.originalSumOfCurrentDebts = self.sumOfCurrentDebts
-        self.originalSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
+        self.lastSumOfCurrentDebts = self.sumOfCurrentDebts
+        self.lastSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
 
 class currentAssets(models.Model):
     cash = models.IntegerField()
@@ -107,9 +107,28 @@ class currentAssets(models.Model):
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
+    assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
+    lastCash = 0
+    lastSalableAssets = 0
 
-    def wasPublishedRecently(self):
+    def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+    def __init__(self, *args, **kwargs):
+        super(currentAssets, self).__init__(*args, **kwargs)
+        self.lastCash = self.cash
+        self.lastSalableAssets = self.salableAssets
+
+    def save(self, *args, **kwargs):
+        if self.cash != self.lastCash:
+            if self.company.name == self.assets.company.name:
+                assets.objects.filter(company__name=self.company.name).update(sumOfCurrentAssets=F('sumOfCurrentAssets') + self.cash - self.lastCash)
+        if self.salableAssets != self.lastSalableAssets:
+            if self.company.name == self.assets.company.name:
+                assets.objects.filter(company__name=self.company.name).update(sumOfCurrentAssets=F('sumOfCurrentAssets') + self.salableAssets - self.lastSalableAssets)
+        super(currentAssets, self).save(*args, **kwargs)
+        self.lastCash = self.cash
+        self.lastSalableAssets = self.salableAssets
 
 class nonCurrentAssets(models.Model):
     longTermInvestments = models.IntegerField()
