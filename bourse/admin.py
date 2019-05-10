@@ -4,9 +4,12 @@ from .models import *
 # Register your models here.
 
 
+admin.site.register(company)
+admin.site.register(timePeriod)
+
 ## Consolidated Balance Sheet (Tarazname) ##
 
-admin.site.register(company)
+
 admin.site.register(balanceSheet)
 admin.site.register(assets)
 admin.site.register(debtsAndAssetsOwner)
