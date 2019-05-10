@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
+from django.db.models import F
 from django.utils import timezone
+
 # Create your models here.
 
 
@@ -11,30 +13,37 @@ class timePeriod(models.Model):
     def __str__(self):
         return self.timePeriod
 
-    def wasPublishedRecently(self):
+    def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
 class company(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-
+    aValue = models.IntegerField()
     def __str__(self):
         return self.name
 
-    def wasPublishedRecently(self):
+    def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
 ## Consolidated Balance Sheet (Tarazname) ##
 
 class balanceSheet(models.Model):
+    # id = models.AutoField(primary_key=True)
     sumOfAssets = models.IntegerField()
     sumOfDebtsAndFundsOwner = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
 
-    def wasPublishedRecently(self):
+    def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            company.objects.filter(pk=self.company_id).update(aValue=F('aValue') + self.sumOfAssets)
+        super().save(*args, **kwargs)
+
 
 class assets(models.Model):
     sumOfCurrentAssets = models.IntegerField()
