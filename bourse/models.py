@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.db.models import F
 from django.utils import timezone
+from django.forms.models import model_to_dict
 
 # Create your models here.
 
@@ -19,7 +20,6 @@ class timePeriod(models.Model):
 class company(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-    aValue = models.IntegerField()
     def __str__(self):
         return self.name
 
@@ -29,8 +29,7 @@ class company(models.Model):
 ## Consolidated Balance Sheet (Tarazname) ##
 
 class balanceSheet(models.Model):
-    # id = models.AutoField(primary_key=True)
-    sumOfAssets = models.IntegerField()
+    sumOfAssets = models.IntegerField(null=True)
     sumOfDebtsAndFundsOwner = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
@@ -39,21 +38,34 @@ class balanceSheet(models.Model):
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            company.objects.filter(pk=self.company_id).update(aValue=F('aValue') + self.sumOfAssets)
-        super().save(*args, **kwargs)
-
-
 class assets(models.Model):
     sumOfCurrentAssets = models.IntegerField()
     sumOfNonCurrentAssets = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
+    balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
+    originalsumOfCurrentAssets = 0
+    originalsumOfNonCurrentAssets = 0
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
+    def __init__(self, *args, **kwargs):
+        super(assets, self).__init__(*args, **kwargs)
+        self.originalsumOfCurrentAssets = self.sumOfCurrentAssets
+        self.originalsumOfNonCurrentAssets = self.sumOfNonCurrentAssets
+
+    def save(self, *args, **kwargs):
+        if self.sumOfCurrentAssets != self.originalsumOfCurrentAssets:
+            if self.company.name == self.balanceSheet.company.name:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfCurrentAssets - self.originalsumOfCurrentAssets)
+        if self.sumOfNonCurrentAssets != self.originalsumOfNonCurrentAssets:
+            if self.company.name == self.balanceSheet.company.name:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfNonCurrentAssets - self.originalsumOfNonCurrentAssets)
+        super(assets, self).save(*args, **kwargs)
+        self.originalsumOfCurrentAssets = self.sumOfCurrentAssets
+        self.originalsumOfNonCurrentAssets = self.sumOfCurrentAssets
 
 class debtsAndAssetsOwner(models.Model):
     sumOfCurrentDebts = models.IntegerField()
