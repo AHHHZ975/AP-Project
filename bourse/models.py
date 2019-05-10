@@ -65,7 +65,7 @@ class assets(models.Model):
                 balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfNonCurrentAssets - self.originalsumOfNonCurrentAssets)
         super(assets, self).save(*args, **kwargs)
         self.originalsumOfCurrentAssets = self.sumOfCurrentAssets
-        self.originalsumOfNonCurrentAssets = self.sumOfCurrentAssets
+        self.originalsumOfNonCurrentAssets = self.sumOfNonCurrentAssets
 
 class debtsAndAssetsOwner(models.Model):
     sumOfCurrentDebts = models.IntegerField()
@@ -73,9 +73,28 @@ class debtsAndAssetsOwner(models.Model):
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
+    balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
+    originalSumOfCurrentDebts = 0
+    originalSumOfNonCurrentDebts = 0
 
-    def wasPublishedRecently(self):
+    def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+    def __init__(self, *args, **kwargs):
+        super(debtsAndAssetsOwner, self).__init__(*args, **kwargs)
+        self.originalSumOfCurrentDebts = self.sumOfCurrentDebts
+        self.originalSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
+
+    def save(self, *args, **kwargs):
+        if self.sumOfCurrentDebts != self.originalSumOfCurrentDebts:
+            if self.company.name == self.balanceSheet.company.name:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfCurrentDebts - self.originalSumOfCurrentDebts)
+        if self.sumOfNonCurrentDebts != self.originalSumOfNonCurrentDebts:
+            if self.company.name == self.balanceSheet.company.name:
+                balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfNonCurrentDebts - self.originalSumOfNonCurrentDebts)
+        super(debtsAndAssetsOwner, self).save(*args, **kwargs)
+        self.originalSumOfCurrentDebts = self.sumOfCurrentDebts
+        self.originalSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
 
 class currentAssets(models.Model):
     cash = models.IntegerField()
