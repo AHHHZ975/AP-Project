@@ -6,29 +6,29 @@ from .models import *
 
 ## Consolidated Balance Sheet (Tarazname) ##
 
-admin.site.register(Company)
-admin.site.register(BalanceSheet)
-admin.site.register(Assets)
-admin.site.register(DebtsAndAssetsOwner)
-admin.site.register(CurrentAssets)
-admin.site.register(NonCurrentAssets)
-admin.site.register(CurrentDebts)
-admin.site.register(NonCurrentDebts)
-admin.site.register(OwnerInvestment)
+admin.site.register(company)
+admin.site.register(balanceSheet)
+admin.site.register(assets)
+admin.site.register(debtsAndAssetsOwner)
+admin.site.register(currentAssets)
+admin.site.register(nonCurrentAssets)
+admin.site.register(currentDebts)
+admin.site.register(nonCurrentDebts)
+admin.site.register(ownerInvestment)
 
 ## Income Statement (sood o zian) ##
 
-admin.site.register(IncomeStatement) #Narenji rang ha
-admin.site.register(ProfitOrLoss)
-admin.site.register(BasicEarningsLossPerShare)
-admin.site.register(DilutedEarningsOrLossPerShare)
-admin.site.register(StatementOfIncomeAndRetainedEarnings)
+admin.site.register(incomeStatement) #Narenji rang ha
+admin.site.register(profitOrLoss)
+admin.site.register(basicEarningsLossPerShare)
+admin.site.register(dilutedEarningsOrLossPerShare)
+admin.site.register(statementOfIncomeAndRetainedEarnings)
 
 ## Cash Flow (jaryan vojooh naghd) ##
 
-admin.site.register(CashFlow) #Narenji rang ha
-admin.site.register(CashFlowsFromUsedInOperatingActivities)
-admin.site.register(InvestmentReturnsAndPaymentsOnFinancingCosts)
-admin.site.register(CashFlowsUsedInIncomeTax)
-admin.site.register(CashFlowsFromUsedInInvestingActivities)
-admin.site.register(CashFlowsFromUsedInFinancingActivities)
+admin.site.register(cashFlow) #Narenji rang ha
+admin.site.register(cashFlowsFromUsedInOperatingActivities)
+admin.site.register(investmentReturnsAndPaymentsOnFinancingCosts)
+admin.site.register(cashFlowsUsedInIncomeTax)
+admin.site.register(cashFlowsFromUsedInInvestingActivities)
+admin.site.register(cashFlowsFromUsedInFinancingActivities)
