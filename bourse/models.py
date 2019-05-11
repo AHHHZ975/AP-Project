@@ -39,6 +39,8 @@ class performanceIndexes(models.Model):
     company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
     timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
 
+
+
 ## Consolidated Balance Sheet (Tarazname) ##
 
 
