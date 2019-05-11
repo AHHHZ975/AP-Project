@@ -17,16 +17,30 @@ class timePeriod(models.Model):
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
+
 class company(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
+
     def __str__(self):
         return self.name
 
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
+
+class performanceIndexes(models.Model):
+    s = models.FloatField()
+    p = models.FloatField()
+    pToE = models.FloatField()
+    pToB = models.FloatField()
+    pToS = models.FloatField()
+    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
+    company = models.ForeignKey(company, default=None, on_delete=models.CASCADE)
+    timePeriod = models.ForeignKey(timePeriod, default=None, on_delete=models.CASCADE)
+
 ## Consolidated Balance Sheet (Tarazname) ##
+
 
 class balanceSheet(models.Model):
     sumOfAssets = models.IntegerField(null=True)
