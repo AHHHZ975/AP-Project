@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td><h3>Company Name</h3></td>
+            <td><h3>Time period</h3></td>
+            <td><h3>Sum of assets</h3></td>
+            <td><h3>Sum of debts and funds owner</h3></td>
+            <td><h3>Pulication Date</h3></td>
+        </tr>
+        {% for basicEariningsLossPerShare in basicEarningsLossPerShares %}
+            <tr>
+                <td>{{ basicEariningsLossPerShare.company.name }}</td>
+                <td>{{ basicEariningsLossPerShare.timePeriod.timePeriod }}</td>
+                <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsNonOperating }}</td>
+                <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsOperating }}</td>
+                <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromDiscontinuingOperations }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
