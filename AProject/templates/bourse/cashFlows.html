@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cash Flows</title>
 </head>
 <body>
-
+    <table border="1">
+        <tr>
+            <td><h3>Company Name</h3></td>
+            <td><h3>Time period</h3></td>
+            <td><h3>Cash at the end of period</h3></td>
+            <td><h3>Income taxes paid</h3></td>
+            <td><h3>Net cash flows from used in before financing activities </h3></td>
+            <td><h3>Net cash flows from used in financing activities</h3></td>
+            <td><h3>Net cash flows from used in investing activities</h3></td>
+            <td><h3>Net cash flows from used in investment returns and payments on financing costs</h3></td>
+            <td><h3>Net cash flows from used in operating activities</h3></td>
+            <td><h3>Net increase decrease in cash </h3></td>
+            <td><h3>Pulication Date</h3></td>
+        </tr>
+        {% for cashFlow in cashFlows %}
+            <tr>
+                <td>{{ cashFlow.company.name }}</td>
+                <td>{{ cashFlow.timePeriod.timePeriod }}</td>
+                <td>{{ cashFlow.cashAtEndOfPeriod }}</td>
+                <td>{{ cashFlow.incomeTaxesPaid }}</td>
+                <td>{{ cashFlow.netCashFlowsFromUsedInBeforeFinancingActivities }}</td>
+                <td>{{ cashFlow.netCashFlowsFromUsedInFinancingActivities }}</td>
+                <td>{{ cashFlow.netCashFlowsFromUsedInInvestingActivities }}</td>
+                <td>{{ cashFlow.netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts }}</td>
+                <td>{{ cashFlow.netCashFlowsFromUsedInOperatingActivities }}</td>
+                <td>{{ cashFlow.netIncreaseDecreaseInCash }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

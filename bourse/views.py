@@ -109,7 +109,7 @@ def cashFlowsFromUsedInInvestingActivitiesFromDB(request):
 
 def cashFlowsFromUsedInFinancingActivitiesFromDB(request):
     cashFlowsFromUsedInFinancingActivitiesList = models.cashFlowsFromUsedInFinancingActivities.objects.all()
-    content = {'cashFlowsFromUsedInFinancingActivities' : cashFlowsFromUsedInFinancingActivitiesList}
+    content = {'cashFlowsFromUsedInFinancingActivities': cashFlowsFromUsedInFinancingActivitiesList}
     return render(request, "cashFlowsFromUsedInFinancingActivities.html", context=content)
 
 
