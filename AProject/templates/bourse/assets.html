@@ -1,27 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Assets in database</title>
-</head>
-<body>
-    <table border="1">
+{% extends "base.html" %}
+
+{% block title %}
+    <title>دارایی ها</title>
+{% endblock %}
+
+
+{% block h1 %}
+    <h1> - دارایی ها </h1>
+{% endblock %}}
+
+{% block table %}
         <tr>
-            <td><h3>Company Name</h3></td>
-            <td><h3>Time period</h3></td>
-            <td><h3>Sum of current assets</h3></td>
-            <td><h3>Sum of non-current assets</h3></td>
-            <td><h3>Pulication Date</h3></td>
+            <td>شرکت</td>
+            <td>جمع دارایی های جاری</td>
+            <td>جمع دارایی های غیرجاری</td>
+            <td>تاریخ انتشار</td>
+            <td>بازه زمانی</td>
         </tr>
         {% for asset in assets %}
             <tr>
                 <td>{{ asset.company.name }}</td>
-                <td>{{ asset.timePeriod.timePeriod}}</td>
                 <td>{{ asset.sumOfCurrentAssets }}</td>
                 <td>{{ asset.sumOfNonCurrentAssets }}</td>
                 <td>{{ asset.publicDate }}</td>
+                <td>{{ asset.timePeriod.timePeriod}}</td>
             </tr>
         {% endfor %}
-    </table>
-</body>
-</html>
+
+{% endblock %}

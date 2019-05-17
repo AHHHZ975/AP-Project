@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}
+    <title> دارایی های غیرجاری</title>
+{% endblock %}
+
+
+{% block h1 %}
+    <h1> -ترازنامه: دارایی های غیرجاری </h1>
+{% endblock %}}
+
+{% block table %}
+        <tr>
+            <td>شرکت</td>
+            <td>دریافتنی‌‌های بلندمدت</td>
+            <td>سرمایه‌گذاری‌‌های بلند مدت</td>
+            <td>سرمایه‌گذاری در املاک</td>
+            <td>دارایی‌های نامشهود</td>
+            <td>دارایی‌های ثابت مشهود</td>
+            <td>سایر دارایی‌ها</td>
+            <td>تاریخ انتشار</td>
+            <td>بازه زمانی</td>
+        </tr>
+        {% for nonCurrent in nonCurrentAssets %}
+            <tr>
+                <td>{{ nonCurrent.company.name }}</td>
+                <td>{{ nonCurrent.longTermInputs }}</td>
+                <td>{{ nonCurrent.longTermInvestments }}</td>
+                <td>{{ nonCurrent.investmentInEstate }}</td>
+                <td>{{ nonCurrent.intangibleAssets }}</td>
+                <td>{{ nonCurrent.tangibleAssets }}</td>
+                <td>{{ nonCurrent.otherAssets }}</td>
+                <td>{{ asset.publicDate }}</td>
+                <td>{{ asset.timePeriod.timePeriod}}</td>
+            </tr>
+        {% endfor %}
+
+{% endblock %}

@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Basic</title>
-</head>
-<body>
-    <table border="1">
+{% extends "base.html" %}
+{% block title %}
+    <title>سود (زیان) پایه هر سهم</title>
+{% endblock %}
+
+{% block h1 %}
+    <h1> - صورت سود و زیان : سود (زیان) پایه هر سهم </h1>
+{% endblock %}}
+
         <tr>
-            <td><h3>Company Name</h3></td>
-            <td><h3>Time period</h3></td>
-            <td><h3>Sum of assets</h3></td>
-            <td><h3>Sum of debts and funds owner</h3></td>
-            <td><h3>Pulication Date</h3></td>
+            <td>شرکت</td>
+            <td>سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- عملیاتی</td>
+            <td>سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- غیرعملیاتی</td>
+            <td>سود (زیان) پایه هر سهم ناشی از عملیات متوقف‌ شده</td>
+            <td>تاریخ انتشار</td>
+            <td>بازه زمانی</td>
         </tr>
         {% for basicEariningsLossPerShare in basicEarningsLossPerShares %}
             <tr>
                 <td>{{ basicEariningsLossPerShare.company.name }}</td>
-                <td>{{ basicEariningsLossPerShare.timePeriod.timePeriod }}</td>
-                <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsNonOperating }}</td>
                 <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsOperating }}</td>
+                <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsNonOperating }}</td>
                 <td>{{ basicEariningsLossPerShare.basicEarningsOrLossPerShareFromDiscontinuingOperations }}</td>
+                <td>{{ basicEariningsLossPerShare.publicDate}}</td>
+                <td>{{ basicEariningsLossPerShare.timePeriod.timePeriod }}</td>
             </tr>
         {% endfor %}
     </table>
