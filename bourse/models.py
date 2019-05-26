@@ -45,6 +45,25 @@ class performanceIndexes(models.Model):
 
 
 class balanceSheet(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     sumOfAssets = models.IntegerField(null=True)
     sumOfDebtsAndFundsOwner = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
@@ -55,6 +74,25 @@ class balanceSheet(models.Model):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
 class assets(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     sumOfCurrentAssets = models.IntegerField()
     sumOfNonCurrentAssets = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
@@ -84,6 +122,25 @@ class assets(models.Model):
         self.lastlSumOfNonCurrentAssets = self.sumOfNonCurrentAssets
 
 class debtsAndAssetsOwner(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     sumOfCurrentDebts = models.IntegerField()
     sumOfNonCurrentDebts = models.IntegerField()
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
@@ -113,6 +170,25 @@ class debtsAndAssetsOwner(models.Model):
         self.lastSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
 
 class currentAssets(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     cash = models.IntegerField()
     shortTermInvestments = models.IntegerField()
     commercialInputs = models.IntegerField()
@@ -147,6 +223,25 @@ class currentAssets(models.Model):
         self.lastSalableAssets = self.salableAssets
 
 class nonCurrentAssets(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     longTermInvestments = models.IntegerField()
     longTermInputs = models.IntegerField()
     investmentInEstate = models.IntegerField()
@@ -161,6 +256,25 @@ class nonCurrentAssets(models.Model):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 class currentDebts(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     commercialPayable = models.IntegerField()
     NonCommercialPayable = models.IntegerField()
     payableTaxes = models.IntegerField()
@@ -177,6 +291,25 @@ class currentDebts(models.Model):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 class nonCurrentDebts(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     longTermPayable = models.IntegerField()
     nonCurrentPreReceivables = models.IntegerField()
     longTermFinancialFacility = models.IntegerField()
@@ -189,6 +322,25 @@ class nonCurrentDebts(models.Model):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 class ownerInvestment(models.Model):
+    TYPES_AUDIT = (
+        ('Y', 'حسابرسی شده'),
+        ('N', 'حسابرسی نشده'),
+    )
+    TYPES_DATE = (
+        ('3', 'ماهه 3'),
+        ('6', 'ماهه 6'),
+        ('9', 'ماهه 9'),
+        ('12', 'ماهه 12'),
+    )
+    TYPES_CONSOLIDATED = (
+        ('Y', 'تلفیقی'),
+        ('N', 'غیرتلفیقی'),
+    )
+    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default=0)
+    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default=0)
+    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default=0)
+    endTo = models.DateField('End to', default=timezone.now)
+
     assets = models.IntegerField()
     increaseORDecreaseOfInProcessAssets = models.IntegerField()
     stockSpends = models.IntegerField()
@@ -207,6 +359,7 @@ class ownerInvestment(models.Model):
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
+
 
 ## Income Statement (sood o zian) ##
 
