@@ -1,4 +1,6 @@
 .git
 .idea
+*.xml
 venv
 __pycache__
+db.sqlite3
