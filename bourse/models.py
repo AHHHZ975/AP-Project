@@ -3,6 +3,20 @@ from django.db import models
 from django.db.models import F
 from django.utils import timezone
 
+TYPES_AUDIT = (
+    ('حسابرسی شده', 'حسابرسی شده'),
+    ('حسابرسی نشده', 'حسابرسی نشده'),
+)
+TYPES_DATE = (
+    ('3', 'ماهه 3'),
+    ('6', 'ماهه 6'),
+    ('9', 'ماهه 9'),
+    ('12', 'ماهه 12'),
+)
+TYPES_CONSOLIDATED = (
+    ('تلفیقی', 'تلفیقی'),
+    ('غیرتلفیقی', 'غیرتلفیقی'),
+)
 
 # Create your models here.
 
@@ -10,20 +24,7 @@ from django.utils import timezone
 # financial statements اطلاغات و صورت های مالی
 class FinancialStatements(models.Model):
     companyName = models.CharField(max_length=32, primary_key=True)
-    TYPES_AUDIT = (
-        ('Y', 'حسابرسی شده'),
-        ('N', 'حسابرسی نشده'),
-    )
-    TYPES_DATE = (
-        ('3', 'ماهه 3'),
-        ('6', 'ماهه 6'),
-        ('9', 'ماهه 9'),
-        ('12', 'ماهه 12'),
-    )
-    TYPES_CONSOLIDATED = (
-        ('Y', 'تلفیقی'),
-        ('N', 'غیرتلفیقی'),
-    )
+
     type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default="")
     type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default="")
     type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default="")
@@ -55,27 +56,25 @@ class timePeriod(models.Model):
 
 class company(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
-    TYPES_AUDIT = (
-        ('Y', 'حسابرسی شده'),
-        ('N', 'حسابرسی نشده'),
-    )
-    TYPES_DATE = (
-        ('3', 'ماهه 3'),
-        ('6', 'ماهه 6'),
-        ('9', 'ماهه 9'),
-        ('12', 'ماهه 12'),
-    )
-    TYPES_CONSOLIDATED = (
-        ('Y', 'تلفیقی'),
-        ('N', 'غیرتلفیقی'),
-    )
-    type_audit = models.CharField(max_length=1, choices=TYPES_AUDIT, blank=False, default="")
-    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default="")
-    type_consolidated = models.CharField(max_length=2, choices=TYPES_CONSOLIDATED, blank=False, default="")
+
+    type_audit = models.CharField(max_length=16, choices=TYPES_AUDIT, blank=False, default="")
+    type_date = models.CharField(max_length=16, choices=TYPES_DATE, blank=False, default="")
+    type_consolidated = models.CharField(max_length=16, choices=TYPES_CONSOLIDATED, blank=False, default="")
     endTo = models.DateField('End to', default=timezone.now)
 
     def __str__(self):
-        return self.name
+        string = f"اطلاعات و صورت مالی شرکت {str(self.name)} {self.type_consolidated} " \
+                 f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
+                 f"{str(self.endTo)}"
+        # string += str(self.name)
+        # string += self.type_consolidated
+        # string += str(self.type_audit)
+        # string += str(self.type_date)
+        # string += "ماهه "
+        # string += "منتهی به"
+        # string += str(self.endto)
+
+        return string
 
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
