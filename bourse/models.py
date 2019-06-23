@@ -24,13 +24,13 @@ TYPES_CONSOLIDATED = (
 # financial statements اطلاغات و صورت های مالی
 class FinancialStatements(models.Model):
     # id = models.IntegerField(primary_key=True)
-    companyName = models.CharField(max_length=32, default="")
+    companyName = models.CharField('نام شرکت', max_length=32, default="")
 
-    type_audit = models.CharField(max_length=16, choices=TYPES_AUDIT, blank=False, default="")
-    type_date = models.CharField(max_length=2, choices=TYPES_DATE, blank=False, default="")
-    type_consolidated = models.CharField(max_length=16, choices=TYPES_CONSOLIDATED, blank=False, default="")
+    type_audit = models.CharField('نوع حسابرسی', max_length=16, choices=TYPES_AUDIT, blank=False, default="")
+    type_date = models.CharField('بازه', max_length=2, choices=TYPES_DATE, blank=False, default="")
+    type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=False, default="")
     # endTo = models.DateField('End to', default=timezone.now)
-    endTo = jmodels.jDateField(default="")
+    endTo = jmodels.jDateField('منتهی به',default="")
 
     def __str__(self):
         string = f"اطلاعات و صورت مالی شرکت {str(self.companyName)} {self.type_consolidated} " \
@@ -77,11 +77,9 @@ class performanceIndexes(models.Model):
 
 ## Consolidated Balance Sheet (Tarazname) ##
 class balanceSheet(models.Model):
-
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     sumOfAssets = models.IntegerField(null=True)
     sumOfDebtsAndFundsOwner = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
@@ -92,13 +90,13 @@ class assets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     sumOfCurrentAssets = models.IntegerField()
     sumOfNonCurrentAssets = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-    balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    lastSumOfCurrentAssets = 0
-    lastSumOfNonCurrentAssets = 0
+    # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
+    # lastSumOfCurrentAssets = 0
+    # lastSumOfNonCurrentAssets = 0
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
 
     # def __init__(self, *args, **kwargs):
     #     super(assets, self).__init__(*args, **kwargs)
@@ -118,13 +116,12 @@ class assets(models.Model):
 
 
 class debtsAndAssetsOwner(models.Model):
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     sumOfCurrentDebts = models.IntegerField()
     sumOfNonCurrentDebts = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-    balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    lastSumOfCurrentDebts = 0
-    lastSumOfNonCurrentDebts = 0
+    # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
+    # lastSumOfCurrentDebts = 0
+    # lastSumOfNonCurrentDebts = 0
 
     def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -148,7 +145,7 @@ class debtsAndAssetsOwner(models.Model):
 
 class currentAssets(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     cash = models.IntegerField()
     shortTermInvestments = models.IntegerField()
     commercialInputs = models.IntegerField()
@@ -156,10 +153,9 @@ class currentAssets(models.Model):
     inventory = models.IntegerField()
     prepaidExpenses = models.IntegerField()
     salableAssets = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-    assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
-    lastCash = 0
-    lastSalableAssets = 0
+    # assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
+    # lastCash = 0
+    # lastSalableAssets = 0
 
     def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -183,14 +179,14 @@ class currentAssets(models.Model):
 
 class nonCurrentAssets(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     longTermInvestments = models.IntegerField()
     longTermInputs = models.IntegerField()
     investmentInEstate = models.IntegerField()
     intangibleAssets = models.IntegerField()
     tangibleAssets = models.IntegerField()
     otherAssets = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
+
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -198,7 +194,7 @@ class nonCurrentAssets(models.Model):
 
 class currentDebts(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     commercialPayable = models.IntegerField()
     NonCommercialPayable = models.IntegerField()
     payableTaxes = models.IntegerField()
@@ -207,7 +203,6 @@ class currentDebts(models.Model):
     resources = models.IntegerField()
     currentPreReceivables = models.IntegerField()
     debtsRelatedWithSalableAssets = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
 
     def wasPublishedRecently(self):
@@ -216,13 +211,11 @@ class currentDebts(models.Model):
 
 class nonCurrentDebts(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     longTermPayable = models.IntegerField()
     nonCurrentPreReceivables = models.IntegerField()
     longTermFinancialFacility = models.IntegerField()
     storeOfWorkersEndServiceAdvantages = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -230,7 +223,7 @@ class nonCurrentDebts(models.Model):
 
 class ownerInvestment(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     assets = models.IntegerField()
     increaseORDecreaseOfInProcessAssets = models.IntegerField()
     stockSpends = models.IntegerField()
@@ -243,7 +236,7 @@ class ownerInvestment(models.Model):
     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField()
     accumulatedProfitORLosses = models.IntegerField()
     sumOfOwnersInvestments = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
+
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -253,7 +246,7 @@ class ownerInvestment(models.Model):
 
 class incomeStatement(models.Model): # Narenji rang ha
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     grossProfit = models.IntegerField()
     profitOrLossFromOperatingActivities = models.IntegerField()
     profitOrLossBeforeTax = models.IntegerField()
@@ -267,7 +260,6 @@ class incomeStatement(models.Model): # Narenji rang ha
     retainedEarningsAtEndOfPeriod = models.IntegerField()
     earningsPerShareAfterTax = models.IntegerField()
     listedCapital = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -275,7 +267,7 @@ class incomeStatement(models.Model): # Narenji rang ha
 
 class profitOrLoss(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     Revenue = models.IntegerField()
     costOfSales = models.IntegerField()
     distributionAndAdministrativeExpense = models.IntegerField()
@@ -286,7 +278,6 @@ class profitOrLoss(models.Model):
     OtherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField()
     incomeTaxExpenseContinuingOperations = models.IntegerField()
     profitOrLossFromDiscontinuedOperation = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -294,11 +285,10 @@ class profitOrLoss(models.Model):
 
 class basicEarningsLossPerShare(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     basicEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -306,26 +296,23 @@ class basicEarningsLossPerShare(models.Model):
 
 class dilutedEarningsOrLossPerShare(models.Model):
 
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     dilutedEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class statementOfIncomeAndRetainedEarnings(models.Model):
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     retainedEarningsAtBeginningOfPeriod = models.IntegerField()
     priorPeriodAdjustments = models.IntegerField()
     dividendsDeclaredAndPaidOrPayable = models.IntegerField()
     changesInCapitalFromRetainedEarnings = models.IntegerField()
     transferFromOtherEquityItems = models.IntegerField()
     transferToStatutoryReserve = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
-
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -334,7 +321,7 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
 
 
 class cashFlow(models.Model):   # Narenji rang ha
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     netCashFlowsFromUsedInOperatingActivities = models.IntegerField()
     netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField()
     incomeTaxesPaid = models.IntegerField()
@@ -343,28 +330,26 @@ class cashFlow(models.Model):   # Narenji rang ha
     netCashFlowsFromUsedInFinancingActivities = models.IntegerField()
     netIncreaseDecreaseInCash = models.IntegerField()
     cashAtEndOfPeriod = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class cashFlowsFromUsedInOperatingActivities(models.Model):
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField()
     netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     dividendsReceived = models.IntegerField()
     interestPaidOrBorrowing = models.IntegerField()
     interestReceivedFromOtherInvestments = models.IntegerField()
     dividendsPaid = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -374,7 +359,7 @@ class cashFlowsUsedInIncomeTax(models.Model):
 
 
 class cashFlowsFromUsedInInvestingActivities(models.Model):
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
     purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
     proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = models.IntegerField()
@@ -387,14 +372,13 @@ class cashFlowsFromUsedInInvestingActivities(models.Model):
     purchaseOfCurrentInvestments = models.IntegerField()
     proceedsFromSalesOfInvestmentProperty = models.IntegerField()
     purchaseOfInvestmentProperty = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class cashFlowsFromUsedInFinancingActivities(models.Model):
-    # relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
     proceedsFromIssuingShares = models.IntegerField()
     proceedsFromSalesOrIssueOfTreasuryShares = models.IntegerField()
     paymentsForPurchaseOfTreasuryShares = models.IntegerField()
@@ -403,7 +387,6 @@ class cashFlowsFromUsedInFinancingActivities(models.Model):
     cashAtBeginningOfPeriod = models.IntegerField()
     effectOfExchangeRateChangesOnCash = models.IntegerField()
     NonCashTransactions = models.IntegerField()
-    publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
