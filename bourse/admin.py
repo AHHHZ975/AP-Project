@@ -3,7 +3,6 @@ from .models import *
 
 # Register your models here.
 
-
 ## Consolidated Balance Sheet (Tarazname) ##
 
 admin.site.register(FinancialStatements)
