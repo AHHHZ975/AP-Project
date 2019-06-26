@@ -11,3 +11,4 @@ db.sqlite3
 bourse/migrations/
 
 bourse/migrations/
+.idea/workspace.xml
