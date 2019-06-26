@@ -468,6 +468,7 @@ for i in range(len(columns)):
     from django.contrib import admin
 
     fields['__module__'] = __name__
-    Dynamic_Model = type('MyModel' + str(i), (models.Model,), fields)
+    Dynamic_Model = type('گزارش فعالیت ماهانه ' + str(i), (models.Model,), fields)
+
     admin.site.register(Dynamic_Model)
 
