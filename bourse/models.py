@@ -2,12 +2,14 @@ import datetime
 from django.db import models
 from django.db.models import F
 from django.utils import timezone
-from django_jalali.db import models as jmodels # For Persian Calender
+from django_jalali.db import models as jmodels  # For Persian Calender
+
 TYPES_AUDIT = (
     ('حسابرسی شده', 'حسابرسی شده'),
     ('حسابرسی نشده', 'حسابرسی نشده'),
 )
 TYPES_DATE = (
+    ('1', 'ماهه 1'),
     ('3', 'ماهه 3'),
     ('6', 'ماهه 6'),
     ('9', 'ماهه 9'),
@@ -17,6 +19,7 @@ TYPES_CONSOLIDATED = (
     ('تلفیقی', 'تلفیقی'),
     ('غیرتلفیقی', 'غیرتلفیقی'),
 )
+
 
 # Create your models here.
 
@@ -28,14 +31,15 @@ class FinancialStatements(models.Model):
 
     type_audit = models.CharField('نوع حسابرسی', max_length=16, choices=TYPES_AUDIT, blank=False, default="")
     type_date = models.CharField('بازه', max_length=2, choices=TYPES_DATE, blank=False, default="")
-    type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=False, default="")
+    type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=False,
+                                         default="")
     # endTo = models.DateField('End to', default=timezone.now)
-    endTo = jmodels.jDateField('منتهی به',default="")
+    endTo = jmodels.jDateField('منتهی به', default="")
 
     def __str__(self):
         string = f"اطلاعات و صورت مالی شرکت {str(self.companyName)} {self.type_consolidated} " \
                  f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
-                f"{str(self.endTo)}"
+                 f"{str(self.endTo)}"
 
         return string
 
@@ -47,13 +51,13 @@ class FinancialStatements(models.Model):
     #              f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
     #              f"{str(self.endTo)}"
 
-        # string += str(self.name)
-        # string += self.type_consolidated
-        # string += str(self.type_audit)
-        # string += str(self.type_date)
-        # string += "ماهه "
-        # string += "منتهی به"
-        # string += str(self.endto)
+    # string += str(self.name)
+    # string += self.type_consolidated
+    # string += str(self.type_audit)
+    # string += str(self.type_date)
+    # string += "ماهه "
+    # string += "منتهی به"
+    # string += str(self.endto)
 
 
 class company(models.Model):
@@ -66,6 +70,7 @@ class company(models.Model):
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
+
 class performanceIndexes(models.Model):
     s = models.FloatField()
     p = models.FloatField()
@@ -77,7 +82,8 @@ class performanceIndexes(models.Model):
 
 ## Consolidated Balance Sheet (Tarazname) ##
 class balanceSheet(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+
     sumOfAssets = models.IntegerField(null=True)
     sumOfDebtsAndFundsOwner = models.IntegerField()
 
@@ -86,17 +92,19 @@ class balanceSheet(models.Model):
 
 
 class assets(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     sumOfCurrentAssets = models.IntegerField()
     sumOfNonCurrentAssets = models.IntegerField()
+
     # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
     # lastSumOfCurrentAssets = 0
     # lastSumOfNonCurrentAssets = 0
 
+    class Meta:
+        db_table = 'music_album'
+
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
-
 
     # def __init__(self, *args, **kwargs):
     #     super(assets, self).__init__(*args, **kwargs)
@@ -116,9 +124,10 @@ class assets(models.Model):
 
 
 class debtsAndAssetsOwner(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     sumOfCurrentDebts = models.IntegerField()
     sumOfNonCurrentDebts = models.IntegerField()
+
     # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
     # lastSumOfCurrentDebts = 0
     # lastSumOfNonCurrentDebts = 0
@@ -144,8 +153,7 @@ class debtsAndAssetsOwner(models.Model):
 
 
 class currentAssets(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     cash = models.IntegerField()
     shortTermInvestments = models.IntegerField()
     commercialInputs = models.IntegerField()
@@ -153,6 +161,7 @@ class currentAssets(models.Model):
     inventory = models.IntegerField()
     prepaidExpenses = models.IntegerField()
     salableAssets = models.IntegerField()
+
     # assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
     # lastCash = 0
     # lastSalableAssets = 0
@@ -178,8 +187,7 @@ class currentAssets(models.Model):
 
 
 class nonCurrentAssets(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     longTermInvestments = models.IntegerField()
     longTermInputs = models.IntegerField()
     investmentInEstate = models.IntegerField()
@@ -187,14 +195,12 @@ class nonCurrentAssets(models.Model):
     tangibleAssets = models.IntegerField()
     otherAssets = models.IntegerField()
 
-
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class currentDebts(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     commercialPayable = models.IntegerField()
     NonCommercialPayable = models.IntegerField()
     payableTaxes = models.IntegerField()
@@ -204,14 +210,12 @@ class currentDebts(models.Model):
     currentPreReceivables = models.IntegerField()
     debtsRelatedWithSalableAssets = models.IntegerField()
 
-
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class nonCurrentDebts(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     longTermPayable = models.IntegerField()
     nonCurrentPreReceivables = models.IntegerField()
     longTermFinancialFacility = models.IntegerField()
@@ -222,8 +226,7 @@ class nonCurrentDebts(models.Model):
 
 
 class ownerInvestment(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     assets = models.IntegerField()
     increaseORDecreaseOfInProcessAssets = models.IntegerField()
     stockSpends = models.IntegerField()
@@ -237,16 +240,15 @@ class ownerInvestment(models.Model):
     accumulatedProfitORLosses = models.IntegerField()
     sumOfOwnersInvestments = models.IntegerField()
 
-
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 ## Income Statement (sood o zian) ##
 
-class incomeStatement(models.Model): # Narenji rang ha
+class incomeStatement(models.Model):  # Narenji rang ha
 
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     grossProfit = models.IntegerField()
     profitOrLossFromOperatingActivities = models.IntegerField()
     profitOrLossBeforeTax = models.IntegerField()
@@ -266,8 +268,7 @@ class incomeStatement(models.Model): # Narenji rang ha
 
 
 class profitOrLoss(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     Revenue = models.IntegerField()
     costOfSales = models.IntegerField()
     distributionAndAdministrativeExpense = models.IntegerField()
@@ -284,8 +285,7 @@ class profitOrLoss(models.Model):
 
 
 class basicEarningsLossPerShare(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     basicEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
@@ -295,8 +295,7 @@ class basicEarningsLossPerShare(models.Model):
 
 
 class dilutedEarningsOrLossPerShare(models.Model):
-
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     dilutedEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
@@ -306,7 +305,7 @@ class dilutedEarningsOrLossPerShare(models.Model):
 
 
 class statementOfIncomeAndRetainedEarnings(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     retainedEarningsAtBeginningOfPeriod = models.IntegerField()
     priorPeriodAdjustments = models.IntegerField()
     dividendsDeclaredAndPaidOrPayable = models.IntegerField()
@@ -317,11 +316,12 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+
 ## Cash Flow (jaryan vojooh naghd) ##
 
 
-class cashFlow(models.Model):   # Narenji rang ha
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+class cashFlow(models.Model):  # Narenji rang ha
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     netCashFlowsFromUsedInOperatingActivities = models.IntegerField()
     netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField()
     incomeTaxesPaid = models.IntegerField()
@@ -336,7 +336,7 @@ class cashFlow(models.Model):   # Narenji rang ha
 
 
 class cashFlowsFromUsedInOperatingActivities(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField()
     netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField()
 
@@ -345,7 +345,7 @@ class cashFlowsFromUsedInOperatingActivities(models.Model):
 
 
 class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     dividendsReceived = models.IntegerField()
     interestPaidOrBorrowing = models.IntegerField()
     interestReceivedFromOtherInvestments = models.IntegerField()
@@ -354,12 +354,13 @@ class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+
 class cashFlowsUsedInIncomeTax(models.Model):
     pass;
 
 
 class cashFlowsFromUsedInInvestingActivities(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
     purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
     proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = models.IntegerField()
@@ -378,7 +379,7 @@ class cashFlowsFromUsedInInvestingActivities(models.Model):
 
 
 class cashFlowsFromUsedInFinancingActivities(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     proceedsFromIssuingShares = models.IntegerField()
     proceedsFromSalesOrIssueOfTreasuryShares = models.IntegerField()
     paymentsForPurchaseOfTreasuryShares = models.IntegerField()
@@ -390,4 +391,43 @@ class cashFlowsFromUsedInFinancingActivities(models.Model):
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+############################ Dynamic Models ############################################
+# fields = {
+#     'first_name': models.CharField('واحد', max_length=255),
+#     '__module__': __name__,
+# }
+# MyModel2 = type('MyModel2', (models.Model,), fields)
+
+
+column = ['واحد', 'مقدار/تعداد تولید', 'نرخ فروش (ریال)', 'مبلغ فروش (میلیون ریال)']
+column2 = ['قراردادها->تاریخ عقد قرارداد', 'قراردادها->مدت قرارداد (ماه)',
+           'درآمد شناسایی شده->درآمد شناسایی شده طی دوره یک ماهه منتهی به 1398/01/31',
+           'درآمد شناسایی شده->درآمد شناسایی شده از اول سال مالی تا پایان دوره مالی منتهی به 1398/01/31',
+           'درآمد شناسایی شده->درامد شناسایی شده تا پایان دوره مالی منتهی به 1397/12/29',
+           ]
+
+# example for single dynamic model
+# fields = dict()
+#
+# fields['relatedTo'] = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT)
+# for i in range(len(column)):
+#     fields['column'+str(i)] = models.IntegerField(column[i])
+# fields['__module__'] = __name__
+# MyModel = type('MyModel', (models.Model,), fields)
+
+columns = [column, column2]
+
+for i in range(len(columns)):
+    fields = dict()
+    fields['relatedTo'] = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+
+    for j in range(len(columns[i])):
+        fields['column' + str(j)] = models.IntegerField(columns[i][j])
+    from django.contrib import admin
+
+    fields['__module__'] = __name__
+    Dynamic_Model = type('MyModel' + str(i), (models.Model,), fields)
+    admin.site.register(Dynamic_Model)
 
