@@ -7,6 +7,7 @@ from .models import *
 ## Consolidated Balance Sheet (Tarazname) ##
 
 admin.site.register(FinancialStatements)
+# admin.site.register(MyModel)
 admin.site.register(balanceSheet)
 admin.site.register(assets)
 admin.site.register(debtsAndAssetsOwner)
