@@ -43,6 +43,9 @@ class FinancialStatements(models.Model):
 
         return string
 
+    class Meta:
+        verbose_name_plural = '0-اطلاعات و صورت های مالی'
+
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
@@ -90,6 +93,8 @@ class balanceSheet(models.Model):
     def was_published_recently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
+    class Meta:
+        verbose_name_plural = '1-ترازنامه'
 
 class assets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -101,7 +106,7 @@ class assets(models.Model):
     # lastSumOfNonCurrentAssets = 0
 
     class Meta:
-        db_table = 'music_album'
+        verbose_name_plural = '1.1-دارایی ها'
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
@@ -127,6 +132,9 @@ class debtsAndAssetsOwner(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     sumOfCurrentDebts = models.IntegerField()
     sumOfNonCurrentDebts = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم'
 
     # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
     # lastSumOfCurrentDebts = 0
@@ -162,6 +170,9 @@ class currentAssets(models.Model):
     prepaidExpenses = models.IntegerField()
     salableAssets = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '1.1.1-دارایی ها جاری'
+
     # assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
     # lastCash = 0
     # lastSalableAssets = 0
@@ -195,6 +206,9 @@ class nonCurrentAssets(models.Model):
     tangibleAssets = models.IntegerField()
     otherAssets = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '1.1.2-دارایی ها غیرجاری'
+
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
@@ -210,6 +224,11 @@ class currentDebts(models.Model):
     currentPreReceivables = models.IntegerField()
     debtsRelatedWithSalableAssets = models.IntegerField()
 
+
+    class Meta:
+        verbose_name_plural = '1.2.1-بدهی های جاری'
+
+
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
@@ -220,6 +239,9 @@ class nonCurrentDebts(models.Model):
     nonCurrentPreReceivables = models.IntegerField()
     longTermFinancialFacility = models.IntegerField()
     storeOfWorkersEndServiceAdvantages = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '1.2.2-بدهی های غیر جاری'
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -239,6 +261,9 @@ class ownerInvestment(models.Model):
     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField()
     accumulatedProfitORLosses = models.IntegerField()
     sumOfOwnersInvestments = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '1.2.3-حقوق صاحبان سهم'
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -263,6 +288,9 @@ class incomeStatement(models.Model):  # Narenji rang ha
     earningsPerShareAfterTax = models.IntegerField()
     listedCapital = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '2-صورت سود و زیان'
+
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
@@ -280,6 +308,9 @@ class profitOrLoss(models.Model):
     incomeTaxExpenseContinuingOperations = models.IntegerField()
     profitOrLossFromDiscontinuedOperation = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '2.1-سود(زیان) خالص'
+
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
@@ -290,6 +321,9 @@ class basicEarningsLossPerShare(models.Model):
     basicEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '2.2-سود (زیان) پایه هر سهم'
+
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
@@ -299,6 +333,9 @@ class dilutedEarningsOrLossPerShare(models.Model):
     dilutedEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '2.3-سود (زیان) تقلیل یافته هر سهم'
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
@@ -312,6 +349,9 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
     changesInCapitalFromRetainedEarnings = models.IntegerField()
     transferFromOtherEquityItems = models.IntegerField()
     transferToStatutoryReserve = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '2.4-گردش حساب سود (زیان) انباشته'
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
