@@ -4,11 +4,4 @@
 venv
 __pycache__
 db.sqlite3
-bourse/migrations/0005_assets_relatedto.py
-bourse/migrations/0003_auto_20190623_2126.py
-bourse/migrations/0004_auto_20190623_2234.py
-bourse/migrations/0002_financialstatements_date.py
-.idea/workspace.xml
-.idea/workspace.xml
-bourse/migrations/0001_initial.py
-db.sqlite3
+bourse/migrations/
