@@ -405,6 +405,9 @@ class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
 class cashFlowsUsedInIncomeTax(models.Model):
     pass;
 
+    class Meta:
+        verbose_name_plural = '3.3-مالیات بر درآمد'
+
 
 class cashFlowsFromUsedInInvestingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -425,7 +428,7 @@ class cashFlowsFromUsedInInvestingActivities(models.Model):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
     class Meta:
-        verbose_name_plural = '3.3-فعالیت‌های سرمایه گذاری'
+        verbose_name_plural = '3.4-فعالیت‌های سرمایه گذاری'
 
 class cashFlowsFromUsedInFinancingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -443,7 +446,7 @@ class cashFlowsFromUsedInFinancingActivities(models.Model):
 
 
     class Meta:
-        verbose_name_plural = '3.4-فعالیت‌های تأمین مالی'
+        verbose_name_plural = '3.5-فعالیت‌های تأمین مالی'
 
 ############################ Dynamic Models ############################################
 # fields = {
