@@ -374,6 +374,8 @@ class cashFlow(models.Model):  # Narenji rang ha
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+    class Meta:
+        verbose_name_plural = '3-جریان وجوه نقد'
 
 class cashFlowsFromUsedInOperatingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -382,6 +384,9 @@ class cashFlowsFromUsedInOperatingActivities(models.Model):
 
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+    class Meta:
+        verbose_name_plural = '3.1-فعالیت‌های عملیاتی'
 
 
 class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
@@ -394,6 +399,8 @@ class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+    class Meta:
+        verbose_name_plural = '3.2-بازده سرمایه گذاری‌ها و سود پرداختی بابت تأمین مالی'
 
 class cashFlowsUsedInIncomeTax(models.Model):
     pass;
@@ -417,6 +424,8 @@ class cashFlowsFromUsedInInvestingActivities(models.Model):
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+    class Meta:
+        verbose_name_plural = '3.3-فعالیت‌های سرمایه گذاری'
 
 class cashFlowsFromUsedInFinancingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -432,6 +441,9 @@ class cashFlowsFromUsedInFinancingActivities(models.Model):
     def wasPublishedRecently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
+
+    class Meta:
+        verbose_name_plural = '3.4-فعالیت‌های تأمین مالی'
 
 ############################ Dynamic Models ############################################
 # fields = {
