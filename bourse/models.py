@@ -221,9 +221,6 @@ class incomeStatement(models.Model):  # Narenji rang ha
     class Meta:
         verbose_name_plural = '2-صورت سود و زیان'
 
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
 
 class profitOrLoss(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -240,9 +237,6 @@ class profitOrLoss(models.Model):
 
     class Meta:
         verbose_name_plural = '2.1-سود(زیان) خالص'
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class basicEarningsLossPerShare(models.Model):
@@ -294,15 +288,11 @@ class cashFlow(models.Model):  # Narenji rang ha
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     netCashFlowsFromUsedInOperatingActivities = models.IntegerField()
     netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField()
-    incomeTaxesPaid = models.IntegerField()
     netCashFlowsFromUsedInInvestingActivities = models.IntegerField()
     netCashFlowsFromUsedInBeforeFinancingActivities = models.IntegerField()
     netCashFlowsFromUsedInFinancingActivities = models.IntegerField()
     netIncreaseDecreaseInCash = models.IntegerField()
     cashAtEndOfPeriod = models.IntegerField()
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
     class Meta:
         verbose_name_plural = '3-جریان وجوه نقد'
@@ -311,9 +301,6 @@ class cashFlowsFromUsedInOperatingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField()
     netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField()
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
     class Meta:
         verbose_name_plural = '3.1-فعالیت‌های عملیاتی'
@@ -326,14 +313,12 @@ class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
     interestReceivedFromOtherInvestments = models.IntegerField()
     dividendsPaid = models.IntegerField()
 
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
     class Meta:
         verbose_name_plural = '3.2-بازده سرمایه گذاری‌ها و سود پرداختی بابت تأمین مالی'
 
 class cashFlowsUsedInIncomeTax(models.Model):
-    pass;
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    incomeTaxesPaid = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '3.3-مالیات بر درآمد'
@@ -354,9 +339,6 @@ class cashFlowsFromUsedInInvestingActivities(models.Model):
     proceedsFromSalesOfInvestmentProperty = models.IntegerField()
     purchaseOfInvestmentProperty = models.IntegerField()
 
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
     class Meta:
         verbose_name_plural = '3.4-فعالیت‌های سرمایه گذاری'
 
@@ -370,10 +352,6 @@ class cashFlowsFromUsedInFinancingActivities(models.Model):
     cashAtBeginningOfPeriod = models.IntegerField()
     effectOfExchangeRateChangesOnCash = models.IntegerField()
     NonCashTransactions = models.IntegerField()
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
 
     class Meta:
         verbose_name_plural = '3.5-فعالیت‌های تأمین مالی'
