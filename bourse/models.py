@@ -114,27 +114,6 @@ class debtsAndAssetsOwner(models.Model):
         verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم'
 
 
-
-    def was_published_recently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
-    # def __init__(self, *args, **kwargs):
-    #     super(debtsAndAssetsOwner, self).__init__(*args, **kwargs)
-    #     self.lastSumOfCurrentDebts = self.sumOfCurrentDebts
-    #     self.lastSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
-    #
-    # def save(self, *args, **kwargs):
-    #     if self.sumOfCurrentDebts != self.lastSumOfCurrentDebts:
-    #         if self.company.name == self.balanceSheet.company.name:
-    #             balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfCurrentDebts - self.lastSumOfCurrentDebts)
-    #     if self.sumOfNonCurrentDebts != self.lastSumOfNonCurrentDebts:
-    #         if self.company.name == self.balanceSheet.company.name:
-    #             balanceSheet.objects.filter(company__name=self.company.name).update(sumOfDebtsAndFundsOwner=F('sumOfDebtsAndFundsOwner') + self.sumOfNonCurrentDebts - self.lastSumOfNonCurrentDebts)
-    #     super(debtsAndAssetsOwner, self).save(*args, **kwargs)
-    #     self.lastSumOfCurrentDebts = self.sumOfCurrentDebts
-    #     self.lastSumOfNonCurrentDebts = self.sumOfNonCurrentDebts
-
-
 class currentAssets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     cash = models.IntegerField()
@@ -147,30 +126,6 @@ class currentAssets(models.Model):
 
     class Meta:
         verbose_name_plural = '1.1.1-دارایی ها جاری'
-
-    # assets = models.ForeignKey(assets, default=None, on_delete=models.CASCADE)
-    # lastCash = 0
-    # lastSalableAssets = 0
-
-    def was_published_recently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
-    # def __init__(self, *args, **kwargs):
-    #     super(currentAssets, self).__init__(*args, **kwargs)
-    #     self.lastCash = self.cash
-    #     self.lastSalableAssets = self.salableAssets
-    #
-    # def save(self, *args, **kwargs):
-    #     if self.cash != self.lastCash:
-    #         if self.company.name == self.assets.company.name:
-    #             assets.objects.filter(company__name=self.company.name).update(sumOfCurrentAssets=F('sumOfCurrentAssets') + self.cash - self.lastCash)
-    #     if self.salableAssets != self.lastSalableAssets:
-    #         if self.company.name == self.assets.company.name:
-    #             assets.objects.filter(company__name=self.company.name).update(sumOfCurrentAssets=F('sumOfCurrentAssets') + self.salableAssets - self.lastSalableAssets)
-    #     super(currentAssets, self).save(*args, **kwargs)
-    #     self.lastCash = self.cash
-    #     self.lastSalableAssets = self.salableAssets
-
 
 class nonCurrentAssets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
