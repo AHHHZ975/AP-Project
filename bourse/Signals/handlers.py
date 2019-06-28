@@ -68,3 +68,55 @@ def update_assets_sumOfNonCurrentAssets(**kwargs):
 
         assetsObject.save()
 
+########################## Update debtsAndAssetsOwner #############################
+@receiver(post_save, sender=currentDebts)
+def update_debtsAndAssetsOwner_sumOfCurrentDebts(**kwargs):
+    currentDebtsObject = kwargs['instance']
+    debtsAndAssetsOwnerObjects = debtsAndAssetsOwner.objects.filter(relatedTo=currentDebtsObject.relatedTo)
+    for debtsAndAssetsOwnerObject in debtsAndAssetsOwnerObjects:
+        debtsAndAssetsOwnerObject.sumOfCurrentDebts = debtsAndAssetsOwnerObject.sumOfCurrentDebts + \
+                                                      currentDebtsObject.commercialPayable + \
+                                                      currentDebtsObject.NonCommercialPayable + \
+                                                      currentDebtsObject.payableTaxes + \
+                                                      currentDebtsObject.payableDividends + \
+                                                      currentDebtsObject.financialFacility + \
+                                                      currentDebtsObject.resources + \
+                                                      currentDebtsObject.currentPreReceivables + \
+                                                      currentDebtsObject.debtsRelatedWithSalableAssets
+
+        debtsAndAssetsOwnerObject.save()
+
+
+@receiver(post_save, sender=nonCurrentDebts)
+def update_debtsAndAssetsOwner_sumOfNonCurrentDebts(**kwargs):
+    nonCurrentDebtsObject = kwargs['instance']
+    debtsAndAssetsOwnerObjects = debtsAndAssetsOwner.objects.filter(relatedTo=nonCurrentDebtsObject.relatedTo)
+    for debtsAndAssetsOwnerObject in debtsAndAssetsOwnerObjects:
+        debtsAndAssetsOwnerObject.sumOfNonCurrentDebts = debtsAndAssetsOwnerObject.sumOfNonCurrentDebts + \
+                                                      nonCurrentDebtsObject.longTermPayable + \
+                                                      nonCurrentDebtsObject.nonCurrentPreReceivables + \
+                                                      nonCurrentDebtsObject.longTermFinancialFacility + \
+                                                      nonCurrentDebtsObject.storeOfWorkersEndServiceAdvantages
+
+
+        debtsAndAssetsOwnerObject.save()
+
+@receiver(post_save, sender=ownerInvestment)
+def update_debtsAndAssetsOwner_sumOfOwnersInvestments(**kwargs):
+    ownerInvestmentObject = kwargs['instance']
+    debtsAndAssetsOwnerObjects = debtsAndAssetsOwner.objects.filter(relatedTo=ownerInvestmentObject.relatedTo)
+    for debtsAndAssetsOwnerObject in debtsAndAssetsOwnerObjects:
+        debtsAndAssetsOwnerObject.sumOfOwnersInvestments = debtsAndAssetsOwnerObject.sumOfOwnersInvestments + \
+                                                           ownerInvestmentObject.assets + \
+                                                           ownerInvestmentObject.increaseORDecreaseOfInProcessAssets + \
+                                                           ownerInvestmentObject.stockSpends + \
+                                                           ownerInvestmentObject.treasuryStocks + \
+                                                           ownerInvestmentObject.legalSavings + \
+                                                           ownerInvestmentObject.otherSavings + \
+                                                           ownerInvestmentObject.RevaluationSurplusOfHeldForSaleAssets + \
+                                                           ownerInvestmentObject.RevaluationSurplusOfAssets + \
+                                                           ownerInvestmentObject.DifferenceInTheConvergenceDueToConversionToReportingCurrency + \
+                                                           ownerInvestmentObject.ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises + \
+                                                           ownerInvestmentObject.accumulatedProfitORLosses
+        debtsAndAssetsOwnerObject.save()
+

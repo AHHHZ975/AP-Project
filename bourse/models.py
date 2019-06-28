@@ -109,6 +109,7 @@ class debtsAndAssetsOwner(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     sumOfCurrentDebts = models.IntegerField()
     sumOfNonCurrentDebts = models.IntegerField()
+    sumOfOwnersInvestments = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم'
@@ -190,7 +191,6 @@ class ownerInvestment(models.Model):
     DifferenceInTheConvergenceDueToConversionToReportingCurrency = models.IntegerField()
     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField()
     accumulatedProfitORLosses = models.IntegerField()
-    sumOfOwnersInvestments = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '1.2.3-حقوق صاحبان سهم'
