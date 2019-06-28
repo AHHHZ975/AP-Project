@@ -86,12 +86,8 @@ class performanceIndexes(models.Model):
 ## Consolidated Balance Sheet (Tarazname) ##
 class balanceSheet(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-
     sumOfAssets = models.IntegerField(null=True)
     sumOfDebtsAndFundsOwner = models.IntegerField()
-
-    def was_published_recently(self):
-        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
     class Meta:
         verbose_name_plural = '1-ترازنامه'
@@ -101,31 +97,12 @@ class assets(models.Model):
     sumOfCurrentAssets = models.IntegerField()
     sumOfNonCurrentAssets = models.IntegerField()
 
-    # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    # lastSumOfCurrentAssets = 0
-    # lastSumOfNonCurrentAssets = 0
-
     class Meta:
         verbose_name_plural = '1.1-دارایی ها'
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
-    # def __init__(self, *args, **kwargs):
-    #     super(assets, self).__init__(*args, **kwargs)
-    #     self.lastSumOfCurrentAssets = self.sumOfCurrentAssets
-    #     self.lastSumOfNonCurrentAssets = self.sumOfNonCurrentAssets
-    #
-    # def save(self, *args, **kwargs):
-    #     if self.sumOfCurrentAssets != self.lastSumOfCurrentAssets:
-    #         if self.company.name == self.balanceSheet.company.name:
-    #             balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfCurrentAssets - self.lastSumOfCurrentAssets)
-    #     if self.sumOfNonCurrentAssets != self.lastSumOfNonCurrentAssets:
-    #         if self.company.name == self.balanceSheet.company.name:
-    #             balanceSheet.objects.filter(company__name=self.company.name).update(sumOfAssets=F('sumOfAssets') + self.sumOfNonCurrentAssets - self.lastSumOfNonCurrentAssets)
-    #     super(assets, self).save(*args, **kwargs)
-    #     self.lastSumOfCurrentAssets = self.sumOfCurrentAssets
-    #     self.lastlSumOfNonCurrentAssets = self.sumOfNonCurrentAssets
 
 
 class debtsAndAssetsOwner(models.Model):
@@ -136,9 +113,7 @@ class debtsAndAssetsOwner(models.Model):
     class Meta:
         verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم'
 
-    # balanceSheet = models.ForeignKey(balanceSheet, default=None, on_delete=models.CASCADE)
-    # lastSumOfCurrentDebts = 0
-    # lastSumOfNonCurrentDebts = 0
+
 
     def was_published_recently(self):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
