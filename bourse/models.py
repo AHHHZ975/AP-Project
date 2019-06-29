@@ -401,3 +401,77 @@ for i in range(len(columns)):
 
     admin.site.register(Dynamic_Model)
 
+##############################################  BANK    ###################################################
+
+
+class balanceSheet_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    totalAssets = models.IntegerField(verbose_name='جمع دارایی‌ها')
+    totalequityAndLiabilities = models.IntegerField(verbose_name='جمع بدهی‌ها و حقوق صاحبان سهام')
+
+    class Meta:
+        verbose_name_plural = '1-(بانک ها)ترازنامه'
+
+class assets_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    cash = models.IntegerField(verbose_name=' موجودی نقد ')
+    cashAndBankBalancesAtCentralBanks = models.IntegerField(verbose_name=' مطالبات از بانک‌های مرکزی ')
+    loansAndAdvancesToBanks = models.IntegerField(verbose_name=' مطالبات از بانک‌ها و سایر موسسات اعتباری ')
+    receivablesFromGovernment = models.IntegerField(verbose_name=' مطالبات از دولت ')
+    loansAndReceivablesFromGovernmentalPartiesOtherThanBanks = models.IntegerField(verbose_name=' تسهیلات اعطایی و مطالبات از اشخاص دولتی به غیر از بانک‌ها ')
+    loansAndReceivablesFromNonGovernmentalPartiesOtherThanBanks = models.IntegerField(verbose_name=' تسهیلات اعطایی و مطالبات از اشخاص غیردولتی به غیر از بانک‌ها ')
+    investmentInSecurities = models.IntegerField(verbose_name=' سرمایه‌گذاری در سهام و سایر اوراق بهادار ')
+    otherReceivables = models.IntegerField(verbose_name=' سایر حساب‌ها و اسناد دریافتنی ')
+    investmentProperty = models.IntegerField(verbose_name=' سرمایه‌گذاری در املاک ')
+    intangibleAssetsOtherThanGoodwill = models.IntegerField(verbose_name=' دارایی‌های نامشهود ')
+    propertyPlantAndEquipment = models.IntegerField(verbose_name=' دارایی‌های ثابت مشهود ')
+    totalCurrentAssets = models.IntegerField(verbose_name=' دارایی‌های نگهداری شده برای فروش ')
+    otherAssets = models.IntegerField(verbose_name=' سایر دارایی‌ها ')
+
+
+    class Meta:
+        verbose_name_plural = '1.1-(بانک ها)دارایی ها'
+
+    def wasPublishedRecently(self):
+        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
+
+class debts_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    liabilitiesDueToCentralBanks = models.IntegerField(verbose_name=' بدهی به بانک مرکزی و صندوق توسعه ملی ')
+    depositsFromBanksAndOtherFinancialInstitutions = models.IntegerField(verbose_name=' بدهی به بانک‌ها و سایر موسسات اعتباری ')
+    balancesOnDemandDepositsFromCustomers = models.IntegerField(verbose_name=' سپرده‌های دیداری و مشابه ')
+    balancesOnSavingDepositsFromCustomers = models.IntegerField(verbose_name=' سپرده‌های پس‌انداز و مشابه ')
+    balancesOnTermDepositsFromCustomers = models.IntegerField(verbose_name=' سپرده‌های سرمایه‌گذاری مدت‌دار ')
+    balancesOnOtherDepositsFromCustomers = models.IntegerField(verbose_name=' سایر سپرده‌ها ')
+    currentTaxLiabilities = models.IntegerField(verbose_name=' مالیات پرداختنی ')
+    dividendPayables = models.IntegerField(verbose_name=' سود سهام پرداختنی ')
+    provisions = models.IntegerField(verbose_name='ذخایر')
+    provisionsForEmployeeBenefits = models.IntegerField(verbose_name=' ذخیره مزایای پایان خدمت کارکنان ')
+    liabilitiesIncludedInDisposalGroupsClassifiedAsHeldForSale = models.IntegerField(verbose_name=' بدهی‌های مرتبط با دارایی‌های نگهداری شده برای فروش ')
+    otherLiabilities = models.IntegerField(verbose_name=' سایر بدهی‌ها ')
+    totalLiabilities = models.IntegerField(verbose_name=' جمع بدهی‌ها ')
+
+    class Meta:
+        verbose_name_plural = '2.1-(بانک ها)بدهی های جاری'
+
+
+class ownerInvestment_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    issuedCapital = models.IntegerField(verbose_name=' سرمایه ')
+    inProcessCapitalIncrease = models.IntegerField(verbose_name=' افزایش (کاهش) سرمایه در جریان ')
+    sharePremium = models.IntegerField(verbose_name=' صرف (کسر) سهام ')
+    treasuryShares = models.IntegerField(verbose_name=' سهام خزانه ')
+    statutoryReserve = models.IntegerField(verbose_name=' اندوخته قانونی ')
+    otherReserves = models.IntegerField(verbose_name=' سایر اندوخته‌ها ')
+    revaluationSurplusOfNonCurrentAssetsHeldForSale = models.IntegerField(verbose_name=' مازاد تجدید ارزیابی دارایی‌های نگهداری شده برای فروش ')
+    revaluationSurplus = models.IntegerField(verbose_name=' مازاد تجدید ارزیابی دارایی‌ها ')
+    exchangeDifferencesOnTranslation = models.IntegerField(verbose_name=' تفاوت تسعیر ناشی از تبدیل به واحد پول گزارشگری ')
+    exchangeReserveForGovernmentalCorporationsAssetsAndLiabilities = models.IntegerField(verbose_name=' اندوخته تسعیر ارز دارایی‌ها و بدهی‌های شرکت‌های دولتی ')
+    retainedEarnings = models.IntegerField(verbose_name=' سود (زیان) انباشته ')
+    totalEquity = models.IntegerField(verbose_name=' جمع حقوق صاحبان سهام ')
+
+    class Meta:
+        verbose_name_plural = '2.1-(بانک ها)حقوق صاحبان سهم'
+
+
