@@ -128,6 +128,7 @@ class currentAssets(models.Model):
     class Meta:
         verbose_name_plural = '1.1.1-دارایی ها جاری'
 
+
 class nonCurrentAssets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     longTermInvestments = models.IntegerField()
@@ -276,6 +277,7 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
 
     class Meta:
         verbose_name_plural = '2.4-گردش حساب سود (زیان) انباشته'
+
 
 
 ## Cash Flow (jaryan vojooh naghd) ##

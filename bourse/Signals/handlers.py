@@ -128,28 +128,144 @@ def update_cashFlow_cashAtEndOfPeriod_byCashFlowsFromUsedInFinancingActivities(*
     cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowsFromUsedInFinancingActivitiesObject.relatedTo)
     for cashFlowObject in cashFlowObjects:
         cashFlowObject.cashAtEndOfPeriod = cashFlowObject.cashAtEndOfPeriod + \
-                                           cashFlowsFromUsedInFinancingActivities.cashAtBeginningOfPeriod
+                                           cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromIssuingShares + \
+                                           cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromSalesOrIssueOfTreasuryShares + \
+                                           cashFlowsFromUsedInFinancingActivitiesObject.paymentsForPurchaseOfTreasuryShares + \
+                                           cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromBorrowingsClassifiedAsFinancingActivities + \
+                                           cashFlowsFromUsedInFinancingActivitiesObject.repaymentsOfBorrowingsClassifiedAsFinancingActivities + \
+                                           cashFlowsFromUsedInFinancingActivitiesObject.cashAtBeginningOfPeriod
         cashFlowObject.save()
 
-# @receiver(post_save, sender=cashFlow)
-# def update_cashFlow_cashAtEndOfPeriod_byCashFlow(**kwargs):
-#     cashFlowPrimeObject = kwargs['instance']
-#     cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowPrimeObject.relatedTo)
-#     for cashFlowObject in cashFlowObjects:
-#         cashFlowObject.cashAtEndOfPeriod = cashFlowObject.cashAtEndOfPeriod + \
-#                                            cashFlowPrimeObject.netIncreaseDecreaseInCash
-#         cashFlowObject.save()
-#
 
-# @receiver(post_save, sender=cashFlow)
-# def update_cashFlow_netIncreaseDecreaseInCash(**kwargs):
-#     cashFlowPrimeObject = kwargs['instance']
-#     cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowPrimeObject.relatedTo)
-#     for cashFlowObject in cashFlowObjects:
-#         cashFlowObject.netIncreaseDecreaseInCash = cashFlowObject.netIncreaseDecreaseInCash + \
-#                                                    cashFlowPrimeObject.netCashFlowsFromUsedInFinancingActivities + \
-#                                                    cashFlowPrimeObject.netCashFlowsFromUsedInBeforeFinancingActivities
-#         cashFlowObject.save()
+@receiver(post_save, sender=cashFlowsFromUsedInInvestingActivities)
+def update_cashFlow_cashAtEndOfPeriod_byCashFlowsFromUsedInInvestingActivities(**kwargs):
+    cashFlowsFromUsedInInvestingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowsFromUsedInInvestingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.cashAtEndOfPeriod = cashFlowObject.cashAtEndOfPeriod + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfNonCurrentInvestments + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.facilitiesGrantedToIndividuals + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.extraditionFacilitiesGrantedToIndividuals + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfNonCurrentInvestments + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfCurrentInvestments + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfCurrentInvestments + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfInvestmentProperty + \
+                                           cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfInvestmentProperty
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=investmentReturnsAndPaymentsOnFinancingCosts)
+def update_cashFlow_cashAtEndOfPeriod_byInvestmentReturnsAndPaymentsOnFinancingCosts(**kwargs):
+    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.cashAtEndOfPeriod = cashFlowObject.cashAtEndOfPeriod + \
+                                           netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsReceived + \
+                                           netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestPaidOrBorrowing + \
+                                           netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestReceivedFromOtherInvestments + \
+                                           netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsPaid
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInOperatingActivities)
+def update_cashFlow_cashAtEndOfPeriod_byCashFlowsFromUsedInOperatingActivities(**kwargs):
+    netCashFlowsFromUsedInOperatingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInOperatingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.cashAtEndOfPeriod = cashFlowObject.cashAtEndOfPeriod + \
+                                           netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesOrdinary  + \
+                                           netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesExceptional
+        cashFlowObject.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInFinancingActivities)
+def update_cashFlow_netIncreaseDecreaseInCash_byCashFlowsFromUsedInFinancingActivities(**kwargs):
+    cashFlowsFromUsedInFinancingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowsFromUsedInFinancingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netIncreaseDecreaseInCash = cashFlowObject.netIncreaseDecreaseInCash + \
+                                                   cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromIssuingShares + \
+                                                   cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromSalesOrIssueOfTreasuryShares + \
+                                                   cashFlowsFromUsedInFinancingActivitiesObject.paymentsForPurchaseOfTreasuryShares + \
+                                                   cashFlowsFromUsedInFinancingActivitiesObject.proceedsFromBorrowingsClassifiedAsFinancingActivities + \
+                                                   cashFlowsFromUsedInFinancingActivitiesObject.repaymentsOfBorrowingsClassifiedAsFinancingActivities
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInInvestingActivities)
+def update_cashFlow_netIncreaseDecreaseInCash_byCashFlowsFromUsedInInvestingActivities(**kwargs):
+    cashFlowsFromUsedInInvestingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowsFromUsedInInvestingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netIncreaseDecreaseInCash = cashFlowObject.netIncreaseDecreaseInCash + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfNonCurrentInvestments + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.facilitiesGrantedToIndividuals + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.extraditionFacilitiesGrantedToIndividuals + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfNonCurrentInvestments + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfCurrentInvestments + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfCurrentInvestments + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfInvestmentProperty + \
+                                                   cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfInvestmentProperty
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=investmentReturnsAndPaymentsOnFinancingCosts)
+def update_cashFlow_netIncreaseDecreaseInCash_byInvestmentReturnsAndPaymentsOnFinancingCosts(**kwargs):
+    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netIncreaseDecreaseInCash = cashFlowObject.netIncreaseDecreaseInCash + \
+                                                   netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsReceived + \
+                                                   netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestPaidOrBorrowing + \
+                                                   netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestReceivedFromOtherInvestments + \
+                                                   netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsPaid
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInOperatingActivities)
+def update_cashFlow_netIncreaseDecreaseInCash_byCashFlowsFromUsedInOperatingActivities(**kwargs):
+    netCashFlowsFromUsedInOperatingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInOperatingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netIncreaseDecreaseInCash = cashFlowObject.netIncreaseDecreaseInCash + \
+                                                   netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesOrdinary  + \
+                                                   netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesExceptional
+        cashFlowObject.save()
+
+
+
+
+
+
+
+
+
+
 
 @receiver(post_save, sender=cashFlowsFromUsedInFinancingActivities)
 def update_cashFlow_netCashFlowsFromUsedInFinancingActivities(**kwargs):
@@ -165,16 +281,67 @@ def update_cashFlow_netCashFlowsFromUsedInFinancingActivities(**kwargs):
         cashFlowObject.save()
 
 
-# @receiver(post_save, sender=cashFlow)
-# def update_cashFlow_netCashFlowsFromUsedInBeforeFinancingActivities(**kwargs):
-#     cashFlowPrimeObject = kwargs['instance']
-#     cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowPrimeObject.relatedTo)
-#     for cashFlowObject in cashFlowObjects:
-#         cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities  = cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities  + \
-#                                                                           cashFlowPrimeObject.netCashFlowsFromUsedInInvestingActivities + \
-#                                                                           cashFlowPrimeObject.netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts + \
-#                                                                           cashFlowPrimeObject.netCashFlowsFromUsedInOperatingActivities
-#         cashFlowObject.save()
+
+
+
+
+
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInInvestingActivities)
+def update_cashFlow_netCashFlowsFromUsedInBeforeFinancingActivities_byCashFlowsFromUsedInInvestingActivities(**kwargs):
+    cashFlowsFromUsedInInvestingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=cashFlowsFromUsedInInvestingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities = cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfNonCurrentInvestments + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.facilitiesGrantedToIndividuals + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.extraditionFacilitiesGrantedToIndividuals + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfNonCurrentInvestments + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfCurrentInvestments + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfCurrentInvestments + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.proceedsFromSalesOfInvestmentProperty + \
+                                                                         cashFlowsFromUsedInInvestingActivitiesObject.purchaseOfInvestmentProperty
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=investmentReturnsAndPaymentsOnFinancingCosts)
+def update_cashFlow_netCashFlowsFromUsedInBeforeFinancingActivities_byInvestmentReturnsAndPaymentsOnFinancingCosts(**kwargs):
+    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities = cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities + \
+                                                                         netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsReceived + \
+                                                                         netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestPaidOrBorrowing + \
+                                                                         netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.interestReceivedFromOtherInvestments + \
+                                                                         netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCostsObject.dividendsPaid
+        cashFlowObject.save()
+
+
+@receiver(post_save, sender=cashFlowsFromUsedInOperatingActivities)
+def update_cashFlow_netCashFlowsFromUsedInBeforeFinancingActivities_byCashFlowsFromUsedInOperatingActivities(**kwargs):
+    netCashFlowsFromUsedInOperatingActivitiesObject = kwargs['instance']
+    cashFlowObjects = cashFlow.objects.filter(relatedTo=netCashFlowsFromUsedInOperatingActivitiesObject.relatedTo)
+    for cashFlowObject in cashFlowObjects:
+        cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities = cashFlowObject.netCashFlowsFromUsedInBeforeFinancingActivities + \
+                                                                         netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesOrdinary  + \
+                                                                         netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesExceptional
+        cashFlowObject.save()
+
+
+
+
+
+
+
+
+
+
+
 
 
 @receiver(post_save, sender=cashFlowsFromUsedInInvestingActivities)
