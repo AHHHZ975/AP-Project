@@ -29,9 +29,9 @@ class FinancialStatements(models.Model):
     # id = models.IntegerField(primary_key=True)
     companyName = models.CharField('نام شرکت', max_length=32, default="")
 
-    type_audit = models.CharField('نوع حسابرسی', max_length=16, choices=TYPES_AUDIT, blank=False, default="")
+    type_audit = models.CharField('نوع حسابرسی', max_length=16, choices=TYPES_AUDIT, blank=True, default="")
     type_date = models.CharField('بازه', max_length=2, choices=TYPES_DATE, blank=False, default="")
-    type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=False,
+    type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=True,
                                          default="")
     # endTo = models.DateField('End to', default=timezone.now)
     endTo = jmodels.jDateField('منتهی به', default="")
@@ -369,6 +369,13 @@ column2 = ['قراردادها->تاریخ عقد قرارداد', 'قراردا
            'درآمد شناسایی شده->درآمد شناسایی شده از اول سال مالی تا پایان دوره مالی منتهی به 1398/01/31',
            'درآمد شناسایی شده->درامد شناسایی شده تا پایان دوره مالی منتهی به 1397/12/29',
            ]
+
+# column3 = ['نام محصول', 'واحد' , 'از ابتدای سال مالی تا پایان مورخ 1398/02/31->مقدار/تعداد تولید',
+#            'از ابتدای سال مالی تا پایان مورخ 1398/02/31->مقدار/تعداد فروش',
+#            ... ,
+#            'مقدار/تعداد تولید->مقدار/تعداد فروش',
+#            'مقدار/تعداد تولید->مقدار/تعداد فروش',
+#            ...]
 
 # example for single dynamic model
 # fields = dict()
