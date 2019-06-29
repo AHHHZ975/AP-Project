@@ -283,21 +283,22 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
 
 class cashFlow(models.Model):  # Narenji rang ha
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    netCashFlowsFromUsedInOperatingActivities = models.IntegerField()
-    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField()
-    netCashFlowsFromUsedInInvestingActivities = models.IntegerField()
-    netCashFlowsFromUsedInBeforeFinancingActivities = models.IntegerField()
-    netCashFlowsFromUsedInFinancingActivities = models.IntegerField()
-    netIncreaseDecreaseInCash = models.IntegerField()
-    cashAtEndOfPeriod = models.IntegerField()
+    netCashFlowsFromUsedInOperatingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی')
+    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از بازده سرمایه‌گذاری‌ها و سود پرداختی بابت تأمین مالی')
+    # Income taxes paid = ...
+    netCashFlowsFromUsedInInvestingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های سرمایه‌گذاری')
+    netCashFlowsFromUsedInBeforeFinancingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد قبل از فعالیت‌های تأمین مالی')
+    netCashFlowsFromUsedInFinancingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های تأمین مالی')
+    netIncreaseDecreaseInCash = models.IntegerField(verbose_name='خالص افزایش (کاهش) در موجودی نقد')
+    cashAtEndOfPeriod = models.IntegerField(verbose_name='موجودی نقد در پایان دوره')
 
     class Meta:
         verbose_name_plural = '3-جریان وجوه نقد'
 
 class cashFlowsFromUsedInOperatingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField()
-    netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField()
+    netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی- عادی')
+    netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی')
 
     class Meta:
         verbose_name_plural = '3.1-فعالیت‌های عملیاتی'
@@ -305,17 +306,17 @@ class cashFlowsFromUsedInOperatingActivities(models.Model):
 
 class investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    dividendsReceived = models.IntegerField()
-    interestPaidOrBorrowing = models.IntegerField()
-    interestReceivedFromOtherInvestments = models.IntegerField()
-    dividendsPaid = models.IntegerField()
+    dividendsReceived = models.IntegerField(verbose_name='سود سهام دریافتی')
+    interestPaidOrBorrowing = models.IntegerField(verbose_name='سود پرداختی بابت استقراض')
+    interestReceivedFromOtherInvestments = models.IntegerField(verbose_name='سود دریافتی بابت سایر سرمایه‌گذاری‌ها')
+    dividendsPaid = models.IntegerField(verbose_name='سود سهام پرداختی')
 
     class Meta:
         verbose_name_plural = '3.2-بازده سرمایه گذاری‌ها و سود پرداختی بابت تأمین مالی'
 
 class cashFlowsUsedInIncomeTax(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    incomeTaxesPaid = models.IntegerField()
+    incomeTaxesPaid = models.IntegerField(verbose_name='مالیات بر درآمد پرداختی')
 
     class Meta:
         verbose_name_plural = '3.3-مالیات بر درآمد'
@@ -323,32 +324,33 @@ class cashFlowsUsedInIncomeTax(models.Model):
 
 class cashFlowsFromUsedInInvestingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
-    purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField()
-    proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = models.IntegerField()
-    purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities = models.IntegerField()
-    proceedsFromSalesOfNonCurrentInvestments = models.IntegerField()
-    facilitiesGrantedToIndividuals = models.IntegerField()
-    extraditionFacilitiesGrantedToIndividuals = models.IntegerField()
-    purchaseOfNonCurrentInvestments = models.IntegerField()
-    proceedsFromSalesOfCurrentInvestments = models.IntegerField()
-    purchaseOfCurrentInvestments = models.IntegerField()
-    proceedsFromSalesOfInvestmentProperty = models.IntegerField()
-    purchaseOfInvestmentProperty = models.IntegerField()
+    proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش دارایی‌های ثابت مشهود')
+    purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید دارایی‌های ثابت مشهود')
+    proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش دارایی‌های نامشهود')
+    purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید دارایی‌های نامشهود‌')
+    proceedsFromSalesOfNonCurrentInvestments = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌های بلندمدت')
+    facilitiesGrantedToIndividuals = models.IntegerField(verbose_name='تسهیلات اعطایی به اشخاص')
+    extraditionFacilitiesGrantedToIndividuals = models.IntegerField(verbose_name='استرداد تسهیلات اعطایی به اشخاص')
+    purchaseOfNonCurrentInvestments = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری‌های بلندمدت')
+    proceedsFromSalesOfCurrentInvestments = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌های کوتاه‌مدت')
+    purchaseOfCurrentInvestments = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری‌های کوتاه‌مدت')
+    proceedsFromSalesOfInvestmentProperty = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌ در املاک')
+    purchaseOfInvestmentProperty = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری در املاک')
 
     class Meta:
         verbose_name_plural = '3.4-فعالیت‌های سرمایه گذاری'
 
+
 class cashFlowsFromUsedInFinancingActivities(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    proceedsFromIssuingShares = models.IntegerField()
-    proceedsFromSalesOrIssueOfTreasuryShares = models.IntegerField()
-    paymentsForPurchaseOfTreasuryShares = models.IntegerField()
-    proceedsFromBorrowingsClassifiedAsFinancingActivities = models.IntegerField()
-    repaymentsOfBorrowingsClassifiedAsFinancingActivities = models.IntegerField()
-    cashAtBeginningOfPeriod = models.IntegerField()
-    effectOfExchangeRateChangesOnCash = models.IntegerField()
-    NonCashTransactions = models.IntegerField()
+    proceedsFromIssuingShares = models.IntegerField(verbose_name='وجوه دریافتی حاصل از افزایش سرمایه')
+    proceedsFromSalesOrIssueOfTreasuryShares = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سهام خزانه')
+    paymentsForPurchaseOfTreasuryShares = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سهام خزانه')
+    proceedsFromBorrowingsClassifiedAsFinancingActivities = models.IntegerField(verbose_name='وجوه دریافتی حاصل از استقراض')
+    repaymentsOfBorrowingsClassifiedAsFinancingActivities = models.IntegerField(verbose_name='بازپرداخت اصل استقراض')
+    cashAtBeginningOfPeriod = models.IntegerField(verbose_name='موجودی نقد در ابتدای دوره')
+    effectOfExchangeRateChangesOnCash = models.IntegerField(verbose_name='تآثیر تغییرات نرخ ارز')
+    NonCashTransactions = models.IntegerField(verbose_name='مبادلات غیرنقدی')
 
     class Meta:
         verbose_name_plural = '3.5-فعالیت‌های تأمین مالی'
