@@ -221,3 +221,5 @@ def update_cashFlow_netCashFlowsFromUsedInOperatingActivities(**kwargs):
                                                                    netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesOrdinary  + \
                                                                    netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesExceptional
         cashFlowObject.save()
+
+###########################

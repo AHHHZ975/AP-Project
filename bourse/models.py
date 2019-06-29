@@ -224,14 +224,15 @@ class incomeStatement(models.Model):  # Narenji rang ha
 
 class profitOrLoss(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    Revenue = models.IntegerField()
-    costOfSales = models.IntegerField()
+    operationIncomes = models.IntegerField()
+    costOfOperationIncomes = models.IntegerField()
     distributionAndAdministrativeExpense = models.IntegerField()
     otherIncome = models.IntegerField()
     otherExpense = models.IntegerField()
     financeCosts = models.IntegerField()
     otherNonOperatingIncomeAndExpensesIncomeInvestments = models.IntegerField()
-    OtherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField()
+    otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField()
+    taxPerIncome = models.IntegerField()
     incomeTaxExpenseContinuingOperations = models.IntegerField()
     profitOrLossFromDiscontinuedOperation = models.IntegerField()
 
@@ -244,12 +245,12 @@ class basicEarningsLossPerShare(models.Model):
     basicEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     basicEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
+    basicEarningsOrLossPerShare = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '2.2-سود (زیان) پایه هر سهم'
 
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
 
 
 class dilutedEarningsOrLossPerShare(models.Model):
@@ -257,12 +258,11 @@ class dilutedEarningsOrLossPerShare(models.Model):
     dilutedEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField()
     dilutedEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField()
+    dilutedEarningsOrLossPerShare = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '2.3-سود (زیان) تقلیل یافته هر سهم'
 
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 class statementOfIncomeAndRetainedEarnings(models.Model):
@@ -273,12 +273,10 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
     changesInCapitalFromRetainedEarnings = models.IntegerField()
     transferFromOtherEquityItems = models.IntegerField()
     transferToStatutoryReserve = models.IntegerField()
+    transferToOtherReserve = models.IntegerField()
 
     class Meta:
         verbose_name_plural = '2.4-گردش حساب سود (زیان) انباشته'
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 ## Cash Flow (jaryan vojooh naghd) ##
