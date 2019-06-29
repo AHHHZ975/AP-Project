@@ -15,6 +15,47 @@ def company(request):
     contents = {'form': form}
     return render(request, "form.html", context=contents)
 
+
+def tablesFromDB(request):
+    financialStatementsList = models.FinancialStatements.objects.all()
+    assetsList = models.assets.objects.all()
+    balanceSheetsList = models.balanceSheet.objects.all()
+    debtsAndAssetsOwnersList = models.debtsAndAssetsOwner.objects.all()
+    currentAssetsList = models.currentAssets.objects.all()
+    nonCurrentAssetsList = models.nonCurrentAssets.objects.all()
+    currentDebtsList = models.currentDebts.objects.all()
+    nonCurrentDebtsList = models.nonCurrentDebts.objects.all()
+    ownerInvestmentsList = models.ownerInvestment.objects.all()
+    incomeStatementsList = models.incomeStatement.objects.all()
+    profitOrLossesList = models.profitOrLoss.objects.all()
+    basicEarningsLossPerSharesList = models.basicEarningsLossPerShare.objects.all()
+    dilutedEarningsOrLossPerSharesList = models.dilutedEarningsOrLossPerShare.objects.all()
+    statementOfIncomeAndRetainedEarningsList = models.statementOfIncomeAndRetainedEarnings.objects.all()
+    cashFlowsList = models.cashFlow.objects.all()
+    cashFlowsFromUsedInOperatingActivitiesList = models.cashFlowsFromUsedInOperatingActivities.objects.all()
+    investmentReturnsAndPaymentsOnFinancingCostsList = models.investmentReturnsAndPaymentsOnFinancingCosts.objects.all()
+    cashFlowsFromUsedInInvestingActivitiesList = models.cashFlowsFromUsedInInvestingActivities.objects.all()
+    cashFlowsFromUsedInFinancingActivitiesList = models.cashFlowsFromUsedInFinancingActivities.objects.all()
+    cashFlowsUsedInIncomeTaxesList = models.cashFlowsUsedInIncomeTax.objects.all()
+
+    content = {'financialStatementsLists': financialStatementsList, 'assets': assetsList,
+               'balanceSheets': balanceSheetsList, 'debtsAndAssetsOwners': debtsAndAssetsOwnersList,
+               'currentAssets': currentAssetsList, 'nonCurrentAssets': nonCurrentAssetsList,
+               'currentDebts': currentDebtsList,
+               'nonCurrentDebts': nonCurrentDebtsList, 'ownerInvestments': ownerInvestmentsList,
+               'incomeStatements': incomeStatementsList, 'profitOrLosses': profitOrLossesList,
+               'basicEarningsLossPerShares': basicEarningsLossPerSharesList,
+               'dilutedEarningsOrLossPerShares': dilutedEarningsOrLossPerSharesList,
+               'statementOfIncomeAndRetainedEarnings': statementOfIncomeAndRetainedEarningsList,
+               'cashFlows': cashFlowsList,
+               'cashFlowsFromUsedInOperatingActivities': cashFlowsFromUsedInOperatingActivitiesList,
+               'investmentReturnsAndPaymentsOnFinancingCosts': investmentReturnsAndPaymentsOnFinancingCostsList,
+               'cashFlowsUsedInIncomeTaxes': cashFlowsUsedInIncomeTaxesList,
+               'cashFlowsFromUsedInInvestingActivities': cashFlowsFromUsedInInvestingActivitiesList,
+               'cashFlowsFromUsedInFinancingActivities': cashFlowsFromUsedInFinancingActivitiesList
+               }
+    return render(request, "tables.html", context=content)
+
 def assetsFromDB(request):
     assetsList = models.assets.objects.all()
     content = {'assets': assetsList}
