@@ -222,4 +222,167 @@ def update_cashFlow_netCashFlowsFromUsedInOperatingActivities(**kwargs):
                                                                    netCashFlowsFromUsedInOperatingActivitiesObject.netCashFlowsFromUsedInOperatingActivitiesExceptional
         cashFlowObject.save()
 
-###########################
+########################### Update incomeStatement ####################
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_grossProfit(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.grossProfit = incomeStatementObjects.grossProfit + \
+                                             profitOrLossObject.operationIncomes + \
+                                             profitOrLossObject.costOfOperationIncomes
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_profitOrLossFromOperatingActivities(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.profitOrLossFromOperatingActivities = incomeStatementObjects.profitOrLossFromOperatingActivities + \
+                                                                     profitOrLossObject.operationIncomes + \
+                                                                     profitOrLossObject.costOfOperationIncomes + \
+                                                                     profitOrLossObject.distributionAndAdministrativeExpense + \
+                                                                     profitOrLossObject.otherIncome + \
+                                                                     profitOrLossObject.otherExpense
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_profitOrLossBeforeTax(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.profitOrLossBeforeTax = incomeStatementObjects.profitOrLossBeforeTax + \
+                                                       profitOrLossObject.operationIncomes + \
+                                                       profitOrLossObject.costOfOperationIncomes + \
+                                                       profitOrLossObject.distributionAndAdministrativeExpense + \
+                                                       profitOrLossObject.otherIncome + \
+                                                       profitOrLossObject.otherExpense + \
+                                                       profitOrLossObject.financeCosts + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesIncomeInvestments + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesMiscellaneousItems
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_profitOrLoss(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.profitOrLoss = incomeStatementObjects.profitOrLoss + \
+                                              profitOrLossObject.operationIncomes + \
+                                              profitOrLossObject.costOfOperationIncomes + \
+                                              profitOrLossObject.distributionAndAdministrativeExpense + \
+                                              profitOrLossObject.otherIncome + \
+                                              profitOrLossObject.otherExpense + \
+                                              profitOrLossObject.financeCosts + \
+                                              profitOrLossObject.otherNonOperatingIncomeAndExpensesIncomeInvestments + \
+                                              profitOrLossObject.otherNonOperatingIncomeAndExpensesMiscellaneousItems + \
+                                              profitOrLossObject.taxPerIncome + \
+                                              profitOrLossObject.profitLossFromContinuingOperations + \
+                                              profitOrLossObject.profitOrLossFromDiscontinuedOperation
+
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=statementOfIncomeAndRetainedEarnings)
+def update_incomeStatement_adjustedRetainedEarningsBeginningBalance(**kwargs):
+    statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.adjustedRetainedEarningsBeginningBalance = incomeStatementObjects.adjustedRetainedEarningsBeginningBalance + \
+                                                                          statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
+                                                                          statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments
+
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=statementOfIncomeAndRetainedEarnings)
+def update_incomeStatement_unallocatedRetainedEarningsAtTheBeginningOfPeriod(**kwargs):
+    statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.unallocatedRetainedEarningsAtTheBeginningOfPeriod = incomeStatementObjects.unallocatedRetainedEarningsAtTheBeginningOfPeriod + \
+                                                                                   statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
+                                                                                   statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
+                                                                                   statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
+                                                                                   statementOfIncomeAndRetainedEarningsObject.changesInCapitalFromRetainedEarnings
+
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=statementOfIncomeAndRetainedEarnings)
+def update_incomeStatement_distributableEarnings_byStatementOfIncomeAndRetainedEarnings(**kwargs):
+    statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.distributableEarnings = incomeStatementObjects.distributableEarnings + \
+                                                       statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
+                                                       statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
+                                                       statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
+                                                       statementOfIncomeAndRetainedEarningsObject.changesInCapitalFromRetainedEarnings + \
+                                                       statementOfIncomeAndRetainedEarningsObject.transferFromOtherEquityItems
+
+        incomeStatementObject.save()
+
+
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_distributableEarnings_byProfitOrLoss(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.distributableEarnings = incomeStatementObjects.distributableEarnings + \
+                                                       profitOrLossObject.operationIncomes + \
+                                                       profitOrLossObject.costOfOperationIncomes + \
+                                                       profitOrLossObject.distributionAndAdministrativeExpense + \
+                                                       profitOrLossObject.otherIncome + \
+                                                       profitOrLossObject.otherExpense + \
+                                                       profitOrLossObject.financeCosts + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesIncomeInvestments + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesMiscellaneousItems + \
+                                                       profitOrLossObject.taxPerIncome + \
+                                                       profitOrLossObject.profitLossFromContinuingOperations + \
+                                                       profitOrLossObject.profitOrLossFromDiscontinuedOperation
+
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=statementOfIncomeAndRetainedEarnings)
+def update_incomeStatement_retainedEarningsAtEndOfPeriod_byStatementOfIncomeAndRetainedEarnings(**kwargs):
+    statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.retainedEarningsAtEndOfPeriod = incomeStatementObjects.retainedEarningsAtEndOfPeriod + \
+                                                       statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
+                                                       statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
+                                                       statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
+                                                       statementOfIncomeAndRetainedEarningsObject.changesInCapitalFromRetainedEarnings + \
+                                                       statementOfIncomeAndRetainedEarningsObject.transferFromOtherEquityItems + \
+                                                       statementOfIncomeAndRetainedEarningsObject.transferToStatutoryReserve + \
+                                                       statementOfIncomeAndRetainedEarningsObject.transferToOtherReserve
+
+        incomeStatementObject.save()
+
+
+@receiver(post_save, sender=profitOrLoss)
+def update_incomeStatement_retainedEarningsAtEndOfPeriod_byProfitOrLoss(**kwargs):
+    profitOrLossObject = kwargs['instance']
+    incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
+    for incomeStatementObject in incomeStatementObjects:
+        incomeStatementObjects.retainedEarningsAtEndOfPeriod = incomeStatementObjects.retainedEarningsAtEndOfPeriod + \
+                                                       profitOrLossObject.operationIncomes + \
+                                                       profitOrLossObject.costOfOperationIncomes + \
+                                                       profitOrLossObject.distributionAndAdministrativeExpense + \
+                                                       profitOrLossObject.otherIncome + \
+                                                       profitOrLossObject.otherExpense + \
+                                                       profitOrLossObject.financeCosts + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesIncomeInvestments + \
+                                                       profitOrLossObject.otherNonOperatingIncomeAndExpensesMiscellaneousItems + \
+                                                       profitOrLossObject.taxPerIncome + \
+                                                       profitOrLossObject.profitLossFromContinuingOperations + \
+                                                       profitOrLossObject.profitOrLossFromDiscontinuedOperation
+
+        incomeStatementObject.save()

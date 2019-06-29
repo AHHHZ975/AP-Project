@@ -207,7 +207,6 @@ class incomeStatement(models.Model):  # Narenji rang ha
     grossProfit = models.IntegerField()
     profitOrLossFromOperatingActivities = models.IntegerField()
     profitOrLossBeforeTax = models.IntegerField()
-    profitLossFromContinuingOperations = models.IntegerField()
     profitOrLoss = models.IntegerField()
     basicEarningsLossPerShare = models.IntegerField()
     dilutedEarningsLossPerShare = models.IntegerField()
@@ -233,7 +232,7 @@ class profitOrLoss(models.Model):
     otherNonOperatingIncomeAndExpensesIncomeInvestments = models.IntegerField()
     otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField()
     taxPerIncome = models.IntegerField()
-    incomeTaxExpenseContinuingOperations = models.IntegerField()
+    profitLossFromContinuingOperations = models.IntegerField()
     profitOrLossFromDiscontinuedOperation = models.IntegerField()
 
     class Meta:
