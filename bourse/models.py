@@ -403,6 +403,7 @@ for i in range(len(columns)):
 
 ##############################################  BANK    ###################################################
 
+# # ##### ترازنامه ###########
 
 class balanceSheet_bank(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -410,7 +411,7 @@ class balanceSheet_bank(models.Model):
     totalequityAndLiabilities = models.IntegerField(verbose_name='جمع بدهی‌ها و حقوق صاحبان سهام')
 
     class Meta:
-        verbose_name_plural = '1-(بانک ها)ترازنامه'
+        verbose_name_plural = '(بانک ها)1-ترازنامه'
 
 class assets_bank(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -430,7 +431,7 @@ class assets_bank(models.Model):
 
 
     class Meta:
-        verbose_name_plural = '1.1-(بانک ها)دارایی ها'
+        verbose_name_plural = '(بانک ها)1.1-دارایی ها'
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
@@ -453,7 +454,7 @@ class debts_bank(models.Model):
     totalLiabilities = models.IntegerField(verbose_name=' جمع بدهی‌ها ')
 
     class Meta:
-        verbose_name_plural = '2.1-(بانک ها)بدهی های جاری'
+        verbose_name_plural = '(بانک ها)2.1-بدهی های جاری'
 
 
 class ownerInvestment_bank(models.Model):
@@ -472,6 +473,115 @@ class ownerInvestment_bank(models.Model):
     totalEquity = models.IntegerField(verbose_name=' جمع حقوق صاحبان سهام ')
 
     class Meta:
-        verbose_name_plural = '2.1-(بانک ها)حقوق صاحبان سهم'
+        verbose_name_plural = '(بانک ها)2.1-حقوق صاحبان سهم'
 
+# ###### سود و زیان ########
+
+
+class incomeStatement_bank(models.Model):  # Narenji rang ha
+
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    totalJointRevenue = models.IntegerField(verbose_name=' جمع درآمدهای مشاع ')
+    interestExpenseOnDepositsFromCustomers = models.IntegerField(verbose_name=' سهم سود سپرده‌گذاران ')
+    bankShareFromJointRevenue = models.IntegerField(verbose_name=' سهم بانک از درآمدهای مشاع ')
+    totalNonJointRevenue = models.IntegerField(verbose_name=' جمع درآمدهای غیرمشاع ')
+    totalRevenueByNature = models.IntegerField(verbose_name=' جمع درآمدها ')
+    totalExpenseByNature = models.IntegerField(verbose_name=' جمع هزینه‌ها ')
+    profitLossBeforeTax = models.IntegerField(verbose_name=' سود (زیان) عملیات در حال تداوم قبل از مالیات ')
+    profitLossFromContinuingOperations = models.IntegerField(verbose_name=' سود (زیان) خالص عملیات در حال تداوم ')
+    profitLoss = models.IntegerField(verbose_name=' سود (زیان) خالص ')
+    basicEarningsLossPerShare = models.IntegerField(verbose_name=' سود (زیان) پایه هر سهم ')
+    dilutedEarningsLossPerShare = models.IntegerField(verbose_name=' سود (زیان) تقلیل یافته هر سهم ')
+    # profitLoss = models.IntegerField(verbose_name=' سود (زیان) خالص ')
+    adjustedRetainedEarningsBeginningBalance = models.IntegerField(verbose_name=' سود (زیان) انباشته ابتدای دوره تعدیل ‌شده ')
+    unallocatedRetainedEarningsAtTheBeginningOfPeriod = models.IntegerField(verbose_name=' سود (زیان) انباشته ابتدای دوره تخصیص نیافته ')
+    distributableEarnings = models.IntegerField(verbose_name=' سود قابل تخصیص ')
+    retainedEarningsAtEndOfPeriod = models.IntegerField(verbose_name=' سود (زیان) انباشته‌ پايان‌ دوره ')
+    earningsPerShareAfterTax = models.IntegerField(verbose_name=' سود (زیان) خالص هر سهم– ریال ')
+    listedCapital = models.IntegerField(verbose_name=' سرمایه ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)2-صورت سود و زیان'
+
+
+class jointRevenue_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    interestIncomeOnLoansAndAdvancesToCustomers = models.IntegerField(verbose_name=' سود و وجه التزام تسهیلات اعطایی ')
+    investmentIncomeAndInterestIncomeOnDeposits = models.IntegerField(verbose_name=' سود (زیان) حاصل از سرمایه‌گذاری‌ها و سپرده‌گذاری‌ها ')
+    onAccountPaymentsOnInvestmentDeposits = models.IntegerField(verbose_name=' سود علی‌الحساب سپرده‌های سرمایه‌گذاری ')
+    differenceBetweenOnAccountPaymentsAndInterestExpenseOnInvestmentDeposits = models.IntegerField(verbose_name=' تفاوت سود قطعی و علی‌الحساب سپرده‌های سرمایه‌گذاری ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)1.2-درآمدهای مشاع'
+
+
+class nonJointRevenue_bank (models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    incomeOnNonJointActivities = models.IntegerField(verbose_name=' سود و وجه التزام فعالیت‌های غیرمشاع ')
+    feeAndCommissionIncome = models.IntegerField(verbose_name=' درآمد کارمزد ')
+    gainsLossesOnExchangeDifferencesOnTranslationRecognisedInProfitOrLoss = models.IntegerField(verbose_name=' نتیجه مبادلات ارزی ')
+    otherGains = models.IntegerField(verbose_name=' سایر درآمدها ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)1.2-درآمدهای غیرمشاع'
+
+
+class expenseByNature_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    employeeBenefitsExpense = models.IntegerField(verbose_name=' هزینه‌های کارکنان ')
+    administrativeExpense = models.IntegerField(verbose_name=' سایر هزینه‌های اجرایی ')
+    provisionForLoansAndAdvances = models.IntegerField(verbose_name=' هزینه مطالبات مشکوک‌الوصول ')
+    financeCosts = models.IntegerField(verbose_name=' هزینه‌های مالی ')
+    feeAndCommissionExpense = models.IntegerField(verbose_name=' هزینه کارمزد ')
+
+    incomeTaxExpenseContinuingOperations = models.IntegerField(verbose_name=' مالیات بر درآمد ')
+
+    profitLossFromDiscontinuedOperations = models.IntegerField(verbose_name=' سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)2.2-هزینه ها'
+
+class basicEarningsPerShare_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    basicEarningsLossPerShareFromContinuingOperations = models.IntegerField(verbose_name=' سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم ')
+    basicEarningsLossPerShareFromDiscontinuedOperations = models.IntegerField(verbose_name=' سود (زیان) پایه هر سهم ناشی از عملیات متوقف‌ شده ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)3.2-سود (زیان) پایه هر سهم'
+
+
+class dilutedEarningsPerShare_bank(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    dilutedEarningsLossPerShareFromContinuingOperations = models.IntegerField(verbose_name=' سود (زیان) تقلیل یافته هر سهم ناشی از عملیات در حال تداوم ')
+    dilutedEarningsLossPerShareFromDiscontinuedOperations = models.IntegerField(verbose_name=' سود (زیان) تقلیل یافته هر سهم ناشی از عملیات متوقف ‌شده ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)4.2-سود (زیان) تقلیل یافته هر سهم'
+
+
+class statementOfIncomeAndRetainedEarnings_bank (models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+
+    RetainedEarningsAtBeginningOfPeriod = models.IntegerField(verbose_name=' سود (زیان) انباشته ابتدای دوره ')
+    priorPeriodAdjustments = models.IntegerField(verbose_name=' تعدیلات سنواتی ')
+
+    dividendsDeclaredAndPaidOrPayable = models.IntegerField(verbose_name=' سود سهام‌ مصوب ')
+    changesInCapitalFromRetainedEarnings = models.IntegerField(verbose_name=' تغییرات سرمایه از محل سود (زیان) انباشته ')
+
+    transferFromOtherEquityItems = models.IntegerField(verbose_name=' انتقال از سایر اقلام حقوق صاحبان سهام ')
+
+    transferToStatutoryReserve = models.IntegerField(verbose_name=' انتقال به اندوخته‌ قانوني‌ ')
+    transferToOtherReserves = models.IntegerField(verbose_name=' انتقال به سایر اندوخته‌ها ')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)5.2-گردش حساب سود (زیان) انباشته'
+
+
+#### جربان وحوه نقد ##
+
+class cashFlow_bank(models.Model):  # Narenji rang ha
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+
+    class Meta:
+        verbose_name_plural = '(بانک ها)3-جریان وجوه نقد'
 
