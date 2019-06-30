@@ -28,7 +28,6 @@ TYPES_CONSOLIDATED = (
 class FinancialStatements(models.Model):
     # id = models.IntegerField(primary_key=True)
     companyName = models.CharField('نام شرکت', max_length=32, default="")
-
     type_audit = models.CharField('نوع حسابرسی', max_length=16, choices=TYPES_AUDIT, blank=True, default="")
     type_date = models.CharField('بازه', max_length=2, choices=TYPES_DATE, blank=False, default="")
     type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=True,

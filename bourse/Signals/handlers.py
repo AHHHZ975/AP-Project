@@ -22,17 +22,10 @@ def update_balanceSheet_sumOfDebtsAndFundsOwner_byDebtsAndAssetsOwner(**kwargs):
     for balancesheetObject in balanceSheets:
         balancesheetObject.sumOfDebtsAndFundsOwner =  balancesheetObject.sumOfDebtsAndFundsOwner\
                                                       + debtsAndAssetsOwnerObject.sumOfCurrentDebts \
-                                                      + debtsAndAssetsOwnerObject.sumOfNonCurrentDebts
+                                                      + debtsAndAssetsOwnerObject.sumOfNonCurrentDebts + \
+                                                        debtsAndAssetsOwnerObject.sumOfOwnersInvestments
         balancesheetObject.save()
 
-@receiver(post_save, sender=ownerInvestment)
-def update_balanceSheet_sumOfDebtsAndFundsOwner_byOwnerInvestment(**kwargs):
-    ownerInvestmentObject = kwargs['instance']
-    balanceSheets = balanceSheet.objects.filter(relatedTo=ownerInvestmentObject.relatedTo)
-    for balancesheetObject in balanceSheets:
-        balancesheetObject.sumOfDebtsAndFundsOwner =  balancesheetObject.sumOfDebtsAndFundsOwner\
-                                                      + ownerInvestmentObject.sumOfOwnersInvestments
-        balancesheetObject.save()
 
 ############################## Update Assets ###################################
 @receiver(post_save, sender=currentAssets)
