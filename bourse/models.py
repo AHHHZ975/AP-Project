@@ -3,6 +3,19 @@ from django.db import models
 from django.db.models import F
 from django.utils import timezone
 from django_jalali.db import models as jmodels  # For Persian Calender
+from .Report import *
+
+# name = input ('Please Enter the name of the company')
+# num = input ('Please Enter the first flag')
+# flag = input ('Please Enter the second flag')
+
+companyName = 'خپارس'
+companyNum = '0'
+reportNum = '0'
+
+[report, number] = Report_Extractor(companyName, companyNum, reportNum)
+print(number)
+
 
 TYPES_AUDIT = (
     ('حسابرسی شده', 'حسابرسی شده'),
