@@ -407,6 +407,9 @@ for i in range(len(columns)):
 
 class balanceSheet_bank(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+
+    totalLiabilities = models.IntegerField(verbose_name=' جمع بدهی‌ها ')
+    totalEquity = models.IntegerField(verbose_name=' جمع حقوق صاحبان سهام ')
     totalAssets = models.IntegerField(verbose_name='جمع دارایی‌ها')
     totalequityAndLiabilities = models.IntegerField(verbose_name='جمع بدهی‌ها و حقوق صاحبان سهام')
 
@@ -429,7 +432,6 @@ class assets_bank(models.Model):
     totalCurrentAssets = models.IntegerField(verbose_name=' دارایی‌های نگهداری شده برای فروش ')
     otherAssets = models.IntegerField(verbose_name=' سایر دارایی‌ها ')
 
-
     class Meta:
         verbose_name_plural = '(بانک ها)1.1-دارایی ها'
 
@@ -451,7 +453,6 @@ class debts_bank(models.Model):
     provisionsForEmployeeBenefits = models.IntegerField(verbose_name=' ذخیره مزایای پایان خدمت کارکنان ')
     liabilitiesIncludedInDisposalGroupsClassifiedAsHeldForSale = models.IntegerField(verbose_name=' بدهی‌های مرتبط با دارایی‌های نگهداری شده برای فروش ')
     otherLiabilities = models.IntegerField(verbose_name=' سایر بدهی‌ها ')
-    totalLiabilities = models.IntegerField(verbose_name=' جمع بدهی‌ها ')
 
     class Meta:
         verbose_name_plural = '(بانک ها)2.1-بدهی های جاری'
@@ -470,7 +471,7 @@ class ownerInvestment_bank(models.Model):
     exchangeDifferencesOnTranslation = models.IntegerField(verbose_name=' تفاوت تسعیر ناشی از تبدیل به واحد پول گزارشگری ')
     exchangeReserveForGovernmentalCorporationsAssetsAndLiabilities = models.IntegerField(verbose_name=' اندوخته تسعیر ارز دارایی‌ها و بدهی‌های شرکت‌های دولتی ')
     retainedEarnings = models.IntegerField(verbose_name=' سود (زیان) انباشته ')
-    totalEquity = models.IntegerField(verbose_name=' جمع حقوق صاحبان سهام ')
+
 
     class Meta:
         verbose_name_plural = '(بانک ها)2.1-حقوق صاحبان سهم'
