@@ -35,6 +35,7 @@ class FinancialStatements(models.Model):
                                          default="")
     # endTo = models.DateField('End to', default=timezone.now)
     endTo = jmodels.jDateField('منتهی به', default="")
+    financialYear = jmodels.jDateField('آخرین سال مالی', default="")
 
     def __str__(self):
         string = f"اطلاعات و صورت مالی شرکت {str(self.companyName)} {self.type_consolidated} " \
@@ -83,11 +84,11 @@ class performanceIndexes(models.Model):
     publicDate = models.DateTimeField('Publication Date', default=timezone.now)
 
 
-## Consolidated Balance Sheet (Tarazname) ##
+## Balance Sheet (Tarazname) ##
 class balanceSheet(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfAssets = models.IntegerField(null=True)
-    sumOfDebtsAndFundsOwner = models.IntegerField()
+    sumOfAssets = models.IntegerField(verbose_name=' جمع دارایی‌ها ')
+    sumOfDebtsAndFundsOwner = models.IntegerField(verbose_name=' جمع بدهی‌ها و حقوق صاحبان سهام ')
 
     class Meta:
         verbose_name_plural = '1-ترازنامه'
@@ -102,8 +103,6 @@ class assets(models.Model):
 
     def wasPublishedRecently(self):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
-
-
 
 class debtsAndAssetsOwner(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
@@ -276,8 +275,6 @@ class statementOfIncomeAndRetainedEarnings(models.Model):
     class Meta:
         verbose_name_plural = '2.4-گردش حساب سود (زیان) انباشته'
 
-
-
 ## Cash Flow (jaryan vojooh naghd) ##
 
 
@@ -370,6 +367,8 @@ column2 = ['قراردادها->تاریخ عقد قرارداد', 'قراردا
            'درآمد شناسایی شده->درامد شناسایی شده تا پایان دوره مالی منتهی به 1397/12/29',
            ]
 
+names = ['تست1', 'تست2']
+
 # column3 = ['نام محصول', 'واحد' , 'از ابتدای سال مالی تا پایان مورخ 1398/02/31->مقدار/تعداد تولید',
 #            'از ابتدای سال مالی تا پایان مورخ 1398/02/31->مقدار/تعداد فروش',
 #            ... ,
@@ -397,7 +396,7 @@ for i in range(len(columns)):
     from django.contrib import admin
 
     fields['__module__'] = __name__
-    Dynamic_Model = type('گزارش فعالیت ماهانه ' + str(i), (models.Model,), fields)
+    Dynamic_Model = type(names[i], (models.Model,), fields)
 
     admin.site.register(Dynamic_Model)
 
@@ -631,7 +630,7 @@ class cashFlowsFromUsedInInvestingActivities_bank(models.Model):
         verbose_name_plural = '(بانک ها)3.3- فعالیت‌های سرمایه گذاری'
 
 
-class cashFlowsFromUsedInFinancingActivities(models.Model):
+class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     proceedsFromIssuingShares = models.IntegerField(verbose_name=' وجوه دریافتی حاصل از افزایش سرمایه ')
     proceedsFromSaleOrIssueOfTreasuryShares = models.IntegerField(verbose_name=' وجوه دریافتی حاصل از فروش سهام خزانه ')
