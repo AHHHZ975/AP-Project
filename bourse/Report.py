@@ -6,7 +6,7 @@ from .Functions import *
 
 def Report_Extractor (company_name, company_num, report_num):
     driver = webdriver.Chrome(executable_path='C:\selenium_driver\chromedriver.exe')
-    driver.implicitly_wait(60)
+    driver.implicitly_wait(10)
 
     num_of_results_path = '//*[@id="divLetterFormList"]/div/span'
     link_paths = list()
@@ -20,9 +20,13 @@ def Report_Extractor (company_name, company_num, report_num):
         f'Audited&NotAudited&IsNotAudited=false&Childs=false&Mains&Publisher=false&CompanyState=-1&Category=-1&CompanyType=-1&Consolidatable&NotConsolidatable'
         driver.get(url)
         sleep(2)
-        num_of_results = driver.find_element_by_xpath(num_of_results_path)
-        num_of_results = int(num_of_results.text)
-        rounds = floor(num_of_results / 20) + 1
+        if (not len(driver.find_elements_by_xpath(num_of_results_path)) > 0):
+            driver.close()
+            return [list(), 0]
+        else:
+            num_of_results = driver.find_element_by_xpath(num_of_results_path)
+            num_of_results = int(num_of_results.text)
+            rounds = floor(num_of_results / 20) + 1
 
 
     elif ((company_num == '0' or company_num == '1') and report_num == '1'):
@@ -32,9 +36,13 @@ def Report_Extractor (company_name, company_num, report_num):
         f'Audited&NotAudited&IsNotAudited=false&Childs=false&Mains&Publisher=false&CompanyState=-1&Category=-1&CompanyType=-1&Consolidatable&NotConsolidatable'
         driver.get(url)
         sleep(2)
-        num_of_results = driver.find_element_by_xpath(num_of_results_path)
-        num_of_results = int(num_of_results.text)
-        rounds = floor(num_of_results / 20) + 1
+        if (not len(driver.find_elements_by_xpath(num_of_results_path)) > 0):
+            driver.close()
+            return [list(), 0]
+        else:
+            num_of_results = driver.find_element_by_xpath(num_of_results_path)
+            num_of_results = int(num_of_results.text)
+            rounds = floor(num_of_results / 20) + 1
 
     elif (company_num == '2'):
         Letter_Code = 'ن-31'
@@ -43,9 +51,13 @@ def Report_Extractor (company_name, company_num, report_num):
         f'Audited&NotAudited&IsNotAudited=false&Childs=false&Mains&Publisher=false&CompanyState=-1&Category=-1&CompanyType=-1&Consolidatable&NotConsolidatable'
         driver.get(url)
         sleep(2)
-        num_of_results = driver.find_element_by_xpath(num_of_results_path)
-        num_of_results = int(num_of_results.text)
-        rounds = floor(num_of_results / 20) + 1
+        if (not len(driver.find_elements_by_xpath(num_of_results_path)) > 0):
+            driver.close()
+            return [list(), 0]
+        else:
+            num_of_results = driver.find_element_by_xpath(num_of_results_path)
+            num_of_results = int(num_of_results.text)
+            rounds = floor(num_of_results / 20) + 1
 
 
 

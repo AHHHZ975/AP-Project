@@ -543,7 +543,11 @@ def None_Bank_Monthly(url):
     rep_year_end = soup.find("span", attrs={'id': 'ctl00_lblYearEndToDate'})
     rep_year_end = rep_year_end.text
 
-    side_table1 = soup.find("table", attrs={'id': 'ctl00_cphBody_ucProduct2_dgProduction'})
+    if (soup.find("table", attrs={'id': 'ctl00_cphBody_ucProduct2_dgProduction'}) is not None):
+        side_table1 = soup.find("table", attrs={'id': 'ctl00_cphBody_ucProduct2_dgProduction'})
+    else:
+        side_table1 = soup.find("table", attrs={'id': 'ctl00_cphBody_ucProduct1_dgProduction'})
+
     side_table2 = soup.find("table", attrs={'class': 'gv'})
 
     thead = list()
@@ -564,7 +568,10 @@ def None_Bank_Monthly(url):
                 p = side_table1.contents[i].contents[j].text
                 tbody[i - 1].append(p)
 
-        imp_rows = [0, 5, 8, 12, 16, 20]
+        if (len(tbody[len(tbody) - 1]) > 11):
+            imp_rows = [0, 5, 8, 12, 16, 20]
+        else:
+            imp_rows = [0, 5, 9]
         parse_last_row = list()
         for i in range(len(tbody[len(tbody) - 1])):
             if i in imp_rows:
@@ -613,7 +620,6 @@ def None_Bank_Monthly(url):
                 tbody[i][j] = p
 
         return (alias, rep_id, rep_nmonth, rep_month_end, rep_year_end, rep_audit, thead, tbody)
-
 
 def Invest_NonStock(url):
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

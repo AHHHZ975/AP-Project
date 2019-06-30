@@ -5,18 +5,18 @@ from django.utils import timezone
 from django_jalali.db import models as jmodels  # For Persian Calender
 from .Report import *
 
-# name = input ('Please Enter the name of the company')
-# num = input ('Please Enter the first flag')
-# flag = input ('Please Enter the second flag')
 
-companyName = 'خپارس'
-companyNum = '0'
-reportNum = '0'
+TYPES_COMPANY = (
+    ('0' , 'Regular'),
+    ('1' , 'Bank'),
+    ('2' , 'Investment'),
+)
 
-[report, number] = Report_Extractor(companyName, companyNum, reportNum)
-print(number)
-
-
+TYPES_REPORT = (
+    ('0' , 'FinancialStatement'),
+    ('1' , 'Monthly'),
+    ('2' , 'Investment'),
+)
 TYPES_AUDIT = (
     ('حسابرسی شده', 'حسابرسی شده'),
     ('حسابرسی نشده', 'حسابرسی نشده'),
@@ -46,12 +46,13 @@ class FinancialStatements(models.Model):
     type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=True,
                                          default="")
     # endTo = models.DateField('End to', default=timezone.now)
-    endTo = jmodels.jDateField('منتهی به', default="")
+    # endTo = models.CharField('End to', max_length=32, default="")
+    # endTo = jmodels.jDateField('منتهی به', default="")
 
     def __str__(self):
         string = f"اطلاعات و صورت مالی شرکت {str(self.companyName)} {self.type_consolidated} " \
-                 f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
-                 f"{str(self.endTo)}"
+                 f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  "
+                 # f"{str(self.endTo)}"
 
         return string
 
@@ -598,3 +599,25 @@ class cashFlow_bank(models.Model):  # Narenji rang ha
     class Meta:
         verbose_name_plural = '(بانک ها)3-جریان وجوه نقد'
 
+
+########################################### Automate the storing in database ###########################################
+# name = input ('Please Enter the name of the company')
+# num = input ('Please Enter the first flag')
+# flag = input ('Please Enter the second flag')
+
+companySymbol = 'خپارس'
+companyNum = '0'
+reportNum = '0'
+
+[report, number] = Report_Extractor(companySymbol, companyNum, reportNum)
+# print(number)
+if  'تلفیقی' in report[0][0][1]:
+    fs = FinancialStatements(companyName=report[0][0][0], type_audit=report[0][0][5],
+                             type_date=report[0][0][2], type_consolidated='تلفیقی')
+else:
+    fs = FinancialStatements(companyName=report[0][0][0], type_audit=report[0][0][5],
+                             type_date=report[0][0][2], type_consolidated='غیرتلفیقی')
+fs.save()
+# print(report[0][0][6])
+# print(report[0][0][6][1])
+# print(report[0][0][6][2])
