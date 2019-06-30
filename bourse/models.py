@@ -618,6 +618,56 @@ else:
     fs = FinancialStatements(companyName=report[0][0][0], type_audit=report[0][0][5],
                              type_date=report[0][0][2], type_consolidated='غیرتلفیقی')
 fs.save()
-# print(report[0][0][6])
-# print(report[0][0][6][1])
-# print(report[0][0][6][2])
+
+ca = currentAssets(relatedTo_id=1,cash=report[0][0][7][2][1], shortTermInvestments=report[0][0][7][3][1],
+                   commercialInputs=report[0][0][7][4][1], noncommercialInputs=report[0][0][7][5][1],
+                   inventory=report[0][0][7][6][1], prepaidExpenses=report[0][0][7][7][1],
+                   salableAssets=report[0][0][7][8][1])
+ca.save()
+
+
+nca = nonCurrentAssets(relatedTo_id=1, longTermInputs=report[0][0][7][11][1],
+                       longTermInvestments=report[0][0][7][12][1], investmentInEstate=report[0][0][7][13][1],
+                       intangibleAssets=report[0][0][7][14][1], tangibleAssets=report[0][0][7][15][1],
+                       otherAssets=report[0][0][7][16][1])
+nca.save()
+
+a = assets(relatedTo_id=1, sumOfCurrentAssets=report[0][0][7][9][1], sumOfNonCurrentAssets=report[0][0][7][17][1])
+a.save()
+
+
+
+
+
+
+
+
+
+# cd = currentDebts(relatedTo_id=1,commercialPayable=report[0][0][7][2][5], NonCommercialPayable=report[0][0][7][3][5],
+#                    payableTaxes=report[0][0][7][4][5], payableDividends=report[0][0][7][5][5],
+#                    financialFacility=report[0][0][7][6][5], resources=report[0][0][7][7][5],
+#                    currentPreReceivables=report[0][0][7][8][5], debtsRelatedWithSalableAssets=report[0][0][7][9][5])
+# cd.save()
+
+
+# ncd = nonCurrentAssets(relatedTo_id=1, longTermPayable=report[0][0][7][11][5],
+#                        nonCurrentPreReceivables=report[0][0][7][12][5], longTermFinancialFacility=report[0][0][7][13][5],
+#                        storeOfWorkersEndServiceAdvantages=report[0][0][7][14][5])
+# ncd.save()
+#
+# oi = ownerInvestment(relatedTo_id=i, assets=report[0][0][7][18][5], increaseORDecreaseOfInProcessAssets=report[0][0][7][19][5],
+#                      stockSpends=report[0][0][7][20][5], treasuryStocks=report[0][0][7][21][5],
+#                      legalSavings=report[0][0][7][22][5], otherSavings=report[0][0][7][23][5],
+#                      RevaluationSurplusOfAssets=report[0][0][7][24][5], RevaluationSurplusOfHeldForSaleAssets=report[0][0][7][25][5],
+#                      DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[0][0][7][26][5],
+#                      ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[0][0][7][27][5],
+#                      accumulatedProfitORLosses=report[0][0][7][28][5])
+# oi.save()
+#
+# daao = debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[0][0][7][10][5], sumOfNonCurrentDebts=report[0][0][7][16][5],
+#                            sumOfOwnersInvestments=report[0][0][7][30][5])
+# daao.save()
+#
+# bs = balanceSheet(relatedTo_id=1, sumOfAssets=report[0][0][7][31][1], sumOfDebtsAndFundsOwner=report[0][0][7][31][5])
+# bs.save()
+print(report[0][0])
