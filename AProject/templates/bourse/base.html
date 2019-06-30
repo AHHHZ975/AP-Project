@@ -12,14 +12,13 @@
         body{
             direction: rtl;
             text-align: right;
-            font-family: "B Koodak";
+            font-family: "B Nazanin";
             font-size: 12px;
         }
         .myTable{
             width: 50%;
-            font-family: "B Koodak";
+            font-family: "B Nazanin";
             font-size: 12px;
-            margin-right: 25%;
             background-color: rgb(145, 255, 191);
             color: black;
             transition: all 0.1s ease;
@@ -27,7 +26,9 @@
         .myTable:hover{
             background-color: rgb(109, 255, 179);
         }
-
+        a:hover{
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -38,7 +39,7 @@
 {% endblock %}
 
 <div class="table-responsive" >
-<table class="myTable table table-striped table-hover">
+<table style = "float: right"  class="myTable table table-striped table-hover">
     
     {% block table1 %}
 
@@ -46,7 +47,7 @@
 
 </table>
 
-<table class="myTable table table-striped table-hover">
+<table style = "float: left" class="myTable table table-striped table-hover">
 
     {% block table2 %}
 

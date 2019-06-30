@@ -17,16 +17,19 @@
             <td>نوع تلفیقی</td>
             <td>منتهی به</td>
             <td>بازه</td>
+            </a>
         </tr>
         {% for finan in financialStatementsLists %}
             <tr>
-                <td>{{ finan.companyName }}</td>
+                <td><a href="form.html">{{ finan.companyName }}</a></td>
                 <td>{{ finan.type_audit }}</td>
                 <td>{{ finan.type_consolidated }}</td>
                 <td>{{ finan.endTo }}</td>
                 <td>{{ finan.type_date }} ماهه </td>
             </tr>
         {% endfor %}
+
+
 
 {% endblock %}
 
@@ -35,22 +38,5 @@
 
 
 {% block table2 %}
-    <h3> جدول اطلاعات و صورت های مالی های موجود</h3>
-        <tr>
-            <td>نام شرکت</td>
-            <td>نوع حسابرسی</td>
-            <td>نوع تلفیقی</td>
-            <td>منتهی به</td>
-            <td>بازه</td>
-        </tr>
-        {% for finan in financialStatementsLists %}
-            <tr>
-                <td>{{ finan.companyName }}</td>
-                <td>{{ finan.type_audit }}</td>
-                <td>{{ finan.type_consolidated }}</td>
-                <td>{{ finan.endTo }}</td>
-                <td>{{ finan.type_date }} ماهه </td>
-            </tr>
-        {% endfor %}
 
 {% endblock %}
