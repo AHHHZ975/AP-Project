@@ -31,3 +31,19 @@ admin.site.register(investmentReturnsAndPaymentsOnFinancingCosts)
 admin.site.register(cashFlowsUsedInIncomeTax)
 admin.site.register(cashFlowsFromUsedInInvestingActivities)
 admin.site.register(cashFlowsFromUsedInFinancingActivities)
+
+# #### bank #### #
+admin.site.register(balanceSheet_bank)
+admin.site.register(assets_bank)
+admin.site.register(debts_bank)
+admin.site.register(ownerInvestment_bank)
+
+admin.site.register(incomeStatement_bank)
+admin.site.register(jointRevenue_bank)
+admin.site.register(nonJointRevenue_bank)
+
+admin.site.register(expenseByNature_bank)
+admin.site.register(basicEarningsPerShare_bank)
+admin.site.register(dilutedEarningsPerShare_bank)
+admin.site.register(statementOfIncomeAndRetainedEarnings_bank)
+
