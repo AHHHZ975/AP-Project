@@ -389,7 +389,7 @@ def update_incomeStatement_grossProfit(**kwargs):
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.grossProfit = incomeStatementObjects.grossProfit + \
+        incomeStatementObject.grossProfit = incomeStatementObject.grossProfit + \
                                              profitOrLossObject.operationIncomes + \
                                              profitOrLossObject.costOfOperationIncomes
         incomeStatementObject.save()
@@ -400,7 +400,7 @@ def update_incomeStatement_profitOrLossFromOperatingActivities(**kwargs):
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.profitOrLossFromOperatingActivities = incomeStatementObjects.profitOrLossFromOperatingActivities + \
+        incomeStatementObject.profitOrLossFromOperatingActivities = incomeStatementObject.profitOrLossFromOperatingActivities + \
                                                                      profitOrLossObject.operationIncomes + \
                                                                      profitOrLossObject.costOfOperationIncomes + \
                                                                      profitOrLossObject.distributionAndAdministrativeExpense + \
@@ -414,7 +414,7 @@ def update_incomeStatement_profitOrLossBeforeTax(**kwargs):
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.profitOrLossBeforeTax = incomeStatementObjects.profitOrLossBeforeTax + \
+        incomeStatementObject.profitOrLossBeforeTax = incomeStatementObject.profitOrLossBeforeTax + \
                                                        profitOrLossObject.operationIncomes + \
                                                        profitOrLossObject.costOfOperationIncomes + \
                                                        profitOrLossObject.distributionAndAdministrativeExpense + \
@@ -431,7 +431,7 @@ def update_incomeStatement_profitOrLoss(**kwargs):
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.profitOrLoss = incomeStatementObjects.profitOrLoss + \
+        incomeStatementObject.profitOrLoss = incomeStatementObject.profitOrLoss + \
                                               profitOrLossObject.operationIncomes + \
                                               profitOrLossObject.costOfOperationIncomes + \
                                               profitOrLossObject.distributionAndAdministrativeExpense + \
@@ -452,7 +452,7 @@ def update_incomeStatement_adjustedRetainedEarningsBeginningBalance(**kwargs):
     statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.adjustedRetainedEarningsBeginningBalance = incomeStatementObjects.adjustedRetainedEarningsBeginningBalance + \
+        incomeStatementObject.adjustedRetainedEarningsBeginningBalance = incomeStatementObject.adjustedRetainedEarningsBeginningBalance + \
                                                                           statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
                                                                           statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments
 
@@ -464,7 +464,7 @@ def update_incomeStatement_unallocatedRetainedEarningsAtTheBeginningOfPeriod(**k
     statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.unallocatedRetainedEarningsAtTheBeginningOfPeriod = incomeStatementObjects.unallocatedRetainedEarningsAtTheBeginningOfPeriod + \
+        incomeStatementObject.unallocatedRetainedEarningsAtTheBeginningOfPeriod = incomeStatementObject.unallocatedRetainedEarningsAtTheBeginningOfPeriod + \
                                                                                    statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
                                                                                    statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
                                                                                    statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
@@ -478,7 +478,7 @@ def update_incomeStatement_distributableEarnings_byStatementOfIncomeAndRetainedE
     statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.distributableEarnings = incomeStatementObjects.distributableEarnings + \
+        incomeStatementObject.distributableEarnings = incomeStatementObject.distributableEarnings + \
                                                        statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
                                                        statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
                                                        statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
@@ -494,7 +494,7 @@ def update_incomeStatement_distributableEarnings_byProfitOrLoss(**kwargs):
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.distributableEarnings = incomeStatementObjects.distributableEarnings + \
+        incomeStatementObject.distributableEarnings = incomeStatementObject.distributableEarnings + \
                                                        profitOrLossObject.operationIncomes + \
                                                        profitOrLossObject.costOfOperationIncomes + \
                                                        profitOrLossObject.distributionAndAdministrativeExpense + \
@@ -515,7 +515,7 @@ def update_incomeStatement_retainedEarningsAtEndOfPeriod_byStatementOfIncomeAndR
     statementOfIncomeAndRetainedEarningsObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=statementOfIncomeAndRetainedEarningsObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.retainedEarningsAtEndOfPeriod = incomeStatementObjects.retainedEarningsAtEndOfPeriod + \
+        incomeStatementObject.retainedEarningsAtEndOfPeriod = incomeStatementObject.retainedEarningsAtEndOfPeriod + \
                                                        statementOfIncomeAndRetainedEarningsObject.retainedEarningsAtBeginningOfPeriod + \
                                                        statementOfIncomeAndRetainedEarningsObject.priorPeriodAdjustments + \
                                                        statementOfIncomeAndRetainedEarningsObject.dividendsDeclaredAndPaidOrPayable + \
@@ -532,7 +532,7 @@ def update_incomeStatement_retainedEarningsAtEndOfPeriod_byProfitOrLoss(**kwargs
     profitOrLossObject = kwargs['instance']
     incomeStatementObjects = incomeStatement.objects.filter(relatedTo=profitOrLossObject.relatedTo)
     for incomeStatementObject in incomeStatementObjects:
-        incomeStatementObjects.retainedEarningsAtEndOfPeriod = incomeStatementObjects.retainedEarningsAtEndOfPeriod + \
+        incomeStatementObject.retainedEarningsAtEndOfPeriod = incomeStatementObject.retainedEarningsAtEndOfPeriod + \
                                                        profitOrLossObject.operationIncomes + \
                                                        profitOrLossObject.costOfOperationIncomes + \
                                                        profitOrLossObject.distributionAndAdministrativeExpense + \

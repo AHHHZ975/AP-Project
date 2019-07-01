@@ -13,12 +13,12 @@
             direction: rtl;
             text-align: right;
             font-family: "B Nazanin";
-            font-size: 12px;
+            font-size: 16px;
         }
         .myTable{
             width: 50%;
             font-family: "B Nazanin";
-            font-size: 12px;
+            font-size: 16px;
             background-color: rgb(145, 255, 191);
             color: black;
             transition: all 0.1s ease;
@@ -38,6 +38,8 @@
 
 {% endblock %}
 
+
+############ BalanceSheet ##########
 <div class="table-responsive" >
 <table style = "float: right"  class="myTable table table-striped table-hover">
     
@@ -50,6 +52,20 @@
 <table style = "float: left" class="myTable table table-striped table-hover">
 
     {% block table2 %}
+
+    {% endblock %}
+
+</table>
+</div>
+
+
+############### Income Statement #############
+
+
+<div class="table-responsive" >
+<table style = "float: right"  class="myTable table table-striped table-hover">
+
+    {% block table3 %}
 
     {% endblock %}
 
