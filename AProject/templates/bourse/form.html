@@ -13,13 +13,13 @@
             {% for currentAsset in currentAssets %}
                 {% if currentAsset.relatedTo.companyName in finan.companyName and currentAsset.relatedTo.type_audit in finan.type_audit and currentAsset.relatedTo.type_date in finan.type_date and currentAsset.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr>
-                        <td>دارایی ها</td>
+                        <td><b>دارایی ها</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>دارایی های جاری</td>
+                        <td><b>دارایی های جاری</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -72,7 +72,8 @@
             {######### جمع دارایی های جاری #########}
             {% for asset in assets %}
                 {% if asset.relatedTo.companyName in finan.companyName and asset.relatedTo.type_audit in finan.type_audit and asset.relatedTo.type_date in finan.type_date and asset.relatedTo.type_consolidated in finan.type_consolidated %}
-                        <td>جمع دارایی های جاری</td>
+                    <tr style="background-color: coral">
+                    <td> جمع دارایی های جاری </td>
                         <td>{{ asset.sumOfCurrentAssets }}</td>
                         <td></td>
                         <td></td>
@@ -84,7 +85,7 @@
             {% for nonCurrentAsset in nonCurrentAssets %}
                 {% if nonCurrentAsset.relatedTo.companyName in finan.companyName and nonCurrentAsset.relatedTo.type_audit in finan.type_audit and nonCurrentAsset.relatedTo.type_date in finan.type_date and nonCurrentAsset.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr>
-                        <td>دارایی های غیرجاری</td>
+                        <td><b>دارایی های غیرجاری</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -131,6 +132,7 @@
             {######### جمع دارایی های غیرجاری #########}
             {% for asset in assets %}
                 {% if asset.relatedTo.companyName in finan.companyName and asset.relatedTo.type_audit in finan.type_audit and asset.relatedTo.type_date in finan.type_date and asset.relatedTo.type_consolidated in finan.type_consolidated %}
+                     <tr style="background-color: coral">
                         <td>جمع دارایی های غیر جاری</td>
                         <td>{{ asset.sumOfNonCurrentAssets }}</td>
                         <td></td>
@@ -300,13 +302,13 @@
             {% for currentDebt in currentDebts %}
                 {% if currentDebt.relatedTo.companyName in finan.companyName and currentDebt.relatedTo.type_audit in finan.type_audit and currentDebt.relatedTo.type_date in finan.type_date and currentDebt.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr>
-                        <td>بدهی ها و حقوق صاحبان سهام</td>
+                        <td><b>بدهی ها و حقوق صاحبان سهام</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>بدهی های جاری</td>
+                        <td><b>بدهی های جاری</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -363,11 +365,11 @@
             {% endfor %}
 
             {######### جمع بدهی های جاری #########}
-            {% for currentDebt in currentDebts %}
-                {% if currentDebt.relatedTo.companyName in finan.companyName and currentDebt.relatedTo.type_audit in finan.type_audit and currentDebt.relatedTo.type_date in finan.type_date and currentDebt.relatedTo.type_consolidated in finan.type_consolidated %}
-                   <tr>
+            {% for debtsAndAssetsOwner in debtsAndAssetsOwners %}
+                {% if debtsAndAssetsOwner.relatedTo.companyName in finan.companyName and debtsAndAssetsOwner.relatedTo.type_audit in finan.type_audit and debtsAndAssetsOwner.relatedTo.type_date in finan.type_date and debtsAndAssetsOwner.relatedTo.type_consolidated in finan.type_consolidated %}
+                   <tr style="background-color: coral">
                         <td>جمع بدهی های جاری</td>
-                        <td>{{ currentDebts.sumOfCurrentDebts }}</td>
+                        <td>{{ debtsAndAssetsOwner.sumOfCurrentDebts }}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -378,7 +380,7 @@
             {% for nonCurrentDebt in nonCurrentDebts %}
                 {% if nonCurrentDebt.relatedTo.companyName in finan.companyName and nonCurrentDebt.relatedTo.type_audit in finan.type_audit and nonCurrentDebt.relatedTo.type_date in finan.type_date and nonCurrentDebt.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr>
-                        <td>بدهی های غیرجاری</td>
+                        <td><b>بدهی های غیرجاری</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -413,7 +415,7 @@
             {######### جمع بدهی های غیرجاری #########}
             {% for currentDebt in currentDebts %}
                 {% if currentDebt.relatedTo.companyName in finan.companyName and currentDebt.relatedTo.type_audit in finan.type_audit and currentDebt.relatedTo.type_date in finan.type_date and currentDebt.relatedTo.type_consolidated in finan.type_consolidated %}
-                   <tr>
+                   <tr style="background-color: coral">
                         <td>جمع بدهی های غیرجاری</td>
                         <td>{{ currentDebts.sumOfNonCurrentDebts }}</td>
                         <td></td>
@@ -425,7 +427,7 @@
             {######### جمع بدهی ها #########}
             {% for currentDebt in currentDebts %}
                 {% if currentDebt.relatedTo.companyName in finan.companyName and currentDebt.relatedTo.type_audit in finan.type_audit and currentDebt.relatedTo.type_date in finan.type_date and currentDebt.relatedTo.type_consolidated in finan.type_consolidated %}
-                   <tr>
+                   <tr style="background-color: coral">
                         <td>جمع بدهی ها</td>
                         <td>{{ currentDebts.sumOfNonCurrentDebts}}</td>
                         <td></td>
@@ -439,7 +441,7 @@
             {% for ownerInvestment in ownerInvestments %}
                 {% if ownerInvestment.relatedTo.companyName in finan.companyName and ownerInvestment.relatedTo.type_audit in finan.type_audit and ownerInvestment.relatedTo.type_date in finan.type_date and ownerInvestment.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr>
-                        <td>حقوق صاحبان سهام</td>
+                        <td><b>حقوق صاحبان سهام</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -516,7 +518,7 @@
             {######### جمع حقوق صاحبان سهام #########}
             {% for debtsAndAssetsOwner in debtsAndAssetsOwners %}
                 {% if debtsAndAssetsOwner.relatedTo.companyName in finan.companyName and debtsAndAssetsOwner.relatedTo.type_audit in finan.type_audit and debtsAndAssetsOwner.relatedTo.type_date in finan.type_date and debtsAndAssetsOwner.relatedTo.type_consolidated in finan.type_consolidated %}
-                   <tr>
+                   <tr style="background-color: coral">
                         <td>جمع حقوق صاحبان سهام</td>
                         <td>{{ debtsAndAssetsOwner.sumOfOwnersInvestments }}</td>
                         <td></td>
@@ -528,7 +530,7 @@
             {######### جمع حقوق بدهی ها صاحبان سهام #########}
             {% for balanceSheet in balanceSheets %}
                 {% if balanceSheet.relatedTo.companyName in finan.companyName and balanceSheet.relatedTo.type_audit in finan.type_audit and balanceSheet.relatedTo.type_date in finan.type_date and balanceSheet.relatedTo.type_consolidated in finan.type_consolidated %}
-                   <tr>
+                   <tr style="background-color: coral">
                         <td>جمع بدهی ها و حقوق صاحبان سهام</td>
                         <td>{{ balanceSheet.sumOfDebtsAndFundsOwner }}</td>
                         <td></td>
@@ -538,5 +540,690 @@
             {% endfor %}
 
         {% endfor %}
+
+{% endblock %}
+
+############### Income Statement #############
+{% block table3 %}
+    <h3> صورت سود و زیان </h3>
+    {% for finan in financialStatementsLists %}
+            <tr>
+                <td>شرح</td>
+                <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
+                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td> درصد تغییرات </td>
+            </tr>
+            {######### دارایی های جاری #########}
+            {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+
+                    <tr>
+                        <td> دوره منتهی به </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>سود (زیان) خالص</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>درآمدهای عملیاتی</td>
+                        <td>{{ profitOrLoss.operationIncomes }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>بهای تمام ‌شده درآمدهای عملیاتی</td>
+                        <td>{{ profitOrLoss.costOfOperationIncomes }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+{#                    <tr>#}
+{#                        <td>دریافتنی های تجاری</td>#}
+{#                        <td>{{ currentAsset.commercialInputs }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>دریافتنی های غیر تجاری</td>#}
+{#                        <td>{{ currentAsset.noncommercialInputs }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>موجودی مواد و کالا</td>#}
+{#                        <td>{{ currentAsset.inventory }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>پیش پرداخت ها و سفارشات</td>#}
+{#                        <td>{{ currentAsset.prepaidExpenses }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>دارایی های نگهداری شده برای فروش</td>#}
+{#                        <td>{{ currentAsset.salableAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+            ########سود (زیان) ناخالص ########
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td> سود (زیان) ناخالص </td>
+                        <td>{{ incomeStatement.profitOrLoss }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+             {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+
+                    <tr>
+                        <td>  هزینه‌های فروش، اداری و عمومی </td>
+                        <td>{{ profitOrLoss.distributionAndAdministrativeExpense }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سایر درآمدهای عملیاتی </td>
+                        <td>{{ profitOrLoss.otherIncome }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سایر هزینه‌های عملیاتی  </td>
+                        <td>{{ profitOrLoss.otherExpense }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                {% endif %}
+            {% endfor %}
+
+
+                ########سود (زیان) ناخالص ########
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>  سود (زیان) عملیاتی  </td>
+                        <td>{{ incomeStatement.profitOrLossFromOperatingActivities }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+            {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>  هزینه‌های مالی  </td>
+                        <td>{{ profitOrLoss.financeCosts }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>  سایر درآمدها و هزینه‌های غیرعملیاتی- درآمد سرمایه‌گذاری‌ها </td>
+                        <td>{{ profitOrLoss.otherNonOperatingIncomeAndExpensesIncomeInvestments }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>  سایر درآمدها و هزینه‌های غیرعملیاتی- اقلام متفرقه   </td>
+                        <td>{{ profitOrLoss.otherNonOperatingIncomeAndExpensesMiscellaneousItems }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                {% endif %}
+            {% endfor %}
+
+
+                ######## سود (زیان) عملیات در حال تداوم قبل از مالیات  ########
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>   سود (زیان) عملیات در حال تداوم قبل از مالیات   </td>
+                        <td>{{ incomeStatement.profitOrLossBeforeTax }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+            {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>   مالیات بر درآمد   </td>
+                        <td>{{ profitOrLoss.taxPerIncome }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for profitOrLoss in profitOrLosss %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>    سود (زیان) خالص عملیات در حال تداوم  </td>
+                        <td>{{ profitOrLoss.profitOrlossFromContinuingOperations }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>   سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی   </td>
+                        <td>{{ profitOrLoss.profitOrLossFromDiscontinuedOperations }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>   سود (زیان) خالص   </td>
+                        <td>{{ incomeStatement.profitOrLoss }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for basicEarningsLossPerShare in basicEarningsLossPerShares %}
+                {% if basicEarningsLossPerShare.relatedTo.companyName in finan.companyName and basicEarningsLossPerShare.relatedTo.type_audit in finan.type_audit and basicEarningsLossPerShare.relatedTo.type_date in finan.type_date and basicEarningsLossPerShare.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td> <b> سود (زیان) پایه هر سهم </b> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- عملیاتی </td>
+                        <td>{{ basicEarningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsOperating }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- غیرعملیاتی </td>
+                        <td>{{ basicEarningsLossPerShare.basicEarningsOrLossPerShareFromContinuingOperationsNonOperating }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سود (زیان) پایه هر سهم ناشی از عملیات متوقف‌ شده </td>
+                        <td>{{ basicEarningsLossPerShare.basicEarningsOrLossPerShareFromDiscontinuingOperations }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>    سود (زیان) پایه هر سهم    </td>
+                        <td>{{ incomeStatement.basicEarningsLossPerShare }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+            {% for dilutedEarningsOrLossPerShare in dilutedEarningsOrLossPerShares %}
+                {% if dilutedEarningsOrLossPerShare.relatedTo.companyName in finan.companyName and dilutedEarningsOrLossPerShare.relatedTo.type_audit in finan.type_audit and dilutedEarningsOrLossPerShare.relatedTo.type_date in finan.type_date and dilutedEarningsOrLossPerShare.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td> <b>  سود (زیان) تقلیل یافته هر سهم  </b> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>  سود (زیان) تقلیل یافته هر سهم ناشی از عملیات در حال تداوم- عملیاتی  </td>
+                        <td>{{ dilutedEarningsOrLossPerShare.dilutedEarningsOrLossPerShareFromContinuingOperationsOperating }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- غیرعملیاتی </td>
+                        <td>{{ dilutedEarningsOrLossPerShare.dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> سود (زیان) پایه هر سهم ناشی از عملیات متوقف‌ شده </td>
+                        <td>{{ dilutedEarningsOrLossPerShare.dilutedEarningsOrLossPerShareFromDiscontinuingOperations }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>     سود (زیان) تقلیل یافته هر سهم     </td>
+                        <td>{{ incomeStatement.dilutedEarningsLossPerShare }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+            {% for statementOfIncomeAndRetainedEarning in statementOfIncomeAndRetainedEarnings %}
+                {% if statementOfIncomeAndRetainedEarning.relatedTo.companyName in finan.companyName and statementOfIncomeAndRetainedEarning.relatedTo.type_audit in finan.type_audit and statementOfIncomeAndRetainedEarning.relatedTo.type_date in finan.type_date and statementOfIncomeAndRetainedEarning.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td> <b>   گردش حساب سود (زیان) انباشته   </b> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+             {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>     سود (زیان) خالص      </td>
+                        <td>{{ incomeStatement.profitOrLoss }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for statementOfIncomeAndRetainedEarning in statementOfIncomeAndRetainedEarnings %}
+                {% if statementOfIncomeAndRetainedEarning.relatedTo.companyName in finan.companyName and statementOfIncomeAndRetainedEarning.relatedTo.type_audit in finan.type_audit and statementOfIncomeAndRetainedEarning.relatedTo.type_date in finan.type_date and statementOfIncomeAndRetainedEarning.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td> سود (زیان) انباشته ابتدای دوره </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.retainedEarningsAtBeginningOfPeriod }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>  تعدیلات سنواتی  </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.priorPeriodAdjustments }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>     سود (زیان) انباشته ابتدای دوره تعدیل ‌شده      </td>
+                        <td>{{ incomeStatement.adjustedRetainedEarningsBeginningBalance }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for statementOfIncomeAndRetainedEarning in statementOfIncomeAndRetainedEarnings %}
+                {% if statementOfIncomeAndRetainedEarning.relatedTo.companyName in finan.companyName and statementOfIncomeAndRetainedEarning.relatedTo.type_audit in finan.type_audit and statementOfIncomeAndRetainedEarning.relatedTo.type_date in finan.type_date and statementOfIncomeAndRetainedEarning.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>  سود سهام‌ مصوب  </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.dividendsDeclaredAndPaidOrPayable }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>   تغییرات سرمایه از محل سود (زیان) انباشته   </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.changesInCapitalFromRetainedEarnings }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>  سود (زیان) انباشته ابتدای دوره تخصیص نیافته   </td>
+                        <td>{{ incomeStatement.unallocatedRetainedEarningsAtTheBeginningOfPeriod }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+            {% for statementOfIncomeAndRetainedEarning in statementOfIncomeAndRetainedEarnings %}
+                {% if statementOfIncomeAndRetainedEarning.relatedTo.companyName in finan.companyName and statementOfIncomeAndRetainedEarning.relatedTo.type_audit in finan.type_audit and statementOfIncomeAndRetainedEarning.relatedTo.type_date in finan.type_date and statementOfIncomeAndRetainedEarning.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>   انتقال از سایر اقلام حقوق صاحبان سهام   </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.transferFromOtherEquityItems }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                {% endif %}
+            {% endfor %}
+
+
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>  سود قابل تخصیص </td>
+                        <td>{{ incomeStatement.distributableEarnings }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+
+
+
+
+            {% for statementOfIncomeAndRetainedEarning in statementOfIncomeAndRetainedEarnings %}
+                {% if statementOfIncomeAndRetainedEarning.relatedTo.companyName in finan.companyName and statementOfIncomeAndRetainedEarning.relatedTo.type_audit in finan.type_audit and statementOfIncomeAndRetainedEarning.relatedTo.type_date in finan.type_date and statementOfIncomeAndRetainedEarning.relatedTo.type_consolidated in finan.type_consolidated %}
+
+                    <tr>
+                        <td>  انتقال به اندوخته‌ قانوني‌  </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.transferToStatutoryReserve }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>   انتقال به سایر اندوخته‌ها ‌  </td>
+                        <td>{{ statementOfIncomeAndRetainedEarning.transferToOtherReserve }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                {% endif %}
+            {% endfor %}
+
+            {% for incomeStatement in incomeStatements %}
+                {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>   سود (زیان) انباشته‌ پايان‌ دوره  </td>
+                        <td>{{ incomeStatement.retainedEarningsAtEndOfPeriod }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: coral">
+                    <td>    سود (زیان) خالص هر سهم– ریال   </td>
+                        <td>{{ incomeStatement.earningsPerShareAfterTax }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="background-color: coral">
+                    <td> سرمایه  </td>
+                        <td>{{ incomeStatement.listedCapital }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                {% endif %}
+            {% endfor %}
+            {######### دارایی های غیرجاری #########}
+{#            {% for nonCurrentAsset in nonCurrentAssets %}#}
+{#                {% if nonCurrentAsset.relatedTo.companyName in finan.companyName and nonCurrentAsset.relatedTo.type_audit in finan.type_audit and nonCurrentAsset.relatedTo.type_date in finan.type_date and nonCurrentAsset.relatedTo.type_consolidated in finan.type_consolidated %}#}
+{#                    <tr>#}
+{#                        <td><b>دارایی های غیرجاری</b></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>دریافتی های بلندمدت</td>#}
+{#                        <td>{{ nonCurrentAsset.longTermInvestments }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>سرمایه گذاری های بلند مدت</td>#}
+{#                        <td>{{ nonCurrentAsset.longTermInputs }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>سرمایه گذاری در املاک</td>#}
+{#                        <td>{{ nonCurrentAsset.investmentInEstate }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>دارایی های نامشهود</td>#}
+{#                        <td>{{ nonCurrentAsset.intangibleAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>دارایی های ثابت مشهود</td>#}
+{#                        <td>{{ nonCurrentAsset.tangibleAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>سایر دارایی ها</td>#}
+{#                        <td>{{ nonCurrentAsset.otherAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+            {######### جمع دارایی های غیرجاری #########}
+{#            {% for asset in assets %}#}
+{#                {% if asset.relatedTo.companyName in finan.companyName and asset.relatedTo.type_audit in finan.type_audit and asset.relatedTo.type_date in finan.type_date and asset.relatedTo.type_consolidated in finan.type_consolidated %}#}
+{#                     <tr style="background-color: coral">#}
+{#                        <td>جمع دارایی های غیر جاری</td>#}
+{#                        <td>{{ asset.sumOfNonCurrentAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+{#             <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#            </tr>#}
+            {######### جمع دارایی ها #########}
+{#            {% for balanceSheet in balanceSheets %}#}
+{#                {% if balanceSheet.relatedTo.companyName in finan.companyName and balanceSheet.relatedTo.type_audit in finan.type_audit and balanceSheet.relatedTo.type_date in finan.type_date and balanceSheet.relatedTo.type_consolidated in finan.type_consolidated %}#}
+{#                   <tr>#}
+{#                        <td>جمع دارایی ها</td>#}
+{#                        <td>{{ balanceSheet.sumOfAssets }}</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
+                {% endif %}
+            {% endfor %}
+
+        {% endfor %}
+
+
 
 {% endblock %}
