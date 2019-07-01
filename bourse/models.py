@@ -747,6 +747,7 @@ pol = profitOrLoss(relatedTo_id=1,operationIncomes=report[2][0][7][2][1], costOf
                    otherNonOperatingIncomeAndExpensesIncomeInvestments=report[2][0][7][10][1],
                    otherNonOperatingIncomeAndExpensesMiscellaneousItems=report[2][0][7][11][1],
                    taxPerIncome=report[2][0][7][13][1],
+                   profitOrlossFromContinuingOperations=report[2][0][7][14][1],
                    profitOrLossFromDiscontinuedOperations=report[2][0][7][15][1])
 pol.save()
 
@@ -777,7 +778,6 @@ soiare.save()
 IS = incomeStatement(relatedTo_id=1,grossProfit=report[2][0][7][4][1],
                      profitOrLossFromOperatingActivities=report[2][0][7][8][1],
                      profitOrLossBeforeTax=report[2][0][7][12][1],
-                     profitOrlossFromContinuingOperations=report[2][0][7][14][1],
                      profitOrLoss=report[2][0][7][16][1],
                      basicEarningsLossPerShare=report[2][0][7][21][1],
                      dilutedEarningsLossPerShare=report[2][0][7][26][1],
