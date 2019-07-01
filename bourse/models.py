@@ -93,8 +93,8 @@ class balanceSheet(models.Model):
 
 class assets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های جاری')
-    sumOfNonCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های غیرجاری')
+    sumOfCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های جاری', blank=True, null=True)
+    sumOfNonCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های غیرجاری',  blank=True, null=True)
 
     class Meta:
         verbose_name_plural = '1.1-دارایی ها'
@@ -207,7 +207,6 @@ class incomeStatement(models.Model):  # Narenji rang ha
     grossProfit = models.IntegerField(verbose_name='سود (زیان) ناخالص')
     profitOrLossFromOperatingActivities = models.IntegerField(verbose_name='سود (زیان) عملیاتی')
     profitOrLossBeforeTax = models.IntegerField(verbose_name='سود (زیان) عملیات در حال تداوم قبل از مالیات')
-    profitOrlossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
     profitOrLoss = models.IntegerField(verbose_name='سود (زیان) خالص')
     basicEarningsLossPerShare = models.IntegerField(verbose_name='سود (زیان) پایه هر سهم')
     dilutedEarningsLossPerShare = models.IntegerField(verbose_name='سود (زیان) تقلیل یافته هر سهم')
@@ -234,6 +233,7 @@ class profitOrLoss(models.Model):
     otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- اقلام متفرقه')
     taxPerIncome = models.IntegerField(verbose_name='مالیات بر درآمد')
     profitOrLossFromDiscontinuedOperations = models.IntegerField(verbose_name='سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی')
+    profitOrlossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
 
     class Meta:
         verbose_name_plural = '2.1-سود(زیان) خالص'
