@@ -1224,6 +1224,47 @@
 
         {% endfor %}
 
-
-
 {% endblock %}
+
+
+
+
+
+{% block table3 %}
+    <h3> صورت سود و زیان </h3>
+    {% for finan in financialStatementsLists %}
+            <tr>
+                <td>شرح</td>
+                <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
+                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td> درصد تغییرات </td>
+            </tr>
+            {######### دارایی های جاری #########}
+            {% for profitOrLoss in profitOrLosses %}
+                {% if profitOrLoss.relatedTo.companyName in finan.companyName and profitOrLoss.relatedTo.type_audit in finan.type_audit and profitOrLoss.relatedTo.type_date in finan.type_date and profitOrLoss.relatedTo.type_consolidated in finan.type_consolidated %}
+
+
+                    <tr>
+                        <td> دوره منتهی به </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>سود (زیان) خالص</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>درآمدهای عملیاتی</td>
+                        <td>{{ profitOrLoss.operationIncomes }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>بهای تمام ‌شده درآمدهای عملیاتی</td>
+                        <td>{{ profitOrLoss.costOfOperationIncomes }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
