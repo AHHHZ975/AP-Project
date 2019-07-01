@@ -47,3 +47,8 @@ admin.site.register(basicEarningsPerShare_bank)
 admin.site.register(dilutedEarningsPerShare_bank)
 admin.site.register(statementOfIncomeAndRetainedEarnings_bank)
 
+admin.site.register(cashFlow_bank)
+admin.site.register(cashFlowsFromUsedInOperatingActivities_bank)
+admin.site.register(investmentReturnsAndPaymentsOnFinancingCosts_bank)
+admin.site.register(cashFlowsFromUsedInInvestingActivities_bank)
+
