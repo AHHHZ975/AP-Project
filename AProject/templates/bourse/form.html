@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block table1 %}
-    <h3> جدول اطلاعات و صورت های مالی های موجود</h3>
+    <h3> ترازنامه</h3>
         {% for finan in financialStatementsLists %}
+            <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
@@ -543,10 +544,11 @@
 
 {% endblock %}
 
-############### Income Statement #############
+{################ Income Statement ##############}
 {% block table3 %}
     <h3> صورت سود و زیان </h3>
     {% for finan in financialStatementsLists %}
+         <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
@@ -615,7 +617,7 @@
 {#                {% endif %}#}
 {#            {% endfor %}#}
 {##}
-            ########سود (زیان) ناخالص ########
+{#            ########سود (زیان) ناخالص #########}
             {% for incomeStatement in incomeStatements %}
                 {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr style="background-color: coral">
@@ -655,7 +657,7 @@
             {% endfor %}
 
 
-                ########سود (زیان) ناخالص ########
+{#                ########سود (زیان) ناخالص #########}
             {% for incomeStatement in incomeStatements %}
                 {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr style="background-color: coral">
@@ -695,7 +697,7 @@
             {% endfor %}
 
 
-                ######## سود (زیان) عملیات در حال تداوم قبل از مالیات  ########
+{#                ######## سود (زیان) عملیات در حال تداوم قبل از مالیات  #########}
             {% for incomeStatement in incomeStatements %}
                 {% if incomeStatement.relatedTo.companyName in finan.companyName and incomeStatement.relatedTo.type_audit in finan.type_audit and incomeStatement.relatedTo.type_date in finan.type_date and incomeStatement.relatedTo.type_consolidated in finan.type_consolidated %}
                     <tr style="background-color: coral">
@@ -844,12 +846,6 @@
                     </tr>
                 {% endif %}
             {% endfor %}
-
-
-
-
-
-
 
 
 
@@ -1233,6 +1229,7 @@
 {% block table4 %}
     <h3>صورت جریان وجوه نقد </h3>
     {% for finan in financialStatementsLists %}
+         <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
@@ -1605,18 +1602,6 @@
 
                 {% endif %}
             {% endfor %}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
