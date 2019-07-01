@@ -620,8 +620,9 @@ else:
 fs.save()
 
 
-
-
+print(report[0][0])
+print(report[2][0])
+############################# Regualar Balancesheet ###################################################################
 ca = currentAssets(relatedTo_id=1,cash=report[0][0][7][2][1], shortTermInvestments=report[0][0][7][3][1],
                    commercialInputs=report[0][0][7][4][1], noncommercialInputs=report[0][0][7][5][1],
                    inventory=report[0][0][7][6][1], prepaidExpenses=report[0][0][7][7][1],
@@ -637,15 +638,9 @@ nca.save()
 
 a = assets(relatedTo_id=1, sumOfCurrentAssets=report[0][0][7][9][1], sumOfNonCurrentAssets=report[0][0][7][17][1])
 a.save()
-#
-#
-#
-#
-#
-#
-#
-#
-#
+
+
+
 cd = currentDebts(relatedTo_id=1,commercialPayable=report[0][0][7][2][5], NonCommercialPayable=report[0][0][7][3][5],
                    payableTaxes=report[0][0][7][4][5], payableDividends=report[0][0][7][5][5],
                    financialFacility=report[0][0][7][6][5], resources=report[0][0][7][7][5],
@@ -653,20 +648,12 @@ cd = currentDebts(relatedTo_id=1,commercialPayable=report[0][0][7][2][5], NonCom
 cd.save()
 
 
-print(report[0][0][7][0][5])
-print(report[0][0][7][1][5])
-print(report[0][0][7][10][5])
-# print(report[0][0][7][11][5])
-# print(report[0][0][7][12][5])
-# print(report[0][0][7][13][5])
-# print(report[0][0][7][14][5])
-# print(report[0][0][7][15][5])
 ncd = nonCurrentDebts(relatedTo_id=1, longTermPayable=report[0][0][7][12][5],
                        nonCurrentPreReceivables=report[0][0][7][13][5], longTermFinancialFacility=report[0][0][7][14][5],
                        storeOfWorkersEndServiceAdvantages=report[0][0][7][15][5])
 ncd.save()
 
-oi = ownerInvestment(relatedTo_id=i, assets=report[0][0][7][19][5], increaseORDecreaseOfInProcessAssets=report[0][0][7][20][5],
+oi = ownerInvestment(relatedTo_id=1, assets=report[0][0][7][19][5], increaseORDecreaseOfInProcessAssets=report[0][0][7][20][5],
                      stockSpends=report[0][0][7][21][5], treasuryStocks=report[0][0][7][22][5],
                      legalSavings=report[0][0][7][23][5], otherSavings=report[0][0][7][24][5],
                      RevaluationSurplusOfAssets=report[0][0][7][25][5], RevaluationSurplusOfHeldForSaleAssets=report[0][0][7][26][5],
@@ -681,4 +668,54 @@ daao.save()
 
 bs = balanceSheet(relatedTo_id=1, sumOfAssets=report[0][0][7][31][1], sumOfDebtsAndFundsOwner=report[0][0][7][31][5])
 bs.save()
-print(report[0][0])
+
+
+###################################### Regualar Income Statements #####################################################
+pol = profitOrLoss(relatedTo_id=1,operationIncomes=report[2][0][7][2][1], costOfOperationIncomes=report[2][0][7][3][1],
+                   distributionAndAdministrativeExpense=report[2][0][7][5][1],
+                   otherIncome=report[2][0][7][6][1], otherExpense=report[2][0][7][7][1],
+                   financeCosts=report[2][0][7][9][1],
+                   otherNonOperatingIncomeAndExpensesIncomeInvestments=report[2][0][7][10][1],
+                   otherNonOperatingIncomeAndExpensesMiscellaneousItems=report[2][0][7][11][1],
+                   taxPerIncome=report[2][0][7][13][1],
+                   profitOrLossFromDiscontinuedOperations=report[2][0][7][15][1])
+pol.save()
+
+
+belps = basicEarningsLossPerShare(relatedTo_id=1,
+                                  basicEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][0][7][18][1],
+                                  basicEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][0][7][19][1],
+                                  basicEarningsOrLossPerShareFromDiscontinuingOperations=report[2][0][7][20][1])
+belps.save()
+
+deolps = dilutedEarningsOrLossPerShare(relatedTo_id=1,
+                                  dilutedEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][0][7][23][1],
+                                  dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][0][7][24][1],
+                                  dilutedEarningsOrLossPerShareFromDiscontinuingOperations=report[2][0][7][25][1])
+deolps.save()
+
+
+soiare = statementOfIncomeAndRetainedEarnings(relatedTo_id=1,
+                                  retainedEarningsAtBeginningOfPeriod=report[2][0][7][29][1],
+                                  priorPeriodAdjustments=report[2][0][7][30][1],
+                                  dividendsDeclaredAndPaidOrPayable=report[2][0][7][32][1],
+                                  changesInCapitalFromRetainedEarnings=report[2][0][7][33][1],
+                                  transferFromOtherEquityItems=report[2][0][7][35][1],
+                                  transferToStatutoryReserve=report[2][0][7][37][1],
+                                  transferToOtherReserve=report[2][0][7][38][1])
+soiare.save()
+
+IS = incomeStatement(relatedTo_id=1,grossProfit=report[2][0][7][4][1],
+                     profitOrLossFromOperatingActivities=report[2][0][7][8][1],
+                     profitOrLossBeforeTax=report[2][0][7][12][1],
+                     profitOrlossFromContinuingOperations=report[2][0][7][14][1],
+                     profitOrLoss=report[2][0][7][16][1],
+                     basicEarningsLossPerShare=report[2][0][7][21][1],
+                     dilutedEarningsLossPerShare=report[2][0][7][26][1],
+                     adjustedRetainedEarningsBeginningBalance=report[2][0][7][31][1],
+                     unallocatedRetainedEarningsAtTheBeginningOfPeriod=report[2][0][7][34][1],
+                     distributableEarnings=report[2][0][7][36][1],
+                     retainedEarningsAtEndOfPeriod=report[2][0][7][39][1],
+                     earningsPerShareAfterTax=report[2][0][7][40][1],
+                     listedCapital=report[2][0][7][41][1])
+IS.save()
