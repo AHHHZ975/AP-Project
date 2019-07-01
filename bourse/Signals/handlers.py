@@ -441,8 +441,8 @@ def update_incomeStatement_profitOrLoss(**kwargs):
                                               profitOrLossObject.otherNonOperatingIncomeAndExpensesIncomeInvestments + \
                                               profitOrLossObject.otherNonOperatingIncomeAndExpensesMiscellaneousItems + \
                                               profitOrLossObject.taxPerIncome + \
-                                              profitOrLossObject.profitLossFromContinuingOperations + \
-                                              profitOrLossObject.profitOrLossFromDiscontinuedOperation
+                                              profitOrLossObject.profitOrLossFromContinuingOperations + \
+                                              profitOrLossObject.profitOrLossFromDiscontinuedOperations
 
         incomeStatementObject.save()
 
