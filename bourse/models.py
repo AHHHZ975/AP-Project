@@ -622,6 +622,7 @@ fs.save()
 
 print(report[0][0])
 print(report[2][0])
+print(report[4][0])
 ############################# Regualar Balancesheet ###################################################################
 ca = currentAssets(relatedTo_id=1,cash=report[0][0][7][2][1], shortTermInvestments=report[0][0][7][3][1],
                    commercialInputs=report[0][0][7][4][1], noncommercialInputs=report[0][0][7][5][1],
@@ -719,3 +720,55 @@ IS = incomeStatement(relatedTo_id=1,grossProfit=report[2][0][7][4][1],
                      earningsPerShareAfterTax=report[2][0][7][40][1],
                      listedCapital=report[2][0][7][41][1])
 IS.save()
+
+###################################### Regular Cash Flow #########################################
+cffuioa = cashFlowsFromUsedInOperatingActivities(relatedTo_id=1,
+                                                 netCashFlowsFromUsedInOperatingActivitiesOrdinary=report[4][0][7][1][1],
+                                                 netCashFlowsFromUsedInOperatingActivitiesExceptional=report[4][0][7][2][1])
+cffuioa.save()
+
+irapofc = investmentReturnsAndPaymentsOnFinancingCosts(relatedTo_id=1,
+                                                 dividendsReceived=report[4][0][7][5][1],
+                                                 interestPaidOrBorrowing=report[4][0][7][6][1],
+                                                 interestReceivedFromOtherInvestments=report[4][0][7][7][1],
+                                                 dividendsPaid=report[4][0][7][8][1])
+irapofc.save()
+
+cfuia = cashFlowsFromUsedInInvestingActivities(relatedTo_id=1,
+                                                 proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][0][7][13][1],
+                                                 purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][0][7][14][1],
+                                                 proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities=report[4][0][7][15][1],
+                                                 purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities=report[4][0][7][16][1],
+                                                 proceedsFromSalesOfNonCurrentInvestments=report[4][0][7][17][1],
+                                                 facilitiesGrantedToIndividuals=report[4][0][7][18][1],
+                                                 extraditionFacilitiesGrantedToIndividuals=report[4][0][7][19][1],
+                                                 purchaseOfNonCurrentInvestments=report[4][0][7][20][1],
+                                                 proceedsFromSalesOfCurrentInvestments=report[4][0][7][21][1],
+                                                 purchaseOfCurrentInvestments=report[4][0][7][22][1],
+                                                 proceedsFromSalesOfInvestmentProperty=report[4][0][7][23][1],
+                                                 purchaseOfInvestmentProperty=report[4][0][7][24][1])
+cfuia.save()
+
+cfuifa = cashFlowsFromUsedInFinancingActivities(relatedTo_id=1,
+                                                 proceedsFromIssuingShares=report[4][0][7][28][1],
+                                                 proceedsFromSalesOrIssueOfTreasuryShares=report[4][0][7][29][1],
+                                                 paymentsForPurchaseOfTreasuryShares=report[4][0][7][30][1],
+                                                 proceedsFromBorrowingsClassifiedAsFinancingActivities=report[4][0][7][31][1],
+                                                 repaymentsOfBorrowingsClassifiedAsFinancingActivities=report[4][0][7][32][1],
+                                                 cashAtBeginningOfPeriod=report[4][0][7][35][1],
+                                                 effectOfExchangeRateChangesOnCash=report[4][0][7][36][1],
+                                                 NonCashTransactions=report[4][0][7][38][1])
+cfuifa.save()
+
+cf = cashFlow(relatedTo_id=1,
+                                                 netCashFlowsFromUsedInOperatingActivities=report[4][0][7][3][1],
+                                                 netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts=report[4][0][7][9][1],
+                                                 netCashFlowsFromUsedInInvestingActivities=report[4][0][7][25][1],
+                                                 netCashFlowsFromUsedInBeforeFinancingActivities=report[4][0][7][26][1],
+                                                 netCashFlowsFromUsedInFinancingActivities=report[4][0][7][33][1],
+                                                 netIncreaseDecreaseInCash=report[4][0][7][34][1],
+                                                 cashAtEndOfPeriod=report[4][0][7][35][1])
+cf.save()
+
+cfuiit = cashFlowsUsedInIncomeTax(relatedTo_id=1, incomeTaxesPaid=report[4][0][7][11][1])
+cfuiit.save()
