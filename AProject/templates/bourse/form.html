@@ -1557,13 +1557,54 @@
             {% endfor %}
 
 
+            {% for cashFlowsFromUsedInFinancingActivitie in cashFlowsFromUsedInFinancingActivities %}
+                {% if cashFlowsFromUsedInFinancingActivitie.relatedTo.companyName in finan.companyName and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_audit in finan.type_audit and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_date in finan.type_date and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_consolidated in finan.type_consolidated %}
+                     <tr>
+                        <td>    موجودی نقد در ابتدای دوره   </td>
+                        <td>{{ cashFlowsFromUsedInFinancingActivitie.cashAtBeginningOfPeriod }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                         <tr>
+                        <td>    تآثیر تغییرات نرخ ارز   </td>
+                        <td>{{ cashFlowsFromUsedInFinancingActivitie.effectOfExchangeRateChangesOnCash }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                {% endif %}
+            {% endfor %}
+
+
+
+          {% for cashFlow in cashFlows %}
+                {% if cashFlow.relatedTo.companyName in finan.companyName and cashFlow.relatedTo.type_audit in finan.type_audit and cashFlow.relatedTo.type_date in finan.type_date and cashFlow.relatedTo.type_consolidated in finan.type_consolidated %}
+                    <tr style="background-color: coral">
+                    <td>  موجودی نقد در پایان دوره   </td>
+                        <td>{{ cashFlow.cashAtEndOfPeriod }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                {% endif %}
+            {% endfor %}
 
 
 
 
+            {% for cashFlowsFromUsedInFinancingActivitie in cashFlowsFromUsedInFinancingActivities %}
+                {% if cashFlowsFromUsedInFinancingActivitie.relatedTo.companyName in finan.companyName and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_audit in finan.type_audit and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_date in finan.type_date and cashFlowsFromUsedInFinancingActivitie.relatedTo.type_consolidated in finan.type_consolidated %}
+                     <tr>
+                        <td>     مبادلات غیرنقدی   </td>
+                        <td>{{ cashFlowsFromUsedInFinancingActivitie.NonCashTransactions }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 
-
-
+                {% endif %}
+            {% endfor %}
 
 
 
