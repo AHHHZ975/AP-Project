@@ -1226,11 +1226,13 @@
 
 
 
-{% block table4 %}
+
+{% block cash %}
     <h3>صورت جریان وجوه نقد </h3>
     {% for finan in financialStatementsLists %}
              <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ finan.type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
-
+    <div class="table-responsive" >
+    <table class="myTable table table-striped table-hover">
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
@@ -1608,10 +1610,8 @@
 
 
 
-
+        </table>
+        </div>
         {% endfor %}
 
 {% endblock %}
-
-
-
