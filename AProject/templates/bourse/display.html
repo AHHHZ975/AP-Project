@@ -23,6 +23,14 @@
             color: black;
             transition: all 0.1s ease;
         }
+        .myTable2{
+            width: 102%;
+            font-family: "B Nazanin";
+            font-size: 15px;
+            background-color: rgb(145, 255, 191);
+            color: black;
+            transition: all 0.1s ease;
+        }
         .myTable:hover{
             background-color: rgb(109, 255, 179);
         }
@@ -37,8 +45,9 @@
         {% for finan in financialStatementsLists %}
             <h3> ترازنامه</h3>
             <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
-            <div class="table-responsive" >
-            <table style = "float: right"  class="myTable table table-striped table-hover">
+            <div class="row">
+            <div class="table-responsive col-md-6" >
+            <table style = "float: right"  class="myTable2 table table-striped table-hover">
 
             <tr>
                 <td>شرح</td>
@@ -178,138 +187,85 @@
                 {% endif %}
             {% endfor %}
 
-             <tr>
+             <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
             {######### جمع دارایی ها #########}
             {% for balanceSheet in balanceSheets %}
                 {% if balanceSheet.relatedTo.companyName in finan.companyName and balanceSheet.relatedTo.type_audit in finan.type_audit and balanceSheet.relatedTo.type_date in finan.type_date and balanceSheet.relatedTo.type_consolidated in finan.type_consolidated %}
@@ -325,8 +281,8 @@
             </div>
 
 
-        <div class="table-responsive" >
-            <table style = "float: left" class="myTable table table-striped table-hover">
+        <div class="table-responsive col-md-6" >
+            <table style = "float: left;" class="myTable2 table table-striped table-hover">
 
             <tr>
                 <td>شرح</td>
@@ -579,6 +535,11 @@
 
         </table>
     </div>
+            </div>
+
+
+
+
 
 {#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#}
 
