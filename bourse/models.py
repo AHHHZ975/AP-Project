@@ -18,8 +18,8 @@ TYPES_REPORT = (
     ('2' , 'Investment'),
 )
 TYPES_AUDIT = (
-    ('(حسابرسی شده', 'حسابرسی شده'),
-    ('حسابرسی نشده', 'حسابرسی نشده'),
+    ('(حسابرسی شده)', '(حسابرسی شده)'),
+    ('(حسابرسی نشده)', '(حسابرسی نشده)'),
 )
 TYPES_DATE = (
     ('1', 'ماهه 1'),
@@ -46,36 +46,22 @@ class FinancialStatements(models.Model):
     type_consolidated = models.CharField('نوع تلفیقی', max_length=16, choices=TYPES_CONSOLIDATED, blank=True,
                                          default="")
     # endTo = models.DateField('End to', default=timezone.now)
-    # endTo = models.CharField('End to', max_length=32, default="")
+    endTo = models.CharField('منتهی به', max_length=32, default="")
     # endTo = jmodels.jDateField('منتهی به', default="")    
-    # financialYear = jmodels.jDateField('آخرین سال مالی', default="")
+    financialYear = models.CharField('آخرین سال مالی', max_length=32, default="")
 
 
     def __str__(self):
         string = f"اطلاعات و صورت مالی شرکت {str(self.companyName)} {self.type_consolidated} " \
-                 f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  "
-                 # f"{str(self.endTo)}"
+                 f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
+                 f"{str(self.endTo)} و آخرین سال مالی" \
+                 f"{str(self.financialYear)}"
 
         return string
 
     class Meta:
         verbose_name_plural = '0-اطلاعات و صورت های مالی'
 
-    def was_published_recently(self):
-        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
-
-    # def __str__(self):
-    #     string = f"اطلاعات و صورت مالی شرکت {str(self.name)} {self.type_consolidated} " \
-    #              f" {str(self.type_audit)} {str(self.type_date)} ماهه منتهی به  " \
-    #              f"{str(self.endTo)}"
-
-    # string += str(self.name)
-    # string += self.type_consolidated
-    # string += str(self.type_audit)
-    # string += str(self.type_date)
-    # string += "ماهه "
-    # string += "منتهی به"
-    # string += str(self.endto)
 
 
 class company(models.Model):
@@ -452,6 +438,7 @@ class assets_bank(models.Model):
         return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
 
+
 class debts_bank(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     liabilitiesDueToCentralBanks = models.IntegerField(verbose_name=' بدهی به بانک مرکزی و صندوق توسعه ملی ')
@@ -821,169 +808,168 @@ companyNum = '0'
 reportNum = '0'
 
 [report, number] = Report_Extractor(companySymbol, companyNum, reportNum)
-# print(number)
-if  'تلفیقی' in report[0][0][1]:
-    fs = FinancialStatements(companyName=report[0][0][0], type_audit=report[0][0][5],
-                             type_date=report[0][0][2], type_consolidated='تلفیقی')
+
+############################# Regualar Balancesheet ###################################################################
+# for index, val in enumerate(range(number)):
+index = 0
+if 'تلفیقی' in report[0][index][1]:
+    fs = FinancialStatements(companyName=report[0][index][0], type_audit=report[0][index][5],
+                             type_date=report[0][index][2], type_consolidated='تلفیقی', endTo=report[0][index][3],
+                             financialYear=report[0][index][4])
 else:
-    fs = FinancialStatements(companyName=report[0][0][0], type_audit=report[0][0][5],
-                             type_date=report[0][0][2], type_consolidated='غیرتلفیقی')
+    fs = FinancialStatements(companyName=report[0][index][0], type_audit=report[0][index][5],
+                             type_date=report[0][index][2], type_consolidated='غیرتلفیقی', endTo=report[0][index][3],
+                             financialYear=report[0][index][4])
 fs.save()
 
-
-print(report[0][0])
-print(report[1][0])
-print(report[2][0])
-print(report[4][0])
-############################# Regualar Balancesheet ###################################################################
-ca = currentAssets(relatedTo_id=1,cash=report[0][0][7][2][1], shortTermInvestments=report[0][0][7][3][1],
-                   commercialInputs=report[0][0][7][4][1], noncommercialInputs=report[0][0][7][5][1],
-                   inventory=report[0][0][7][6][1], prepaidExpenses=report[0][0][7][7][1],
-                   salableAssets=report[0][0][7][8][1])
+ca = currentAssets(relatedTo_id=1,cash=report[0][index][7][2][1], shortTermInvestments=report[0][index][7][3][1],
+                   commercialInputs=report[0][index][7][4][1], noncommercialInputs=report[0][index][7][5][1],
+                   inventory=report[0][index][7][6][1], prepaidExpenses=report[0][index][7][7][1],
+                   salableAssets=report[0][index][7][8][1])
 ca.save()
 
 
-nca = nonCurrentAssets(relatedTo_id=1, longTermInputs=report[0][0][7][11][1],
-                       longTermInvestments=report[0][0][7][12][1],
-                       investmentInEstate=report[0][0][7][13][1],
-                       intangibleAssets=report[0][0][7][14][1], tangibleAssets=report[0][0][7][15][1],
-                       otherAssets=report[0][0][7][16][1])
+nca = nonCurrentAssets(relatedTo_id=1, longTermInputs=report[0][index][7][11][1],
+                       longTermInvestments=report[0][index][7][12][1],
+                       investmentInEstate=report[0][index][7][13][1],
+                       intangibleAssets=report[0][index][7][14][1], tangibleAssets=report[0][index][7][15][1],
+                       otherAssets=report[0][index][7][16][1])
 nca.save()
 
-a = assets(relatedTo_id=1, sumOfCurrentAssets=report[0][0][7][9][1], sumOfNonCurrentAssets=report[0][0][7][17][1])
+a = assets(relatedTo_id=1, sumOfCurrentAssets=report[0][index][7][9][1], sumOfNonCurrentAssets=report[0][index][7][17][1])
 a.save()
 
 
 
-cd = currentDebts(relatedTo_id=1,commercialPayable=report[0][0][7][2][5], NonCommercialPayable=report[0][0][7][3][5],
-                   payableTaxes=report[0][0][7][4][5], payableDividends=report[0][0][7][5][5],
-                   financialFacility=report[0][0][7][6][5], resources=report[0][0][7][7][5],
-                   currentPreReceivables=report[0][0][7][8][5], debtsRelatedWithSalableAssets=report[0][0][7][9][5])
+cd = currentDebts(relatedTo_id=1,commercialPayable=report[0][index][7][2][5], NonCommercialPayable=report[0][index][7][3][5],
+                   payableTaxes=report[0][index][7][4][5], payableDividends=report[0][index][7][5][5],
+                   financialFacility=report[0][index][7][6][5], resources=report[0][index][7][7][5],
+                   currentPreReceivables=report[0][index][7][8][5], debtsRelatedWithSalableAssets=report[0][index][7][9][5])
 cd.save()
 
 
 ncd = nonCurrentDebts(relatedTo_id=1, longTermPayable=report[0][0][7][12][5],
-                       nonCurrentPreReceivables=report[0][0][7][13][5], longTermFinancialFacility=report[0][0][7][14][5],
+                       nonCurrentPreReceivables=report[0][index][7][13][5], longTermFinancialFacility=report[0][index][7][14][5],
                        storeOfWorkersEndServiceAdvantages=report[0][0][7][15][5])
 ncd.save()
 
-oi = ownerInvestment(relatedTo_id=1, assets=report[0][0][7][19][5], increaseORDecreaseOfInProcessAssets=report[0][0][7][20][5],
-                     stockSpends=report[0][0][7][21][5], treasuryStocks=report[0][0][7][22][5],
-                     legalSavings=report[0][0][7][23][5], otherSavings=report[0][0][7][24][5],
-                     RevaluationSurplusOfAssets=report[0][0][7][25][5], RevaluationSurplusOfHeldForSaleAssets=report[0][0][7][26][5],
-                     DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[0][0][7][27][5],
-                     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[0][0][7][28][5],
-                     accumulatedProfitORLosses=report[0][0][7][29][5])
+oi = ownerInvestment(relatedTo_id=1, assets=report[0][index][7][19][5], increaseORDecreaseOfInProcessAssets=report[0][index][7][20][5],
+                     stockSpends=report[0][index][7][21][5], treasuryStocks=report[0][index][7][22][5],
+                     legalSavings=report[0][index][7][23][5], otherSavings=report[0][index][7][24][5],
+                     RevaluationSurplusOfAssets=report[0][index][7][25][5], RevaluationSurplusOfHeldForSaleAssets=report[0][index][7][26][5],
+                     DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[0][index][7][27][5],
+                     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[0][index][7][28][5],
+                     accumulatedProfitORLosses=report[0][index][7][29][5])
 oi.save()
 
-daao = debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[0][0][7][10][5], sumOfNonCurrentDebts=report[0][0][7][16][5],
-                           sumOfOwnersInvestments=report[0][0][7][30][5])
+daao = debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[0][index][7][10][5], sumOfNonCurrentDebts=report[0][index][7][16][5],
+                           sumOfOwnersInvestments=report[0][index][7][30][5])
 daao.save()
 
-bs = balanceSheet(relatedTo_id=1, sumOfAssets=report[0][0][7][31][1], sumOfDebtsAndFundsOwner=report[0][0][7][31][5])
+bs = balanceSheet(relatedTo_id=1, sumOfAssets=report[0][index][7][31][1], sumOfDebtsAndFundsOwner=report[0][index][7][31][5])
 bs.save()
 
 
 ###################################### Regualar Income Statements #####################################################
-pol = profitOrLoss(relatedTo_id=1,operationIncomes=report[2][0][7][2][1], costOfOperationIncomes=report[2][0][7][3][1],
-                   distributionAndAdministrativeExpense=report[2][0][7][5][1],
-                   otherIncome=report[2][0][7][6][1], otherExpense=report[2][0][7][7][1],
-                   financeCosts=report[2][0][7][9][1],
-                   otherNonOperatingIncomeAndExpensesIncomeInvestments=report[2][0][7][10][1],
-                   otherNonOperatingIncomeAndExpensesMiscellaneousItems=report[2][0][7][11][1],
-                   taxPerIncome=report[2][0][7][13][1],
-                   profitOrLossFromContinuingOperations=report[2][0][7][14][1],
-                   profitOrLossFromDiscontinuedOperations=report[2][0][7][15][1])
+pol = profitOrLoss(relatedTo_id=1,operationIncomes=report[2][index][7][2][1], costOfOperationIncomes=report[2][index][7][3][1],
+                   distributionAndAdministrativeExpense=report[2][index][7][5][1],
+                   otherIncome=report[2][index][7][6][1], otherExpense=report[2][index][7][7][1],
+                   financeCosts=report[2][index][7][9][1],
+                   otherNonOperatingIncomeAndExpensesIncomeInvestments=report[2][index][7][10][1],
+                   otherNonOperatingIncomeAndExpensesMiscellaneousItems=report[2][index][7][11][1],
+                   taxPerIncome=report[2][index][7][13][1],
+                   profitOrLossFromContinuingOperations=report[2][index][7][14][1],
+                   profitOrLossFromDiscontinuedOperations=report[2][index][7][15][1])
 pol.save()
 
 
 belps = basicEarningsLossPerShare(relatedTo_id=1,
-                                  basicEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][0][7][18][1],
-                                  basicEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][0][7][19][1],
-                                  basicEarningsOrLossPerShareFromDiscontinuingOperations=report[2][0][7][20][1])
+                                  basicEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][index][7][18][1],
+                                  basicEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][index][7][19][1],
+                                  basicEarningsOrLossPerShareFromDiscontinuingOperations=report[2][index][7][20][1])
 belps.save()
 
 deolps = dilutedEarningsOrLossPerShare(relatedTo_id=1,
-                                  dilutedEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][0][7][23][1],
-                                  dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][0][7][24][1],
-                                  dilutedEarningsOrLossPerShareFromDiscontinuingOperations=report[2][0][7][25][1])
+                                  dilutedEarningsOrLossPerShareFromContinuingOperationsOperating=report[2][index][7][23][1],
+                                  dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating=report[2][index][7][24][1],
+                                  dilutedEarningsOrLossPerShareFromDiscontinuingOperations=report[2][index][7][25][1])
 deolps.save()
 
 
 soiare = statementOfIncomeAndRetainedEarnings(relatedTo_id=1,
-                                  retainedEarningsAtBeginningOfPeriod=report[2][0][7][29][1],
-                                  priorPeriodAdjustments=report[2][0][7][30][1],
-                                  dividendsDeclaredAndPaidOrPayable=report[2][0][7][32][1],
-                                  changesInCapitalFromRetainedEarnings=report[2][0][7][33][1],
-                                  transferFromOtherEquityItems=report[2][0][7][35][1],
-                                  transferToStatutoryReserve=report[2][0][7][37][1],
-                                  transferToOtherReserve=report[2][0][7][38][1])
+                                  retainedEarningsAtBeginningOfPeriod=report[2][index][7][29][1],
+                                  priorPeriodAdjustments=report[2][index][7][30][1],
+                                  dividendsDeclaredAndPaidOrPayable=report[2][index][7][32][1],
+                                  changesInCapitalFromRetainedEarnings=report[2][index][7][33][1],
+                                  transferFromOtherEquityItems=report[2][index][7][35][1],
+                                  transferToStatutoryReserve=report[2][index][7][37][1],
+                                  transferToOtherReserve=report[2][index][7][38][1])
 soiare.save()
 
-IS = incomeStatement(relatedTo_id=1,grossProfit=report[2][0][7][4][1],
-                     profitOrLossFromOperatingActivities=report[2][0][7][8][1],
-                     profitOrLossBeforeTax=report[2][0][7][12][1],
-                     profitOrLoss=report[2][0][7][16][1],
-                     basicEarningsLossPerShare=report[2][0][7][21][1],
-                     dilutedEarningsLossPerShare=report[2][0][7][26][1],
-                     adjustedRetainedEarningsBeginningBalance=report[2][0][7][31][1],
-                     unallocatedRetainedEarningsAtTheBeginningOfPeriod=report[2][0][7][34][1],
-                     distributableEarnings=report[2][0][7][36][1],
-                     retainedEarningsAtEndOfPeriod=report[2][0][7][39][1],
-                     earningsPerShareAfterTax=report[2][0][7][40][1],
-                     listedCapital=report[2][0][7][41][1])
+IS = incomeStatement(relatedTo_id=1,grossProfit=report[2][index][7][4][1],
+                     profitOrLossFromOperatingActivities=report[2][index][7][8][1],
+                     profitOrLossBeforeTax=report[2][index][7][12][1],
+                     profitOrLoss=report[2][index][7][16][1],
+                     basicEarningsLossPerShare=report[2][index][7][21][1],
+                     dilutedEarningsLossPerShare=report[2][index][7][26][1],
+                     adjustedRetainedEarningsBeginningBalance=report[2][index][7][31][1],
+                     unallocatedRetainedEarningsAtTheBeginningOfPeriod=report[2][index][7][34][1],
+                     distributableEarnings=report[2][index][7][36][1],
+                     retainedEarningsAtEndOfPeriod=report[2][index][7][39][1],
+                     earningsPerShareAfterTax=report[2][index][7][40][1],
+                     listedCapital=report[2][index][7][41][1])
 IS.save()
 
 ###################################### Regular Cash Flow #########################################
 cffuioa = cashFlowsFromUsedInOperatingActivities(relatedTo_id=1,
-                                                 netCashFlowsFromUsedInOperatingActivitiesOrdinary=report[4][0][7][1][1],
-                                                 netCashFlowsFromUsedInOperatingActivitiesExceptional=report[4][0][7][2][1])
+                                                 netCashFlowsFromUsedInOperatingActivitiesOrdinary=report[4][index][7][1][1],
+                                                 netCashFlowsFromUsedInOperatingActivitiesExceptional=report[4][index][7][2][1])
 cffuioa.save()
 
 irapofc = investmentReturnsAndPaymentsOnFinancingCosts(relatedTo_id=1,
-                                                 dividendsReceived=report[4][0][7][5][1],
-                                                 interestPaidOrBorrowing=report[4][0][7][6][1],
-                                                 interestReceivedFromOtherInvestments=report[4][0][7][7][1],
-                                                 dividendsPaid=report[4][0][7][8][1])
+                                                 dividendsReceived=report[4][index][7][5][1],
+                                                 interestPaidOrBorrowing=report[4][index][7][6][1],
+                                                 interestReceivedFromOtherInvestments=report[4][index][7][7][1],
+                                                 dividendsPaid=report[4][index][7][8][1])
 irapofc.save()
 
 cfuia = cashFlowsFromUsedInInvestingActivities(relatedTo_id=1,
-                                                 proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][0][7][13][1],
-                                                 purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][0][7][14][1],
-                                                 proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities=report[4][0][7][15][1],
-                                                 purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities=report[4][0][7][16][1],
-                                                 proceedsFromSalesOfNonCurrentInvestments=report[4][0][7][17][1],
-                                                 facilitiesGrantedToIndividuals=report[4][0][7][18][1],
-                                                 extraditionFacilitiesGrantedToIndividuals=report[4][0][7][19][1],
-                                                 purchaseOfNonCurrentInvestments=report[4][0][7][20][1],
-                                                 proceedsFromSalesOfCurrentInvestments=report[4][0][7][21][1],
-                                                 purchaseOfCurrentInvestments=report[4][0][7][22][1],
-                                                 proceedsFromSalesOfInvestmentProperty=report[4][0][7][23][1],
-                                                 purchaseOfInvestmentProperty=report[4][0][7][24][1])
+                                                 proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][index][7][13][1],
+                                                 purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities=report[4][index][7][14][1],
+                                                 proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities=report[4][index][7][15][1],
+                                                 purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities=report[4][index][7][16][1],
+                                                 proceedsFromSalesOfNonCurrentInvestments=report[4][index][7][17][1],
+                                                 facilitiesGrantedToIndividuals=report[4][index][7][18][1],
+                                                 extraditionFacilitiesGrantedToIndividuals=report[4][index][7][19][1],
+                                                 purchaseOfNonCurrentInvestments=report[4][index][7][20][1],
+                                                 proceedsFromSalesOfCurrentInvestments=report[4][index][7][21][1],
+                                                 purchaseOfCurrentInvestments=report[4][index][7][22][1],
+                                                 proceedsFromSalesOfInvestmentProperty=report[4][index][7][23][1],
+                                                 purchaseOfInvestmentProperty=report[4][index][7][24][1])
 cfuia.save()
 
 cfuifa = cashFlowsFromUsedInFinancingActivities(relatedTo_id=1,
-                                                 proceedsFromIssuingShares=report[4][0][7][28][1],
-                                                 proceedsFromSalesOrIssueOfTreasuryShares=report[4][0][7][29][1],
-                                                 paymentsForPurchaseOfTreasuryShares=report[4][0][7][30][1],
-                                                 proceedsFromBorrowingsClassifiedAsFinancingActivities=report[4][0][7][31][1],
-                                                 repaymentsOfBorrowingsClassifiedAsFinancingActivities=report[4][0][7][32][1],
-                                                 cashAtBeginningOfPeriod=report[4][0][7][35][1],
-                                                 effectOfExchangeRateChangesOnCash=report[4][0][7][36][1],
-                                                 NonCashTransactions=report[4][0][7][38][1])
+                                                 proceedsFromIssuingShares=report[4][index][7][28][1],
+                                                 proceedsFromSalesOrIssueOfTreasuryShares=report[4][index][7][29][1],
+                                                 paymentsForPurchaseOfTreasuryShares=report[4][index][7][30][1],
+                                                 proceedsFromBorrowingsClassifiedAsFinancingActivities=report[4][index][7][31][1],
+                                                 repaymentsOfBorrowingsClassifiedAsFinancingActivities=report[4][index][7][32][1],
+                                                 cashAtBeginningOfPeriod=report[4][index][7][35][1],
+                                                 effectOfExchangeRateChangesOnCash=report[4][index][7][36][1],
+                                                 NonCashTransactions=report[4][index][7][38][1])
 cfuifa.save()
 
 cf = cashFlow(relatedTo_id=1,
-                                                 netCashFlowsFromUsedInOperatingActivities=report[4][0][7][3][1],
-                                                 netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts=report[4][0][7][9][1],
-                                                 netCashFlowsFromUsedInInvestingActivities=report[4][0][7][25][1],
-                                                 netCashFlowsFromUsedInBeforeFinancingActivities=report[4][0][7][26][1],
-                                                 netCashFlowsFromUsedInFinancingActivities=report[4][0][7][33][1],
-                                                 netIncreaseDecreaseInCash=report[4][0][7][34][1],
-                                                 cashAtEndOfPeriod=report[4][0][7][35][1])
+                                                 netCashFlowsFromUsedInOperatingActivities=report[4][index][7][3][1],
+                                                 netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts=report[4][index][7][9][1],
+                                                 netCashFlowsFromUsedInInvestingActivities=report[4][index][7][25][1],
+                                                 netCashFlowsFromUsedInBeforeFinancingActivities=report[4][index][7][26][1],
+                                                 netCashFlowsFromUsedInFinancingActivities=report[4][index][7][33][1],
+                                                 netIncreaseDecreaseInCash=report[4][index][7][34][1],
+                                                 cashAtEndOfPeriod=report[4][index][7][35][1])
 cf.save()
 
-cfuiit = cashFlowsUsedInIncomeTax(relatedTo_id=1, incomeTaxesPaid=report[4][0][7][11][1])
+cfuiit = cashFlowsUsedInIncomeTax(relatedTo_id=1, incomeTaxesPaid=report[4][index][7][11][1])
 cfuiit.save()
 
 
@@ -1014,53 +1000,53 @@ cfuiit.save()
 
 
 ############################# Regualar-Talfighi Balancesheet ###################################################################
-c_ca = consolidated_currentAssets(relatedTo_id=1,cash=report[1][0][7][1][1], shortTermInvestments=report[1][0][7][2][1],
-                   commercialInputs=report[1][0][7][3][1], noncommercialInputs=report[1][0][7][4][1],
-                   inventory=report[1][0][7][5][1], prepaidExpenses=report[1][0][7][6][1],
-                   salableAssets=report[1][0][7][7][1])
+c_ca = consolidated_currentAssets(relatedTo_id=1,cash=report[1][index][7][1][1], shortTermInvestments=report[1][index][7][2][1],
+                   commercialInputs=report[1][index][7][3][1], noncommercialInputs=report[1][index][7][4][1],
+                   inventory=report[1][index][7][5][1], prepaidExpenses=report[1][index][7][6][1],
+                   salableAssets=report[1][index][7][7][1])
 c_ca.save()
 
 
 c_nca = consolidated_nonCurrentAssets(relatedTo_id=1, longTermInputs=report[1][0][7][10][1],
-                       longTermInvestments=report[1][0][7][11][1], investmentInEstate=report[1][0][7][12][1],
-                       intangibleAssets=report[1][0][7][13][1], goodWill=report[1][0][7][14][1],
-                       tangibleAssets=report[1][0][7][15][1], otherAssets=report[1][0][7][16][1])
+                       longTermInvestments=report[1][index][7][11][1], investmentInEstate=report[1][index][7][12][1],
+                       intangibleAssets=report[1][index][7][13][1], goodWill=report[1][index][7][14][1],
+                       tangibleAssets=report[1][index][7][15][1], otherAssets=report[1][index][7][16][1])
 c_nca.save()
 
-c_a = consolidated_assets(relatedTo_id=1, sumOfCurrentAssets=report[1][0][7][8][1], sumOfNonCurrentAssets=report[1][0][7][17][1])
+c_a = consolidated_assets(relatedTo_id=1, sumOfCurrentAssets=report[1][index][7][8][1], sumOfNonCurrentAssets=report[1][index][7][17][1])
 c_a.save()
 
 
 
-c_cd = consolidated_currentDebts(relatedTo_id=1,commercialPayable=report[1][0][7][2][5], NonCommercialPayable=report[1][0][7][3][5],
-                   payableTaxes=report[1][0][7][4][5], payableDividends=report[1][0][7][5][5],
-                   financialFacility=report[1][0][7][6][5], resources=report[1][0][7][7][5],
-                   currentPreReceivables=report[1][0][7][8][5], debtsRelatedWithSalableAssets=report[1][0][7][9][5])
+c_cd = consolidated_currentDebts(relatedTo_id=1,commercialPayable=report[1][index][7][2][5], NonCommercialPayable=report[1][index][7][3][5],
+                   payableTaxes=report[1][index][7][4][5], payableDividends=report[1][index][7][5][5],
+                   financialFacility=report[1][index][7][6][5], resources=report[1][index][7][7][5],
+                   currentPreReceivables=report[1][index][7][8][5], debtsRelatedWithSalableAssets=report[1][index][7][9][5])
 c_cd.save()
 
 
-c_ncd = consolidated_nonCurrentDebts(relatedTo_id=1, longTermPayable=report[1][0][7][12][5],
-                       nonCurrentPreReceivables=report[1][0][7][13][5], longTermFinancialFacility=report[1][0][7][14][5],
-                       storeOfWorkersEndServiceAdvantages=report[1][0][7][15][5])
+c_ncd = consolidated_nonCurrentDebts(relatedTo_id=1, longTermPayable=report[1][index][7][12][5],
+                       nonCurrentPreReceivables=report[1][index][7][13][5], longTermFinancialFacility=report[1][index][7][14][5],
+                       storeOfWorkersEndServiceAdvantages=report[1][index][7][15][5])
 c_ncd.save()
 
-c_oi = consolidated_ownerInvestment(relatedTo_id=1, assets=report[1][0][7][19][5], mainCompanyStockInOtherCompanies=report[1][0][7][20][5],
-                     increaseORDecreaseOfInProcessAssets=report[1][0][7][21][5],
-                     stockSpends=report[1][0][7][22][5], treasuryStocks=report[1][0][7][23][5],
-                     legalSavings=report[1][0][7][24][5], otherSavings=report[1][0][7][25][5],
-                     RevaluationSurplusOfAssets=report[1][0][7][26][5], RevaluationSurplusOfHeldForSaleAssets=report[1][0][7][27][5],
-                     DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[1][0][7][28][5],
-                     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[1][0][7][29][5],
-                     accumulatedProfitORLosses=report[1][0][7][30][5], sumOfMinority = report[1][0][7][32][5])
+c_oi = consolidated_ownerInvestment(relatedTo_id=1, assets=report[1][index][7][19][5], mainCompanyStockInOtherCompanies=report[1][index][7][20][5],
+                     increaseORDecreaseOfInProcessAssets=report[1][index][7][21][5],
+                     stockSpends=report[1][index][7][22][5], treasuryStocks=report[1][index][7][23][5],
+                     legalSavings=report[1][index][7][24][5], otherSavings=report[1][index][7][25][5],
+                     RevaluationSurplusOfAssets=report[1][index][7][26][5], RevaluationSurplusOfHeldForSaleAssets=report[1][index][7][27][5],
+                     DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[1][index][7][28][5],
+                     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[1][index][7][29][5],
+                     accumulatedProfitORLosses=report[1][index][7][30][5], sumOfMinority = report[1][index][7][32][5])
 c_oi.save()
 
-c_daao = consolidated_debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[1][0][7][10][5], sumOfNonCurrentDebts=report[1][0][7][16][5],
-                           sumOfOwnersInvestments=report[1][0][7][33][5],
-                           totalEquityAttributableToOwnersOfParent=report[1][0][7][31][5])
+c_daao = consolidated_debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[1][index][7][10][5], sumOfNonCurrentDebts=report[1][index][7][16][5],
+                           sumOfOwnersInvestments=report[1][index][7][33][5],
+                           totalEquityAttributableToOwnersOfParent=report[1][index][7][31][5])
 c_daao.save()
 
 
-c_bs = consolidated_balanceSheet(relatedTo_id=1, sumOfAssets=report[1][0][7][34][1], sumOfDebtsAndFundsOwner=report[1][0][7][34][5])
+c_bs = consolidated_balanceSheet(relatedTo_id=1, sumOfAssets=report[1][index][7][34][1], sumOfDebtsAndFundsOwner=report[1][index][7][34][5])
 c_bs.save()
 
 
