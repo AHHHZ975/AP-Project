@@ -1,13 +1,58 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
 
-{% block table1 %}
-    <h3> ترازنامه</h3>
+    {% block title %}
+
+    {% endblock %}
+
+    <style>
+        body{
+            direction: rtl;
+            text-align: right;
+            font-family: "B Nazanin";
+            font-size: 15px;
+        }
+        .myTable{
+            width: 50%;
+            font-family: "B Nazanin";
+            font-size: 15px;
+            background-color: rgb(145, 255, 191);
+            color: black;
+            transition: all 0.1s ease;
+        }
+        .myTable2{
+            width: 102%;
+            font-family: "B Nazanin";
+            font-size: 15px;
+            background-color: rgb(145, 255, 191);
+            color: black;
+            transition: all 0.1s ease;
+        }
+        .myTable:hover{
+            background-color: rgb(109, 255, 179);
+        }
+        a:hover{
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
         {% for finan in financialStatementsLists %}
+            <h3> ترازنامه</h3>
             <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
+            <div class="row">
+            <div class="table-responsive col-md-6" >
+            <table style = "float: right"  class="myTable2 table table-striped table-hover">
+
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
-                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td>سال مالی قبل </td>
                 <td> درصد تغییرات </td>
             </tr>
             {######### دارایی های جاری #########}
@@ -142,138 +187,85 @@
                 {% endif %}
             {% endfor %}
 
-             <tr>
+             <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="47">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
+            <tr height="48">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
             {######### جمع دارایی ها #########}
             {% for balanceSheet in balanceSheets %}
                 {% if balanceSheet.relatedTo.companyName in finan.companyName and balanceSheet.relatedTo.type_audit in finan.type_audit and balanceSheet.relatedTo.type_date in finan.type_date and balanceSheet.relatedTo.type_consolidated in finan.type_consolidated %}
@@ -285,18 +277,17 @@
                     </tr>
                 {% endif %}
             {% endfor %}
+        </table>
+            </div>
 
-        {% endfor %}
 
+        <div class="table-responsive col-md-6" >
+            <table style = "float: left;" class="myTable2 table table-striped table-hover">
 
-{% endblock %}
-
-{% block table2 %}
-        {% for finan in financialStatementsLists %}
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
-                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td>سال مالی قبل</td>
                 <td> درصد تغییرات </td>
             </tr>
             {######### بدهی های جاری #########}
@@ -540,19 +531,32 @@
                 {% endif %}
             {% endfor %}
 
-        {% endfor %}
 
-{% endblock %}
 
-{################ Income Statement ##############}
-{% block table3 %}
-    <h3> صورت سود و زیان </h3>
-    {% for finan in financialStatementsLists %}
+        </table>
+    </div>
+            </div>
+
+
+
+
+
+{#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#}
+
+
+
+
+
+         <h3> صورت سود و زیان </h3>
          <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
+
+            <div class="table-responsive" >
+            <table class="myTable table table-striped table-hover">
+
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
-                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td>سال مالی قبل </td>
                 <td> درصد تغییرات </td>
             </tr>
             {######### دارایی های جاری #########}
@@ -1062,179 +1066,31 @@
 {#                {% endif %}#}
 {#            {% endfor %}#}
 {##}
-            {######### جمع دارایی های غیرجاری #########}
-{#            {% for asset in assets %}#}
-{#                {% if asset.relatedTo.companyName in finan.companyName and asset.relatedTo.type_audit in finan.type_audit and asset.relatedTo.type_date in finan.type_date and asset.relatedTo.type_consolidated in finan.type_consolidated %}#}
-{#                     <tr style="background-color: coral">#}
-{#                        <td>جمع دارایی های غیر جاری</td>#}
-{#                        <td>{{ asset.sumOfNonCurrentAssets }}</td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                    </tr>#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{##}
-{#             <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#                <td></td>#}
-{#            </tr>#}
-            {######### جمع دارایی ها #########}
-{#            {% for balanceSheet in balanceSheets %}#}
-{#                {% if balanceSheet.relatedTo.companyName in finan.companyName and balanceSheet.relatedTo.type_audit in finan.type_audit and balanceSheet.relatedTo.type_date in finan.type_date and balanceSheet.relatedTo.type_consolidated in finan.type_consolidated %}#}
-{#                   <tr>#}
-{#                        <td>جمع دارایی ها</td>#}
-{#                        <td>{{ balanceSheet.sumOfAssets }}</td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                    </tr>#}
                 {% endif %}
             {% endfor %}
 
-        {% endfor %}
-
-{% endblock %}
-
+          </table>
+    </div>
 
 
 
+{#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#}
 
-{% block table4 %}
-    <h3>صورت جریان وجوه نقد </h3>
-    {% for finan in financialStatementsLists %}
+
+
+
+
+
+
+
+            <h3>صورت جریان وجوه نقد </h3>
              <h4>شرکت {{ finan.companyName }} {{ finan.type_audit }} {{ finan.type_consolidated }}  {{ finan.type_date }} ماهه منتهی به {{ finan.endTo}}    </h4>
-
+            <div class="table-responsive" >
+        <table class="myTable table table-striped table-hover">
             <tr>
                 <td>شرح</td>
                 <td>پایان عملکرد واقعی منتهی به {{ finan.endTo }}</td>
-                <td>پایان {{ finan.type_date }} ماه قبل </td>
+                <td>سال مالی قبل </td>
                 <td> درصد تغییرات </td>
             </tr>
             {#########فعالیت‌های عملیاتی #########}
@@ -1604,14 +1460,50 @@
                 {% endif %}
             {% endfor %}
 
+          </table>
+    </div>
 
 
 
 
 
-        {% endfor %}
-
-{% endblock %}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endfor %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -647,9 +647,8 @@ class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
     class Meta:
         verbose_name_plural = '(بانک ها)4.3- فعالیت‌های تأمین مالی '
 
-        
-
-################## Consolidated  ################################
+# ################# Consolidated  ############################### #
+# ################# Consolidated BalanceSheet  ############################### #
 class consolidated_balanceSheet(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
     sumOfAssets = models.IntegerField(null=True)
@@ -770,6 +769,166 @@ class consolidated_ownerInvestment(models.Model):
         return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
+# ################# Consolidated Income Statement  ############################### #
+
+class consolidated_incomeStatement(models.Model):  # Narenji rang ha
+
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    grossProfit = models.IntegerField(verbose_name='سود (زیان) ناخالص')
+    profitOrLossFromOperatingActivities = models.IntegerField(verbose_name='سود (زیان) عملیاتی')
+    profitOrLossBeforeCalculationOfDependentCompanyProfits = models.IntegerField(verbose_name='سود (زیان) قبل از احتساب سهم گروه از سود شرکت های وابسته')
+    profitOrLossBeforeTax = models.IntegerField(verbose_name='سود (زیان) عملیات در حال تداوم قبل از مالیات')
+    profitOrlossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
+    profitOrLoss = models.IntegerField(verbose_name='سود (زیان) خالص')
+    profitOrLossRelatedToMainCompanyOwners = models.IntegerField(verbose_name='سود (زیان) خالص قابل انتساب به صاحبان شرکت اصلی')
+    basicEarningsLossPerShare = models.IntegerField(verbose_name='سود (زیان) پایه هر سهم')
+    dilutedEarningsLossPerShare = models.IntegerField(verbose_name='سود (زیان) تقلیل یافته هر سهم')
+    adjustedRetainedEarningsBeginningBalance = models.IntegerField(verbose_name='سود (زیان) انباشته ابتدای دوره تعدیل ‌شده')
+    unallocatedRetainedEarningsAtTheBeginningOfPeriod = models.IntegerField(verbose_name='سود (زیان) انباشته ابتدای دوره تخصیص نیافته')
+    distributableEarnings = models.IntegerField(verbose_name='سود قابل تخصیص')
+    retainedEarningsAtEndOfPeriod = models.IntegerField(verbose_name='سود (زیان) انباشته‌ پايان‌ دوره')
+    retainedEarningsRelatedToMainCompanyOwners = models.IntegerField(verbose_name='سود (زیان) انباشته قابل انتساب به صاحبان سهام شرکت اصلی')
+    earningsPerShareAfterTax = models.IntegerField(verbose_name='سود (زیان) خالص هر سهم– ریال')
+    listedCapital = models.IntegerField(verbose_name='سرمایه')
+
+    class Meta:
+        verbose_name_plural = '2-صورت سود و زیان(تلفیقی)'
+
+
+class consolidated_profitOrLoss(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    operationIncomes = models.IntegerField(verbose_name='درآمدهای عملیاتی')
+    costOfOperationIncomes = models.IntegerField(verbose_name='بهای تمام ‌شده درآمدهای عملیاتی')
+    distributionAndAdministrativeExpense = models.IntegerField(verbose_name='هزینه‌های فروش، اداری و عمومی')
+    otherIncome = models.IntegerField(verbose_name='سایر درآمدهای عملیاتی')
+    otherExpense = models.IntegerField(verbose_name='سایر هزینه‌های عملیاتی')
+    financeCosts = models.IntegerField(verbose_name='هزینه‌های مالی')
+    otherNonOperatingIncomeAndExpensesIncomeInvestments = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- درآمد سرمایه‌گذاری‌ها')
+    otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- اقلام متفرقه')
+    groupShareFromDependentCompanies = models.IntegerField(verbose_name='سهم گروه از سود شرکت های وابسته')
+    taxPerIncome = models.IntegerField(verbose_name='مالیات بر درآمد')
+    profitOrLossFromDiscontinuedOperations = models.IntegerField(verbose_name='سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی')
+    minorityShareOfPureProfitOrLoss = models.IntegerField(verbose_name='سهم اقلیت از سود (زیان) خالص')
+
+    class Meta:
+        verbose_name_plural = '2.1-سود(زیان) خالص(تلفیقی)'
+
+
+class consolidated_basicEarningsLossPerShare(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    basicEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField(verbose_name='سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- عملیاتی')
+    basicEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField(verbose_name='سود (زیان) پایه هر سهم ناشی از عملیات در حال تداوم- غیرعملیاتی')
+    basicEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField(verbose_name='سود (زیان) پایه هر سهم ناشی از عملیات متوقف‌ شده')
+
+    class Meta:
+        verbose_name_plural = '2.2-سود (زیان) پایه هر سهم(تلفیقی)'
+
+
+
+
+class consolidated_dilutedEarningsOrLossPerShare(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    dilutedEarningsOrLossPerShareFromContinuingOperationsOperating = models.IntegerField(verbose_name='سود (زیان) تقلیل یافته هر سهم ناشی از عملیات در حال تداوم- عملیاتی')
+    dilutedEarningsOrLossPerShareFromContinuingOperationsNonOperating = models.IntegerField(verbose_name='سود (زیان) تقلیل یافته هر سهم ناشی از عملیات در حال تداوم- غیرعملیاتی')
+    dilutedEarningsOrLossPerShareFromDiscontinuingOperations = models.IntegerField(verbose_name='سود (زیان) تقلیل یافته هر سهم ناشی از عملیات متوقف ‌شده')
+
+    class Meta:
+        verbose_name_plural = '2.3-سود (زیان) تقلیل یافته هر سهم(تلفیقی)'
+
+
+
+class consolidated_statementOfIncomeAndRetainedEarnings(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    retainedEarningsAtBeginningOfPeriod = models.IntegerField(verbose_name='سود (زیان) انباشته ابتدای دوره')
+    priorPeriodAdjustments = models.IntegerField(verbose_name='تعدیلات سنواتی')
+    dividendsDeclaredAndPaidOrPayable = models.IntegerField(verbose_name='سود سهام‌ مصوب')
+    changesInCapitalFromRetainedEarnings = models.IntegerField(verbose_name='تغییرات سرمایه از محل سود (زیان) انباشته')
+    transferFromOtherEquityItems = models.IntegerField(verbose_name='انتقال از سایر اقلام حقوق صاحبان سهام')
+    transferToStatutoryReserve = models.IntegerField(verbose_name='انتقال به اندوخته‌ قانوني‌')
+    transferToOtherReserve = models.IntegerField(verbose_name='انتقال به سایر اندوخته‌ها')
+    minorityShareOfCumulatedProfitOrLoss = models.IntegerField(verbose_name='سهم اقلیت از سود (زیان) انباشته')
+    class Meta:
+        verbose_name_plural = '2.4-گردش حساب سود (زیان) انباشته(تلفیقی)'
+
+# ################# Consolidated Cash Flow  ############################### #
+
+
+class consolidated_cashFlow(models.Model):  # Narenji rang ha
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    netCashFlowsFromUsedInOperatingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی')
+    netCashFlowsFromUsedInInvestmentReturnsAndPaymentsOnFinancingCosts = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از بازده سرمایه‌گذاری‌ها و سود پرداختی بابت تأمین مالی')
+    # Income taxes paid = ...
+    netCashFlowsFromUsedInInvestingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های سرمایه‌گذاری')
+    netCashFlowsFromUsedInBeforeFinancingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد قبل از فعالیت‌های تأمین مالی')
+    netCashFlowsFromUsedInFinancingActivities = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های تأمین مالی')
+    netIncreaseDecreaseInCash = models.IntegerField(verbose_name='خالص افزایش (کاهش) در موجودی نقد')
+    cashAtEndOfPeriod = models.IntegerField(verbose_name='موجودی نقد در پایان دوره')
+
+    class Meta:
+        verbose_name_plural = '3-جریان وجوه نقد(تلفیقی)'
+
+class consolidated_cashFlowsFromUsedInOperatingActivities(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    netCashFlowsFromUsedInOperatingActivitiesOrdinary = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی- عادی')
+    netCashFlowsFromUsedInOperatingActivitiesExceptional = models.IntegerField(verbose_name='جریان خالص ورود (خروج) وجه نقد ناشی از فعالیت‌های عملیاتی - استثنایی')
+
+    class Meta:
+        verbose_name_plural = '3.1-فعالیت‌های عملیاتی(تلفیقی)'
+
+
+class consolidated_investmentReturnsAndPaymentsOnFinancingCosts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    dividendsReceived = models.IntegerField(verbose_name='سود سهام دریافتی')
+    interestPaidOrBorrowing = models.IntegerField(verbose_name='سود پرداختی بابت استقراض')
+    interestReceivedFromOtherInvestments = models.IntegerField(verbose_name='سود دریافتی بابت سایر سرمایه‌گذاری‌ها')
+    dividendsPaidToMainCompanyShareholders = models.IntegerField(verbose_name='سود سهام پرداختی به سهام داران شرکت اصلی')
+    dividendsPaidToMinorityShareholders = models.IntegerField(verbose_name='سود سهام پرداختی به سهام داران اقلیت')
+    class Meta:
+        verbose_name_plural = '3.2-بازده سرمایه گذاری‌ها و سود پرداختی بابت تأمین مالی(تلفیقی)'
+
+class consolidated_cashFlowsUsedInIncomeTax(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    incomeTaxesPaid = models.IntegerField(verbose_name='مالیات بر درآمد پرداختی')
+
+    class Meta:
+        verbose_name_plural = '3.3-مالیات بر درآمد(تلفیقی)'
+
+
+class consolidated_cashFlowsFromUsedInInvestingActivities(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    proceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش دارایی‌های ثابت مشهود')
+    purchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید دارایی‌های ثابت مشهود')
+    proceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش دارایی‌های نامشهود')
+    purchaseOfOnTangibleAssetsClassifiedAsInvestingActivities = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید دارایی‌های نامشهود‌')
+    receivedCashFromSellingSubsidiaryCompany = models.IntegerField(verbose_name='وجوه دریافتی جهت فروش شرکت فرعی')
+    payedCashToBuySubsidiaryCompanyAfterDeductingEarnedCash = models.IntegerField(verbose_name='وجوه پرداختی جهت خرید شرکت فرعی پس از کسر وجوه نقد تحصیل شده')
+    proceedsFromSalesOfNonCurrentInvestments = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌های بلندمدت')
+    facilitiesGrantedToIndividuals = models.IntegerField(verbose_name='تسهیلات اعطایی به اشخاص')
+    extraditionFacilitiesGrantedToIndividuals = models.IntegerField(verbose_name='استرداد تسهیلات اعطایی به اشخاص')
+    purchaseOfNonCurrentInvestments = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری‌های بلندمدت')
+    proceedsFromSalesOfCurrentInvestments = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌های کوتاه‌مدت')
+    purchaseOfCurrentInvestments = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری‌های کوتاه‌مدت')
+    proceedsFromSalesOfInvestmentProperty = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سرمایه‌گذاری‌ در املاک')
+    purchaseOfInvestmentProperty = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سرمایه‌گذاری در املاک')
+
+    class Meta:
+        verbose_name_plural = '3.4-فعالیت‌های سرمایه گذاری(تلفیقی)'
+
+
+class consolidated_cashFlowsFromUsedInFinancingActivities(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    proceedsFromMainCompanyFundIncrease = models.IntegerField(verbose_name='وجوه حاصل از افزایش سرمایه ی شرکت اصلی')
+    proceedsFromSubsidiaryCompanyFundIncrease = models.IntegerField(verbose_name='وجوه حاصل از افزایش سرمایه ی شرکت های فرعی - سهم اقلیت')
+    proceedsFromSalesOrIssueOfTreasuryOrMainCompanyShares = models.IntegerField(verbose_name='وجوه دریافتی بابت فروش سهام شرکت اصلی توسط شرکت های فرعی/سهام خزانهه')
+    paymentsForPurchaseOfTreasuryOrMainCompanyShares = models.IntegerField(verbose_name='وجوه پرداختی بابت خرید سهام شرکت اصلی توسط شرکت های فرعی/سهام خزانه')
+    proceedsFromBorrowingsClassifiedAsFinancingActivities = models.IntegerField(verbose_name='وجوه دریافتی حاصل از استقراض')
+    repaymentsOfBorrowingsClassifiedAsFinancingActivities = models.IntegerField(verbose_name='بازپرداخت اصل استقراض')
+    cashAtBeginningOfPeriod = models.IntegerField(verbose_name='موجودی نقد در ابتدای دوره')
+    effectOfExchangeRateChangesOnCash = models.IntegerField(verbose_name='تآثیر تغییرات نرخ ارز')
+    NonCashTransactions = models.IntegerField(verbose_name='مبادلات غیرنقدی')
+
+    class Meta:
+        verbose_name_plural = '3.5-فعالیت‌های تأمین مالی(تلفیقی)'
 
 ########################################################################################################################
 

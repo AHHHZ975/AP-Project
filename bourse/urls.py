@@ -4,6 +4,8 @@ from django.conf.urls import url
 urlpatterns = [
     path('', views.index, name='index'),
     url('form', views.company, name='form'),
+    url('show', views.company2, name='show'),
+    url('display', views.company3, name='display'),
     url('tables', views.tablesFromDB, name='tablesFromDB'),
     url('assets', views.assetsFromDB, name='assetsFromDB'),
     url('balanceSheets', views.balanceSheetsFromDB, name='balanceSheetsFromDB'),
