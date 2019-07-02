@@ -247,7 +247,7 @@ class profitOrLoss(models.Model):
     otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- اقلام متفرقه')
     taxPerIncome = models.IntegerField(verbose_name='مالیات بر درآمد')
     profitOrLossFromDiscontinuedOperations = models.IntegerField(verbose_name='سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی')
-    profitOrlossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
+    profitOrLossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
 
     class Meta:
         verbose_name_plural = '2.1-سود(زیان) خالص'
@@ -841,4 +841,134 @@ cf.save()
 cfuiit = cashFlowsUsedInIncomeTax(relatedTo_id=1, incomeTaxesPaid=report[4][0][7][11][1])
 cfuiit.save()
 
+################## Consolidated  ################################
+class consolidated_balanceSheet(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfAssets = models.IntegerField(null=True)
+    sumOfDebtsAndFundsOwner = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = '1-ترازنامه(تلفیقی)'
+
+class consolidated_assets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های جاری')
+    sumOfNonCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های غیرجاری')
+
+    class Meta:
+        verbose_name_plural = '1.1-دارایی ها(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
+
+
+class consolidated_debtsAndAssetsOwner(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های جاری')
+    sumOfNonCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های غیرجاری')
+    sumOfOwnersInvestments = models.IntegerField(verbose_name='جمع حقوق صاحبان سهام')
+
+    class Meta:
+        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم(تلفیقی)'
+
+class consolidated_sumOfOwnersInvestments(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfMinority = models.IntegerField(verbose_name='سهم اقلیت')
+    sumOfOwnersInvestments = models.IntegerField(verbose_name='جمع حقوق قابل انتساب به صاحبان سهام شرکت اصلی')
+    totalEquityAttributableToOwnersOfParent = models.IntegerField(verbose_name=' جمع حقوق قابل انتساب به صاحبان سهام شرکت اصلی ')
+
+    class Meta:
+        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم(تلفیقی)'
+
+
+class consolidated_currentAssets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    cash = models.IntegerField(verbose_name='موجودی نقد')
+    shortTermInvestments = models.IntegerField(verbose_name='سرمایه‌گذاری‌‌های کوتاه مدت')
+    commercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های تجاری')
+    noncommercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های غیرتجاری')
+    inventory = models.IntegerField(verbose_name='موجودی مواد و کالا')
+    prepaidExpenses = models.IntegerField(verbose_name='پیش پرداخت‌ها و سفارشات')
+    salableAssets = models.IntegerField(verbose_name='دارایی‌های نگهداری شده برای فروش')
+
+    class Meta:
+        verbose_name_plural = '1.1.1-دارایی ها جاری(تلفیقی)'
+
+
+class consolidated_nonCurrentAssets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    longTermInvestments = models.IntegerField(verbose_name='دریافتنی‌‌های بلندمدت')
+    longTermInputs = models.IntegerField(verbose_name='سرمایه‌گذاری‌های بلندمدت')
+    investmentInEstate = models.IntegerField(verbose_name='سرمایه‌گذاری در املاک')
+    intangibleAssets = models.IntegerField(verbose_name='دارایی‌های نامشهود')
+    goodwill = models.IntegerField(verbose_name='سرقفلی')
+    tangibleAssets = models.IntegerField(verbose_name='دارایی‌های ثابت مشهود')
+    otherAssets = models.IntegerField(verbose_name='سایر دارایی‌ها')
+
+    class Meta:
+        verbose_name_plural = '1.1.2-دارایی ها غیرجاری(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_currentDebts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    commercialPayable = models.IntegerField(verbose_name='پرداختنی‌های تجاری')
+    NonCommercialPayable = models.IntegerField(verbose_name='پرداختنی‌های غیرتجاری')
+    payableTaxes = models.IntegerField(verbose_name='مالیات پرداختنی')
+    payableDividends = models.IntegerField(verbose_name='سود سهام پرداختنی')
+    financialFacility = models.IntegerField(verbose_name='تسهیلات مالی')
+    resources = models.IntegerField(verbose_name='ذخایر')
+    currentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های جاری')
+    debtsRelatedWithSalableAssets = models.IntegerField(verbose_name
+                                                        ='بدهی‌های مرتبط با دارایی‌های نگهداری شده برای فروش')
+
+    class Meta:
+        verbose_name_plural = '1.2.1-بدهی های جاری(تلفیقی)'
+
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_nonCurrentDebts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    longTermPayable = models.IntegerField(verbose_name='پرداختنی‌های بلندمدت')
+    nonCurrentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های غیرجاری')
+    longTermFinancialFacility = models.IntegerField(verbose_name='تسهیلات مالی بلندمدت')
+    storeOfWorkersEndServiceAdvantages = models.IntegerField(verbose_name='ذخیره مزایای پایان خدمت کارکنان')
+
+    class Meta:
+        verbose_name_plural = '1.2.2-بدهی های غیر جاری(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_ownerInvestment(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    assets = models.IntegerField(verbose_name='سرمایه')
+    mainCompanyStockInOtherCompanies = models.IntegerField(verbose_name='سهام شرکت اصلی در مالکیت شرکت های فرعی')
+    increaseORDecreaseOfInProcessAssets = models.IntegerField(verbose_name='افزایش (کاهش) سرمایه در جریان')
+    stockSpends = models.IntegerField(verbose_name='صرف (کسر) سهام')
+    treasuryStocks = models.IntegerField(verbose_name='سهام خزانه')
+    legalSavings = models.IntegerField(verbose_name='ادندوخته قانونی')
+    otherSavings = models.IntegerField(verbose_name='سایر اندوخته‌ها')
+    RevaluationSurplusOfHeldForSaleAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌های نگهداری شده برای فروش')
+    RevaluationSurplusOfAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌ها')
+    DifferenceInTheConvergenceDueToConversionToReportingCurrency = models.IntegerField(verbose_name='تفاوت تسعیر ناشی از تبدیل به واحد پول گزارشگری')
+    ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField(verbose_name='اندوخته تسعیر ارز دارایی‌ها و بدهی‌های شرکت‌های دولتی')
+    accumulatedProfitORLosses = models.IntegerField(verbose_name='سود(زیان) انباشته')
+    nonControllingInterests = models.IntegerField(verbose_name=' سهم اقلیت ')
+
+    class Meta:
+        verbose_name_plural = '1.2.3-حقوق صاحبان سهم(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+
+########################################################################################################################
