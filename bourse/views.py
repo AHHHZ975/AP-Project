@@ -50,6 +50,11 @@ def index(request):
 def company(request):
     return render(request, "form.html", context=content)
 
+def company2(request):
+    return render(request, "show.html", context=content)
+
+def company3(request):
+    return render(request, "display.html", context=content)
 
 def tablesFromDB(request):
     return render(request, "tables.html", context=content)
