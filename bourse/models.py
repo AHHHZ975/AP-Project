@@ -657,7 +657,6 @@ class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
     effectOfExchangeRateChangesOnCash = models.IntegerField(verbose_name=' تآثیر تغییرات نرخ ارز ')
 
     nonCashTransactions = models.IntegerField(verbose_name=' مبادلات غیرنقدی ')
-
     class Meta:
         verbose_name_plural = '(بانک ها)4.3- فعالیت‌های تأمین مالی '
 
@@ -666,8 +665,32 @@ class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
         
         
         
-       
-      
+# ################################################### Clear the database #######################################
+# def delete_everything():
+#     FinancialStatements.objects.all().delete()
+#     company.objects.all().delete()
+#     performanceIndexes.objects.all().delete()
+#     assets.objects.all().delete()
+#     debtsAndAssetsOwner.objects.all().delete()
+#     currentAssets.objects.all().delete()
+#     nonCurrentAssets.objects.all().delete()
+#     currentDebts.objects.all().delete()
+#     nonCurrentDebts.objects.all().delete()
+#     ownerInvestment.objects.all().delete()
+#     incomeStatement.objects.all().delete()
+#     profitOrLoss.objects.all().delete()
+#     basicEarningsLossPerShare.objects.all().delete()
+#     dilutedEarningsOrLossPerShare.objects.all().delete()
+#     statementOfIncomeAndRetainedEarnings.objects.all().delete()
+#     cashFlow.objects.all().delete()
+#     cashFlowsFromUsedInOperatingActivities.objects.all().delete()
+#     investmentReturnsAndPaymentsOnFinancingCosts.objects.all().delete()
+#     cashFlowsUsedInIncomeTax.objects.all().delete()
+#     cashFlowsFromUsedInInvestingActivities.objects.all().delete()
+#     cashFlowsFromUsedInFinancingActivities.objects.all().delete()
+#
+#
+# delete_everything()
 ########################################### Automate the storing in database ###########################################
 # name = input ('Please Enter the name of the company')
 # num = input ('Please Enter the first flag')
