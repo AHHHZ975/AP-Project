@@ -52,3 +52,12 @@ admin.site.register(cashFlowsFromUsedInOperatingActivities_bank)
 admin.site.register(investmentReturnsAndPaymentsOnFinancingCosts_bank)
 admin.site.register(cashFlowsFromUsedInInvestingActivities_bank)
 
+################## Consolidated  ################################
+admin.site.register(consolidated_balanceSheet)
+admin.site.register(consolidated_assets)
+admin.site.register(consolidated_debtsAndAssetsOwner)
+admin.site.register(consolidated_currentAssets)
+admin.site.register(consolidated_nonCurrentAssets)
+admin.site.register(consolidated_currentDebts)
+admin.site.register(consolidated_nonCurrentDebts)
+admin.site.register(consolidated_ownerInvestment)
