@@ -144,8 +144,8 @@ class currentAssets(models.Model):
 
 class nonCurrentAssets(models.Model):
     relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    longTermInvestments = models.IntegerField(verbose_name='دریافتنی‌‌های بلندمدت')
     longTermInputs = models.IntegerField(verbose_name='سرمایه‌گذاری‌های بلندمدت')
+    longTermInvestments = models.IntegerField(verbose_name='دریافتنی‌‌های بلندمدت')
     investmentInEstate = models.IntegerField(verbose_name='سرمایه‌گذاری در املاک')
     intangibleAssets = models.IntegerField(verbose_name='دارایی‌های نامشهود')
     tangibleAssets = models.IntegerField(verbose_name='دارایی‌های ثابت مشهود')
@@ -246,8 +246,8 @@ class profitOrLoss(models.Model):
     otherNonOperatingIncomeAndExpensesIncomeInvestments = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- درآمد سرمایه‌گذاری‌ها')
     otherNonOperatingIncomeAndExpensesMiscellaneousItems = models.IntegerField(verbose_name='سایر درآمدها و هزینه‌های غیرعملیاتی- اقلام متفرقه')
     taxPerIncome = models.IntegerField(verbose_name='مالیات بر درآمد')
-    profitOrLossFromDiscontinuedOperations = models.IntegerField(verbose_name='سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی')
     profitOrLossFromContinuingOperations = models.IntegerField(verbose_name='سود (زیان) خالص عملیات در حال تداوم')
+    profitOrLossFromDiscontinuedOperations = models.IntegerField(verbose_name='سود (زیان) عملیات متوقف ‌شده پس از اثر مالیاتی')
 
     class Meta:
         verbose_name_plural = '2.1-سود(زیان) خالص'
@@ -661,8 +661,131 @@ class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
         verbose_name_plural = '(بانک ها)4.3- فعالیت‌های تأمین مالی '
 
         
-        
-        
+
+################## Consolidated  ################################
+class consolidated_balanceSheet(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfAssets = models.IntegerField(null=True)
+    sumOfDebtsAndFundsOwner = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = '1-ترازنامه(تلفیقی)'
+
+
+class consolidated_assets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های جاری')
+    sumOfNonCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های غیرجاری')
+
+    class Meta:
+        verbose_name_plural = '1.1-دارایی ها(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_debtsAndAssetsOwner(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    sumOfCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های جاری')
+    sumOfNonCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های غیرجاری')
+    sumOfOwnersInvestments = models.IntegerField(verbose_name='جمع حقوق صاحبان سهام')
+    totalEquityAttributableToOwnersOfParent = models.IntegerField(verbose_name=' جمع حقوق قابل انتساب به صاحبان سهام شرکت اصلی ')
+
+    class Meta:
+        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم(تلفیقی)'
+
+
+class consolidated_currentAssets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    cash = models.IntegerField(verbose_name='موجودی نقد')
+    shortTermInvestments = models.IntegerField(verbose_name='سرمایه‌گذاری‌‌های کوتاه مدت')
+    commercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های تجاری')
+    noncommercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های غیرتجاری')
+    inventory = models.IntegerField(verbose_name='موجودی مواد و کالا')
+    prepaidExpenses = models.IntegerField(verbose_name='پیش پرداخت‌ها و سفارشات')
+    salableAssets = models.IntegerField(verbose_name='دارایی‌های نگهداری شده برای فروش')
+
+    class Meta:
+        verbose_name_plural = '1.1.1-دارایی ها جاری(تلفیقی)'
+
+
+class consolidated_nonCurrentAssets(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    longTermInputs = models.IntegerField(verbose_name='سرمایه‌گذاری‌های بلندمدت')
+    longTermInvestments = models.IntegerField(verbose_name='دریافتنی‌‌های بلندمدت')
+    investmentInEstate = models.IntegerField(verbose_name='سرمایه‌گذاری در املاک')
+    intangibleAssets = models.IntegerField(verbose_name='دارایی‌های نامشهود')
+    goodWill = models.IntegerField(verbose_name='سرقفلی')
+    tangibleAssets = models.IntegerField(verbose_name='دارایی‌های ثابت مشهود')
+    otherAssets = models.IntegerField(verbose_name='سایر دارایی‌ها')
+
+    class Meta:
+        verbose_name_plural = '1.1.2-دارایی ها غیرجاری(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_currentDebts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    commercialPayable = models.IntegerField(verbose_name='پرداختنی‌های تجاری')
+    NonCommercialPayable = models.IntegerField(verbose_name='پرداختنی‌های غیرتجاری')
+    payableTaxes = models.IntegerField(verbose_name='مالیات پرداختنی')
+    payableDividends = models.IntegerField(verbose_name='سود سهام پرداختنی')
+    financialFacility = models.IntegerField(verbose_name='تسهیلات مالی')
+    resources = models.IntegerField(verbose_name='ذخایر')
+    currentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های جاری')
+    debtsRelatedWithSalableAssets = models.IntegerField(verbose_name
+                                                        ='بدهی‌های مرتبط با دارایی‌های نگهداری شده برای فروش')
+
+    class Meta:
+        verbose_name_plural = '1.2.1-بدهی های جاری(تلفیقی)'
+
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_nonCurrentDebts(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    longTermPayable = models.IntegerField(verbose_name='پرداختنی‌های بلندمدت')
+    nonCurrentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های غیرجاری')
+    longTermFinancialFacility = models.IntegerField(verbose_name='تسهیلات مالی بلندمدت')
+    storeOfWorkersEndServiceAdvantages = models.IntegerField(verbose_name='ذخیره مزایای پایان خدمت کارکنان')
+
+    class Meta:
+        verbose_name_plural = '1.2.2-بدهی های غیر جاری(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+class consolidated_ownerInvestment(models.Model):
+    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
+    assets = models.IntegerField(verbose_name='سرمایه')
+    mainCompanyStockInOtherCompanies = models.IntegerField(verbose_name='سهام شرکت اصلی در مالکیت شرکت های فرعی')
+    increaseORDecreaseOfInProcessAssets = models.IntegerField(verbose_name='افزایش (کاهش) سرمایه در جریان')
+    stockSpends = models.IntegerField(verbose_name='صرف (کسر) سهام')
+    treasuryStocks = models.IntegerField(verbose_name='سهام خزانه')
+    legalSavings = models.IntegerField(verbose_name='ادندوخته قانونی')
+    otherSavings = models.IntegerField(verbose_name='سایر اندوخته‌ها')
+    RevaluationSurplusOfHeldForSaleAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌های نگهداری شده برای فروش')
+    RevaluationSurplusOfAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌ها')
+    DifferenceInTheConvergenceDueToConversionToReportingCurrency = models.IntegerField(verbose_name='تفاوت تسعیر ناشی از تبدیل به واحد پول گزارشگری')
+    ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField(verbose_name='اندوخته تسعیر ارز دارایی‌ها و بدهی‌های شرکت‌های دولتی')
+    accumulatedProfitORLosses = models.IntegerField(verbose_name='سود(زیان) انباشته')
+    sumOfMinority = models.IntegerField(verbose_name=' سهم اقلیت ')
+
+    class Meta:
+        verbose_name_plural = '1.2.3-حقوق صاحبان سهم(تلفیقی)'
+
+    def wasPublishedRecently(self):
+        return self.time >= timezone.now() - datetime.timedelta(days=1)
+
+
+
+########################################################################################################################
+
         
         
 # ################################################### Clear the database #######################################
@@ -692,9 +815,6 @@ class cashFlowsFromUsedInFinancingActivities_bank(models.Model):
 #
 # delete_everything()
 ########################################### Automate the storing in database ###########################################
-# name = input ('Please Enter the name of the company')
-# num = input ('Please Enter the first flag')
-# flag = input ('Please Enter the second flag')
 
 companySymbol = 'خپارس'
 companyNum = '0'
@@ -712,6 +832,7 @@ fs.save()
 
 
 print(report[0][0])
+print(report[1][0])
 print(report[2][0])
 print(report[4][0])
 ############################# Regualar Balancesheet ###################################################################
@@ -723,7 +844,8 @@ ca.save()
 
 
 nca = nonCurrentAssets(relatedTo_id=1, longTermInputs=report[0][0][7][11][1],
-                       longTermInvestments=report[0][0][7][12][1], investmentInEstate=report[0][0][7][13][1],
+                       longTermInvestments=report[0][0][7][12][1],
+                       investmentInEstate=report[0][0][7][13][1],
                        intangibleAssets=report[0][0][7][14][1], tangibleAssets=report[0][0][7][15][1],
                        otherAssets=report[0][0][7][16][1])
 nca.save()
@@ -770,7 +892,7 @@ pol = profitOrLoss(relatedTo_id=1,operationIncomes=report[2][0][7][2][1], costOf
                    otherNonOperatingIncomeAndExpensesIncomeInvestments=report[2][0][7][10][1],
                    otherNonOperatingIncomeAndExpensesMiscellaneousItems=report[2][0][7][11][1],
                    taxPerIncome=report[2][0][7][13][1],
-                   profitOrlossFromContinuingOperations=report[2][0][7][14][1],
+                   profitOrLossFromContinuingOperations=report[2][0][7][14][1],
                    profitOrLossFromDiscontinuedOperations=report[2][0][7][15][1])
 pol.save()
 
@@ -864,134 +986,90 @@ cf.save()
 cfuiit = cashFlowsUsedInIncomeTax(relatedTo_id=1, incomeTaxesPaid=report[4][0][7][11][1])
 cfuiit.save()
 
-################## Consolidated  ################################
-class consolidated_balanceSheet(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfAssets = models.IntegerField(null=True)
-    sumOfDebtsAndFundsOwner = models.IntegerField()
-
-    class Meta:
-        verbose_name_plural = '1-ترازنامه(تلفیقی)'
-
-class consolidated_assets(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های جاری')
-    sumOfNonCurrentAssets = models.IntegerField(verbose_name='جمع دارایی‌های غیرجاری')
-
-    class Meta:
-        verbose_name_plural = '1.1-دارایی ها(تلفیقی)'
-
-    def wasPublishedRecently(self):
-        return self.publicDate >= timezone.now() - datetime.timedelta(days=1)
 
 
 
-class consolidated_debtsAndAssetsOwner(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های جاری')
-    sumOfNonCurrentDebts = models.IntegerField(verbose_name='جمع بدهی‌های غیرجاری')
-    sumOfOwnersInvestments = models.IntegerField(verbose_name='جمع حقوق صاحبان سهام')
-
-    class Meta:
-        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم(تلفیقی)'
-
-class consolidated_sumOfOwnersInvestments(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    sumOfMinority = models.IntegerField(verbose_name='سهم اقلیت')
-    sumOfOwnersInvestments = models.IntegerField(verbose_name='جمع حقوق قابل انتساب به صاحبان سهام شرکت اصلی')
-    totalEquityAttributableToOwnersOfParent = models.IntegerField(verbose_name=' جمع حقوق قابل انتساب به صاحبان سهام شرکت اصلی ')
-
-    class Meta:
-        verbose_name_plural = '1.2-بدهی ها و حقوق صاحبان سهم(تلفیقی)'
-
-
-class consolidated_currentAssets(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    cash = models.IntegerField(verbose_name='موجودی نقد')
-    shortTermInvestments = models.IntegerField(verbose_name='سرمایه‌گذاری‌‌های کوتاه مدت')
-    commercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های تجاری')
-    noncommercialInputs = models.IntegerField(verbose_name='دریافتنی‌‌های غیرتجاری')
-    inventory = models.IntegerField(verbose_name='موجودی مواد و کالا')
-    prepaidExpenses = models.IntegerField(verbose_name='پیش پرداخت‌ها و سفارشات')
-    salableAssets = models.IntegerField(verbose_name='دارایی‌های نگهداری شده برای فروش')
-
-    class Meta:
-        verbose_name_plural = '1.1.1-دارایی ها جاری(تلفیقی)'
-
-
-class consolidated_nonCurrentAssets(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    longTermInvestments = models.IntegerField(verbose_name='دریافتنی‌‌های بلندمدت')
-    longTermInputs = models.IntegerField(verbose_name='سرمایه‌گذاری‌های بلندمدت')
-    investmentInEstate = models.IntegerField(verbose_name='سرمایه‌گذاری در املاک')
-    intangibleAssets = models.IntegerField(verbose_name='دارایی‌های نامشهود')
-    goodwill = models.IntegerField(verbose_name='سرقفلی')
-    tangibleAssets = models.IntegerField(verbose_name='دارایی‌های ثابت مشهود')
-    otherAssets = models.IntegerField(verbose_name='سایر دارایی‌ها')
-
-    class Meta:
-        verbose_name_plural = '1.1.2-دارایی ها غیرجاری(تلفیقی)'
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
-
-class consolidated_currentDebts(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    commercialPayable = models.IntegerField(verbose_name='پرداختنی‌های تجاری')
-    NonCommercialPayable = models.IntegerField(verbose_name='پرداختنی‌های غیرتجاری')
-    payableTaxes = models.IntegerField(verbose_name='مالیات پرداختنی')
-    payableDividends = models.IntegerField(verbose_name='سود سهام پرداختنی')
-    financialFacility = models.IntegerField(verbose_name='تسهیلات مالی')
-    resources = models.IntegerField(verbose_name='ذخایر')
-    currentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های جاری')
-    debtsRelatedWithSalableAssets = models.IntegerField(verbose_name
-                                                        ='بدهی‌های مرتبط با دارایی‌های نگهداری شده برای فروش')
-
-    class Meta:
-        verbose_name_plural = '1.2.1-بدهی های جاری(تلفیقی)'
-
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
-
-class consolidated_nonCurrentDebts(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    longTermPayable = models.IntegerField(verbose_name='پرداختنی‌های بلندمدت')
-    nonCurrentPreReceivables = models.IntegerField(verbose_name='پیش‌دریافت‌های غیرجاری')
-    longTermFinancialFacility = models.IntegerField(verbose_name='تسهیلات مالی بلندمدت')
-    storeOfWorkersEndServiceAdvantages = models.IntegerField(verbose_name='ذخیره مزایای پایان خدمت کارکنان')
-
-    class Meta:
-        verbose_name_plural = '1.2.2-بدهی های غیر جاری(تلفیقی)'
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
-
-
-class consolidated_ownerInvestment(models.Model):
-    relatedTo = models.ForeignKey(FinancialStatements, default=None, on_delete=models.PROTECT, verbose_name='مربوط به')
-    assets = models.IntegerField(verbose_name='سرمایه')
-    mainCompanyStockInOtherCompanies = models.IntegerField(verbose_name='سهام شرکت اصلی در مالکیت شرکت های فرعی')
-    increaseORDecreaseOfInProcessAssets = models.IntegerField(verbose_name='افزایش (کاهش) سرمایه در جریان')
-    stockSpends = models.IntegerField(verbose_name='صرف (کسر) سهام')
-    treasuryStocks = models.IntegerField(verbose_name='سهام خزانه')
-    legalSavings = models.IntegerField(verbose_name='ادندوخته قانونی')
-    otherSavings = models.IntegerField(verbose_name='سایر اندوخته‌ها')
-    RevaluationSurplusOfHeldForSaleAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌های نگهداری شده برای فروش')
-    RevaluationSurplusOfAssets = models.IntegerField(verbose_name='مازاد تجدید ارزیابی دارایی‌ها')
-    DifferenceInTheConvergenceDueToConversionToReportingCurrency = models.IntegerField(verbose_name='تفاوت تسعیر ناشی از تبدیل به واحد پول گزارشگری')
-    ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises = models.IntegerField(verbose_name='اندوخته تسعیر ارز دارایی‌ها و بدهی‌های شرکت‌های دولتی')
-    accumulatedProfitORLosses = models.IntegerField(verbose_name='سود(زیان) انباشته')
-    nonControllingInterests = models.IntegerField(verbose_name=' سهم اقلیت ')
-
-    class Meta:
-        verbose_name_plural = '1.2.3-حقوق صاحبان سهم(تلفیقی)'
-
-    def wasPublishedRecently(self):
-        return self.time >= timezone.now() - datetime.timedelta(days=1)
 
 
 
-########################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+############################# Regualar-Talfighi Balancesheet ###################################################################
+c_ca = consolidated_currentAssets(relatedTo_id=1,cash=report[1][0][7][1][1], shortTermInvestments=report[1][0][7][2][1],
+                   commercialInputs=report[1][0][7][3][1], noncommercialInputs=report[1][0][7][4][1],
+                   inventory=report[1][0][7][5][1], prepaidExpenses=report[1][0][7][6][1],
+                   salableAssets=report[1][0][7][7][1])
+c_ca.save()
+
+
+c_nca = consolidated_nonCurrentAssets(relatedTo_id=1, longTermInputs=report[1][0][7][10][1],
+                       longTermInvestments=report[1][0][7][11][1], investmentInEstate=report[1][0][7][12][1],
+                       intangibleAssets=report[1][0][7][13][1], goodWill=report[1][0][7][14][1],
+                       tangibleAssets=report[1][0][7][15][1], otherAssets=report[1][0][7][16][1])
+c_nca.save()
+
+c_a = consolidated_assets(relatedTo_id=1, sumOfCurrentAssets=report[1][0][7][8][1], sumOfNonCurrentAssets=report[1][0][7][17][1])
+c_a.save()
+
+
+
+c_cd = consolidated_currentDebts(relatedTo_id=1,commercialPayable=report[1][0][7][2][5], NonCommercialPayable=report[1][0][7][3][5],
+                   payableTaxes=report[1][0][7][4][5], payableDividends=report[1][0][7][5][5],
+                   financialFacility=report[1][0][7][6][5], resources=report[1][0][7][7][5],
+                   currentPreReceivables=report[1][0][7][8][5], debtsRelatedWithSalableAssets=report[1][0][7][9][5])
+c_cd.save()
+
+
+c_ncd = consolidated_nonCurrentDebts(relatedTo_id=1, longTermPayable=report[1][0][7][12][5],
+                       nonCurrentPreReceivables=report[1][0][7][13][5], longTermFinancialFacility=report[1][0][7][14][5],
+                       storeOfWorkersEndServiceAdvantages=report[1][0][7][15][5])
+c_ncd.save()
+
+c_oi = consolidated_ownerInvestment(relatedTo_id=1, assets=report[1][0][7][19][5], mainCompanyStockInOtherCompanies=report[1][0][7][20][5],
+                     increaseORDecreaseOfInProcessAssets=report[1][0][7][21][5],
+                     stockSpends=report[1][0][7][22][5], treasuryStocks=report[1][0][7][23][5],
+                     legalSavings=report[1][0][7][24][5], otherSavings=report[1][0][7][25][5],
+                     RevaluationSurplusOfAssets=report[1][0][7][26][5], RevaluationSurplusOfHeldForSaleAssets=report[1][0][7][27][5],
+                     DifferenceInTheConvergenceDueToConversionToReportingCurrency=report[1][0][7][28][5],
+                     ValuationAssetsOfAssetsAndLiabilitiesOfStateOwnedEnterprises=report[1][0][7][29][5],
+                     accumulatedProfitORLosses=report[1][0][7][30][5], sumOfMinority = report[1][0][7][32][5])
+c_oi.save()
+
+c_daao = consolidated_debtsAndAssetsOwner(relatedTo_id=1, sumOfCurrentDebts=report[1][0][7][10][5], sumOfNonCurrentDebts=report[1][0][7][16][5],
+                           sumOfOwnersInvestments=report[1][0][7][33][5],
+                           totalEquityAttributableToOwnersOfParent=report[1][0][7][31][5])
+c_daao.save()
+
+
+c_bs = consolidated_balanceSheet(relatedTo_id=1, sumOfAssets=report[1][0][7][34][1], sumOfDebtsAndFundsOwner=report[1][0][7][34][5])
+c_bs.save()
+
+
+
+
+
+
+
+
+
+
+
